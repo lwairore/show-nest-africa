@@ -7,6 +7,13 @@ const routes: Routes = [
   {
     path: '',
     component: EventsComponent,
+    children: [
+      {
+        path: 'past',
+        loadChildren: () => import('./past-moment/past-moment.module')
+          .then(p => p.PastMomentModule)
+      },
+    ]
   },
 ];
 
