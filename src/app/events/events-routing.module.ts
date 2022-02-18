@@ -18,6 +18,11 @@ const routes: Routes = [
         loadChildren: () => import('./upcoming-moment/upcoming-moment.module')
           .then(u => u.UpcomingMomentModule)
       },
+      {
+        path: 'singles',
+        loadChildren: () => import('./singles/singles.module')
+        .then(s => s.SinglesModule),
+      },
     ]
   },
 ];
