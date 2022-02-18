@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     nav: false,
     dots: false,
     // responsiveClass: true,
-items: 3,
+    items: 3,
     slideBy: 1,
     // responsive: {
     //   0: {
@@ -68,6 +68,18 @@ items: 3,
     //     autoplay: true
     //   }
     // },
+  }
+
+  customOptionsForImages: OwlOptions = {
+    loop: true,
+    margin: 30,
+    autoplay: true,
+    nav: false,
+    dots: true,
+    // responsiveClass: true,
+    items: 1,
+    slideBy: 1,
+
   }
 
   constructor() { }
