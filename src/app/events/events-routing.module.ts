@@ -9,16 +9,6 @@ const routes: Routes = [
     component: EventsComponent,
     children: [
       {
-        path: 'past',
-        loadChildren: () => import('./past-moment/past-moment.module')
-          .then(p => p.PastMomentModule)
-      },
-      {
-        path: 'upcoming',
-        loadChildren: () => import('./upcoming-moment/upcoming-moment.module')
-          .then(u => u.UpcomingMomentModule)
-      },
-      {
         path: 'singles',
         loadChildren: () => import('./singles/singles.module')
         .then(s => s.SinglesModule),
