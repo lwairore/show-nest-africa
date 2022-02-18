@@ -13,6 +13,11 @@ const routes: Routes = [
         loadChildren: () => import('./past-moment/past-moment.module')
           .then(p => p.PastMomentModule)
       },
+      {
+        path: 'upcoming',
+        loadChildren: () => import('./upcoming-moment/upcoming-moment.module')
+          .then(u => u.UpcomingMomentModule)
+      },
     ]
   },
 ];

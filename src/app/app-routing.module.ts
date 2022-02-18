@@ -7,7 +7,6 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./home/home.module')
       .then(h => h.HomeModule),
-    // redirectTo: 'auth',
   },
   {
     path: 'auth',
@@ -20,8 +19,8 @@ const routes: Routes = [
       .then(e => e.EventsModule),
   },
   {
-    path: '',
-    redirectTo: 'auth',
+    path: '**',
+    redirectTo: '',
   },
 ];
 
