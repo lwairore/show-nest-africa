@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UpcomingMomentRoutingModule } from './upcoming-moment-routing.module';
+import { UpcomingMomentComponent } from './upcoming-moment.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [UpcomingMomentComponent],
   imports: [
     CommonModule,
     UpcomingMomentRoutingModule
