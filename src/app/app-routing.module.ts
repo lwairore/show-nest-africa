@@ -19,6 +19,11 @@ const routes: Routes = [
       .then(e => e.EventsModule),
   },
   {
+    path: 'live-box',
+    loadChildren: () => import('./live-box/live-box.module')
+      .then(l => l.LiveBoxModule),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

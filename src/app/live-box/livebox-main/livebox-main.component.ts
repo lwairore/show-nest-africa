@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { BreakpointOptions, OwlOptions } from 'ngx-owl-carousel-o';
-import { constructResponsiveSettings } from '../shared/screen-resolution-sizes.const';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { BreakpointOptions, CarouselComponent, OwlOptions } from 'ngx-owl-carousel-o';
+import { CarouselService } from 'ngx-owl-carousel-o/lib/services/carousel.service';
+import { constructResponsiveSettings } from 'src/app/shared/screen-resolution-sizes.const';
 
 @Component({
-  selector: 'snap-home',
-  templateUrl: './home.component.html',
+  selector: 'snap-livebox-main',
+  templateUrl: './livebox-main.component.html',
   styles: [
   ]
 })
-export class HomeComponent implements OnInit {
+export class LiveboxMainComponent implements OnInit, AfterViewInit {
   customOptionsForBanner: OwlOptions = {
     loop: true,
     margin: 0,
@@ -35,26 +36,28 @@ export class HomeComponent implements OnInit {
     ]
   }
 
-  customOptionsForImages: OwlOptions = {
-    loop: true,
-    margin: 30,
-    autoplay: true,
-    nav: false,
-    dots: false,
-    // responsiveClass: true,
-    items: 1,
-    slideBy: 1,
+  loadItems = false;
 
-  }
+
+  @ViewChild('owlElement') owlElement: CarouselComponent
 
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  ngAfterViewInit(): void {
     this.constructAndSetResponsiveSettingsForBanner();
 
     this.constructAndSetResponsiveSettingsForVideos();
+  }
 
-    this.constructAndSetResponsiveSettingsForImages();
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    let anyService = this.owlElement as any;
+    let carouselService = anyService.carouselService as CarouselService;
+    carouselService.onResize(event.target.innerWidth);
   }
 
   constructAndSetResponsiveSettingsForBanner() {
@@ -68,7 +71,6 @@ export class HomeComponent implements OnInit {
       LAPTOP_RESPONSIVE_SETTINGS,
       TABLET_RESPONSIVE_SETTINGS,
       MOBILE_RESPONSIVE_SETTINGS);
-
   }
 
   constructAndSetResponsiveSettingsForVideos() {
@@ -94,18 +96,22 @@ export class HomeComponent implements OnInit {
       LAPTOP_RESPONSIVE_SETTINGS,
       TABLET_RESPONSIVE_SETTINGS,
       MOBILE_RESPONSIVE_SETTINGS);
+
+      console.log(" this.customOptionsForVideos.responsive")
+      console.log( this.customOptionsForVideos.responsive)
   }
 
-  constructAndSetResponsiveSettingsForImages() {
-    const DESKTOP_RESPONSIVE_SETTINGS = { items: 1 };
-    const LAPTOP_RESPONSIVE_SETTINGS = { items: 1 };
-    const TABLET_RESPONSIVE_SETTINGS = { items: 1 };
-    const MOBILE_RESPONSIVE_SETTINGS = { items: 1 };
+  refresh() {
+    console.log(this.owlElement instanceof CarouselComponent);
+    console.log(this.owlElement)
+    if (!(this.owlElement instanceof CarouselComponent)) {
+      return;
+    }
 
-    this.customOptionsForImages.responsive = constructResponsiveSettings(
-      DESKTOP_RESPONSIVE_SETTINGS,
-      LAPTOP_RESPONSIVE_SETTINGS,
-      TABLET_RESPONSIVE_SETTINGS,
-      MOBILE_RESPONSIVE_SETTINGS);
+    const anyService = this.owlElement as any;
+    const carouselService = anyService.carouselService as CarouselService;
+
+    carouselService.refresh();
+    carouselService.update();
   }
 }

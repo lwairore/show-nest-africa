@@ -1,0 +1,25 @@
+<div class="timer">
+    <ng-container *ngIf="daysToDday">
+        <span id="days">
+            {{ daysToDday | pluralSingular:'Dy':'Dys'}}
+        </span>
+
+    </ng-container>
+
+    <ng-container *ngIf="hoursToDday">
+        <span id="hours">
+            {{ hoursToDday | pluralSingular:'Hr':'Hrs'}}
+        </span>
+    </ng-container>
+
+    <ng-container *ngIf="minutesToDday">
+        <span id="minutes">
+            {{ minutesToDday | pluralSingular:'Min':'Mins'}}
+        </span>
+
+    </ng-container>
+
+    <ng-container *ngIf="minutesToDday">
+        <span id="seconds"> {{secondsToDday}} </span>S
+    </ng-container>
+</div>

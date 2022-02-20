@@ -1,0 +1,911 @@
+<!--=========== Loader =============-->
+<!-- <div id="gen-loading">
+        <div id="gen-loading-center">
+            <img src="assets/images/logo-1.png" alt="loading">
+        </div>
+    </div> -->
+<!--=========== Loader =============-->
+
+<!--========== Header ==============-->
+<snap-header></snap-header>
+<!--========== Header ==============-->
+
+<!-- Single movie Start -->
+<section class="gen-section-padding-3 gen-single-movie">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-lg-12">
+                <div class="gen-single-movie-wrapper style-1">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="gen-video-holder">
+                                <vg-player>
+                                    <vg-overlay-play></vg-overlay-play>
+                                    <vg-buffering></vg-buffering>
+                                    <vg-scrub-bar>
+                                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                                    </vg-scrub-bar>
+                                    <vg-controls>
+                                        <vg-play-pause></vg-play-pause>
+                                        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+                                        <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+                                        <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+                                        <vg-mute></vg-mute>
+                                        <vg-volume></vg-volume>
+                                        <vg-fullscreen></vg-fullscreen>
+                                    </vg-controls>
+                                    <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" crossorigin>
+                                        <source src="http://static.videogular.com/assets/videos/videogular.mp4"
+                                            type="video/mp4">
+                                        <source src="http://static.videogular.com/assets/videos/videogular.ogg"
+                                            type="video/ogg">
+                                        <source src="http://static.videogular.com/assets/videos/videogular.webm"
+                                            type="video/webm">
+                                    </video>
+                                </vg-player>
+
+                            </div>
+
+                            <div class="gen-btn-container button-1 mt-2">
+                                <a class="gen-button btn btn-danger btn-lg" [routerLink]="null" tabindex="0"
+                                    [style.width.%]="100">
+                                    <span class="text">Get notified</span>
+                                </a>
+                            </div>
+
+                            <div class="gen-single-movie-info">
+                                <h2 class="gen-title">My Generation</h2>
+                                <div class="gen-single-meta-holder">
+                                    <ul>
+                                        <li class="gen-sen-rating">
+                                            543 Attended
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-eye">
+                                            </i>
+                                            <span>237 Views</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <p>
+                                    We Plan ,We Desing, We Estimate for Approval to Build..
+                                </p>
+                                <div class="gen-after-excerpt">
+                                    <div class="gen-extra-data">
+                                        <ul>
+                                            <li>
+                                                <span>Venue was:</span>
+                                                <span>Poljud Stadium </span>
+                                            </li>
+                                            <li>
+                                                <span>Ticket costed :</span>
+                                                <span>KES.3000 per person</span>
+                                            </li>
+                                            <li>
+                                                <span>Started on :</span>
+                                                <span>Jan 18 2022, 2:43 pm</span>
+                                            </li>
+                                            <li>
+                                                <span>Ended on :</span>
+                                                <span>Jan 19 2022, 11:30 am</span>
+                                            </li>
+                                            <li>
+                                                <span>Responded :</span>
+                                                <span>3.3K people</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="gen-socail-share">
+                                        <h4 class="align-self-center">Social Share :</h4>
+                                        <ul class="social-inner">
+                                            <li><a [routerLink]="null" class="facebook"><i
+                                                        class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li><a [routerLink]="null" class="facebook"><i
+                                                        class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li><a [routerLink]="null" class="facebook"><i
+                                                        class="fab fa-twitter"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="pm-inner">
+                                <div class="gen-more-like">
+                                    <h5 class="gen-more-title">More Like This</h5>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-5.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">The warrior life</a></h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>90 Attended</li>
+                                                                <li>2hrs ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-4.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">Thieve the bank</a></h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>632 Attended</li>
+                                                                <li>30mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-23.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">love your life</a></h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>7.8k Attended</li>
+                                                                <li>1hr 46mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-53.jpg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">my generation</a></h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>563 Attended</li>
+                                                                <li>1hr 24mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-26.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">spaceman the voyager</a>
+                                                            </h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>34.98k Attended</li>
+                                                                <li>1hr 32mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-24.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">The last witness</a></h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>6.90k</li>
+                                                                <li>1hr 37mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-29.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">shimu the elephant</a>
+                                                            </h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>1.345k Attended</li>
+                                                                <li>1hr 54mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-33.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">black water</a></h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>983.8k Attended</li>
+                                                                <li>2ds ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-8.jpeg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">shipe of full moon</a>
+                                                            </h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>67.89k Attended</li>
+                                                                <li>1hr 35mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-6">
+                                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                <div class="gen-movie-contain">
+                                                    <div class="gen-movie-img">
+                                                        <img src="assets/images/background/asset-51.jpg"
+                                                            alt="streamlab-image">
+                                                        <div class="gen-movie-add">
+                                                            <div class="wpulike wpulike-heart">
+                                                                <div
+                                                                    class="wp_ulike_general_class wp_ulike_is_not_liked">
+                                                                    <button type="button"
+                                                                        class="wp_ulike_btn wp_ulike_put_image"></button>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="menu bottomRight">
+                                                                <li class="share top">
+                                                                    <i class="fa fa-share-alt"></i>
+                                                                    <ul class="submenu">
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-facebook-f"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-instagram"></i></a>
+                                                                        </li>
+                                                                        <li><a [routerLink]="null" class="facebook"><i
+                                                                                    class="fab fa-twitter"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="movie-actions--link_add-to-playlist dropdown">
+                                                                <a class="dropdown-toggle" [routerLink]="null"
+                                                                    data-toggle="dropdown"><i
+                                                                        class="fa fa-plus"></i></a>
+                                                                <div class="dropdown-menu mCustomScrollbar">
+                                                                    <div class="mCustomScrollBox">
+                                                                        <div class="mCSB_container">
+                                                                            <a class="login-link"
+                                                                                routerLink="/auth/log-in">
+                                                                                Past moment. Get notified of the next
+                                                                                one.
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gen-movie-action">
+                                                            <a [routerLink]="null" class="gen-button">
+                                                                <i class="fa fa-play"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gen-info-contain">
+                                                        <div class="gen-movie-info">
+                                                            <h3><a [routerLink]="null">The journey of a
+                                                                    champion</a></h3>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>543 Attended</li>
+                                                                <li>2hr 23mins ago</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gen-movie-meta-holder">
+                                                            <ul>
+                                                                <li>
+                                                                    <a [routerLink]="null">
+                                                                        <span>Watch Highlights</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="gen-load-more-button">
+                                                <div class="gen-btn-container">
+                                                    <a class="gen-button gen-button-loadmore" [routerLink]="null">
+                                                        <span class="button-text">Load More</span>
+                                                        <span class="loadmore-icon" style="display: none;"><i
+                                                                class="fa fa-spinner fa-spin"></i></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Single movie End -->
+
+<!-- footer start -->
+<snap-footer></snap-footer>
+<!-- footer End -->
