@@ -3642,7 +3642,7 @@ OWL Carousel
     transform: translate(0%, -50%);
 }
 
-.owl-carousel .owl-nav button.owl-prev {
+.owl-carousel .owl-nav div.owl-prev {
     outline: none;
     text-align: center;
     text-indent: inherit;
@@ -3662,7 +3662,7 @@ OWL Carousel
     display: none;
 }
 
-.owl-carousel .owl-nav button.owl-next {
+.owl-carousel .owl-nav div.owl-next {
     outline: none;
     text-align: center;
     text-indent: inherit;
@@ -3695,11 +3695,11 @@ OWL Carousel
 @media(max-width:1199px) {}
 
 @media(max-width:1023px) {
-    .owl-carousel .owl-nav button.owl-prev {
+    .owl-carousel .owl-nav div.owl-prev {
         left: 15px;
     }
 
-    .owl-carousel .owl-nav button.owl-next {
+    .owl-carousel .owl-nav div.owl-next {
         right: 15px;
     }
 
@@ -5254,12 +5254,12 @@ Banner
     top: 50%;
 }
 
-.gen-banner-movies .owl-carousel .owl-nav button.owl-prev {
+.gen-banner-movies .owl-carousel .owl-nav div.owl-prev {
     font-size: 40px;
     left: 2%;
 }
 
-.gen-banner-movies .owl-carousel .owl-nav button.owl-next {
+.gen-banner-movies .owl-carousel .owl-nav div.owl-next {
     font-size: 40px;
     right: 2%;
 }
@@ -5471,11 +5471,11 @@ Banner
 }
 
 @media(max-width:1365px) {
-    .gen-banner-movies .owl-carousel .owl-nav button.owl-prev {
+    .gen-banner-movies .owl-carousel .owl-nav div.owl-prev {
         left: 1%;
     }
 
-    .gen-banner-movies .owl-carousel .owl-nav button.owl-next {
+    .gen-banner-movies .owl-carousel .owl-nav div.owl-next {
         right: 1%;
     }
 

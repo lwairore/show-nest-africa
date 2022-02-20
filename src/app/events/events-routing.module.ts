@@ -9,9 +9,24 @@ const routes: Routes = [
     component: EventsComponent,
     children: [
       {
-        path: 'singles',
-        loadChildren: () => import('./singles/singles.module')
-        .then(s => s.SinglesModule),
+        path: '',
+        loadChildren: () => import('./all-moment/all-moment.module')
+          .then(a => a.AllMomentModule),
+      },
+      {
+        path: 'happening-now',
+        loadChildren: () => import('./happening-now/happening-now.module')
+          .then(h => h.HappeningNowModule),
+      },
+      {
+        path: 'past',
+        loadChildren: () => import('./past-moment-series/past-moment-series.module')
+          .then(p => p.PastMomentSeriesModule),
+      },
+      {
+        path: 'upcoming',
+        loadChildren: () => import('./upcoming-moment-series/upcoming-moment.module')
+          .then(u => u.UpcomingMomentModule)
       },
     ]
   },
