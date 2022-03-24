@@ -14,7 +14,7 @@ const routes: Routes = [
         component: PastMomentMainComponent,
       },
       {
-        path: 'details',
+        path: ':momentID/details',
         loadChildren: () => import('./past-event-details/past-event-details.module')
           .then(p => p.PastEventDetailsModule),
       },

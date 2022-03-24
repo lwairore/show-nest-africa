@@ -1,0 +1,18 @@
+<!-- breadcrumb -->
+<div class="gen-breadcrumb" [style.background-image]="'url('+ breadcrumbDetails.getIn(['poster', 'src']) +')'">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <nav aria-label="breadcrumb">
+                    <div class="gen-breadcrumb-title">
+                        <ng-content select="[data-breadcrumbTitle]"></ng-content>
+                    </div>
+                    <div class="gen-breadcrumb-container">
+                        <ng-content select="[data-breadcrumbItems]"></ng-content>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb -->

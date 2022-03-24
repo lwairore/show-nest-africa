@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ViewportRuler } from '@angular/cdk/scrolling'
+import { AfterViewInit, Component, HostListener, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { convertItemToNumeric, isANumber } from '@sharedModule/utilities';
 import { BreakpointOptions, CarouselComponent, OwlOptions } from 'ngx-owl-carousel-o';
 import { CarouselService } from 'ngx-owl-carousel-o/lib/services/carousel.service';
 import { constructResponsiveSettings } from 'src/app/shared/screen-resolution-sizes.const';
@@ -9,7 +11,7 @@ import { constructResponsiveSettings } from 'src/app/shared/screen-resolution-si
   styles: [
   ]
 })
-export class LiveboxMainComponent implements OnInit, AfterViewInit {
+export class LiveboxMainComponent implements OnInit, AfterViewInit, OnDestroy {
   customOptionsForBanner: OwlOptions = {
     loop: true,
     margin: 0,
@@ -39,9 +41,24 @@ export class LiveboxMainComponent implements OnInit, AfterViewInit {
   loadItems = false;
 
 
-  @ViewChild('owlElement') owlElement: CarouselComponent
+  @ViewChild('owlElement') owlElement: CarouselComponent | undefined;
 
-  constructor() { }
+  width: number | undefined;
+
+  height: number | undefined;
+
+  private readonly viewportChange = this.viewportRuler
+    .change(200)
+    .subscribe(() => this.ngZone.run(() => this.setSize()));
+
+  constructor(
+    private readonly viewportRuler: ViewportRuler,
+    private readonly ngZone: NgZone
+  ) {
+    // Change happens well, on change. The first load is not a change, so we init the values here. (You can use `startWith` operator too.)
+    this.setSize();
+  }
+
 
   ngOnInit(): void {
 
@@ -53,11 +70,31 @@ export class LiveboxMainComponent implements OnInit, AfterViewInit {
     this.constructAndSetResponsiveSettingsForVideos();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    let anyService = this.owlElement as any;
-    let carouselService = anyService.carouselService as CarouselService;
-    carouselService.onResize(event.target.innerWidth);
+  ngOnDestroy() {
+    this.viewportChange.unsubscribe();
+  }
+
+
+  private setSize() {
+    const { width, height } = this.viewportRuler.getViewportSize();
+    this.width = width;
+    this.height = height;
+
+    this.onResize();
+  }
+
+
+  onResize() {
+    if (this.owlElement instanceof CarouselComponent) {
+      const innerWidth = convertItemToNumeric(this.width);
+
+      if (isANumber(innerWidth)) {
+        let anyService = this.owlElement as any;
+        let carouselService = anyService.carouselService as CarouselService;
+        carouselService?.onResize(innerWidth);
+      }
+    }
+
   }
 
   constructAndSetResponsiveSettingsForBanner() {
@@ -97,8 +134,8 @@ export class LiveboxMainComponent implements OnInit, AfterViewInit {
       TABLET_RESPONSIVE_SETTINGS,
       MOBILE_RESPONSIVE_SETTINGS);
 
-      console.log(" this.customOptionsForVideos.responsive")
-      console.log( this.customOptionsForVideos.responsive)
+    console.log(" this.customOptionsForVideos.responsive")
+    console.log(this.customOptionsForVideos.responsive)
   }
 
   refresh() {

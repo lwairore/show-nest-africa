@@ -1,0 +1,222 @@
+<!--========== Header ==============-->
+<snap-header></snap-header>
+<!--========== Header ==============-->
+
+<snap-breadcrumb [breadcrumbDetails]="breadcrumbDetails">
+    <ng-container data-breadcrumbTitle>
+        <h1>
+            Testimonials
+        </h1>
+    </ng-container>
+
+    <ng-container data-breadcrumbItems>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a routerLink="/">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a routerLink="/moments/past">
+                    Past Moment
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a routerLink="..">
+                    <ng-container *ngIf="breadcrumbDetails.get('nameOfMoment'); else generalizeItemTitle">
+                        {{breadcrumbDetails.get('nameOfMoment')|formatUrl:20 }}
+                    </ng-container>
+                    <ng-template #generalizeItemTitle>
+                        See other details
+                    </ng-template>
+
+                </a>
+            </li>
+            <li class="breadcrumb-item active">Testimonials</li>
+        </ol>
+    </ng-container>
+</snap-breadcrumb>
+
+<section class="gen-section-padding-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="gen-style-1">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6"
+                            *ngFor="let testimonial of testimonials;let loopIndex=index;">
+                            <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                <div class="gen-movie-contain">
+                                    <div class="gen-movie-img">
+                                        <snap-img-lazy [src]="testimonial.getIn(['authorImage', 'src'])"
+                                            [alt]="testimonial.getIn(['authorImage', 'alt'])" width="100%"
+                                            height="338px"></snap-img-lazy>
+                                    </div>
+                                    <div class="gen-info-contain">
+                                        <div class="gen-movie-info">
+                                            <h3><a [routerLink]="null">
+                                                    {{ testimonial.get('commentedBy') }}
+                                                </a></h3>
+
+                                            <ng-container *ngIf="testimonial.get('position')">
+                                                <span>{{ testimonial.get('position') }}</span>
+                                                <br />
+                                            </ng-container>
+                                        </div>
+                                        <div class="gen-movie-meta-holder">
+                                            <ul>
+                                                <li>
+                                                    {{ testimonial.get('review') }}
+                                                </li>
+                                            </ul>
+
+                                            <ul>
+                                                <li *ngIf="testimonial.get('review').length > 70">
+                                                    <a [routerLink]="null" data-toggle="modal"
+                                                        [attr.data-target]="'#'+MODAL_ID_FOR_FULL_REVIEW"
+                                                        (click)="viewFullTestimonialReview(loopIndex)">
+                                                        <span>Continue reading</span>
+                                                    </a>
+                                                </li>
+                                                <li *ngIf="testimonial.get('videoComment')">
+                                                    <a [routerLink]="null" data-toggle="modal"
+                                                        [attr.data-target]="'#'+MODAL_ID_FOR_REVIEW_VIDEO"
+                                                        (click)="viewReviewVideo(loopIndex)">
+                                                        <span>Watch video</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" *ngIf="paginationDetailsForTestimonial.get('next')">
+                <div class="gen-load-more-button">
+                    <div class="gen-btn-container">
+                        <a class="gen-button gen-button-loadmore" [routerLink]="null" (click)="listTestimonial()">
+                            <span class="loadmore-icon"
+                                [style.display]="loadingTestimonials ? 'inline-block': 'none'"><i
+                                    class="fa fa-spinner fa-spin"></i></span>
+                            <span class="button-text">Load More</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<snap-footer></snap-footer>
+
+<snap-modal-fullscreen [modalID]="MODAL_ID_FOR_FULL_REVIEW">
+    <ng-container data-modalTitle>
+        Review
+    </ng-container>
+
+    <ng-container data-modalHeaderDismissModal>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: var(--white-color);">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </ng-container>
+
+    <ng-container data-modalBody>
+        <span [innerHTML]="selectedTestimonialDetails.get('review')"></span>
+    </ng-container>
+
+    <ng-container data-modalFooter>
+        <a class="gen-button" data-dismiss="modal" [routerLink]="null">
+            <div class="gen-button-block"><span class="gen-button-text"> Close </span></div>
+        </a>
+    </ng-container>
+</snap-modal-fullscreen>
+
+<snap-modal-fullscreen [modalID]="MODAL_ID_FOR_REVIEW_VIDEO">
+    <ng-container data-modalTitle>
+        Review
+    </ng-container>
+
+    <ng-container data-modalHeaderDismissModal>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: var(--white-color);"
+            (click)="resetReviewVideoPlacedOnModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </ng-container>
+
+    <ng-container data-modalBody>
+        <style>
+            .videogular-container {
+                width: 100%;
+                height: 320px;
+                margin: auto;
+                overflow: hidden;
+            }
+
+            @media (min-width: 1200px) {
+                .videogular-container {
+                    width: 100%;
+                    height: 658.125px;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                .videogular-container {
+                    width: 100%;
+                    height: 528.75px;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+                .videogular-container {
+                    width: 100%;
+                    height: 409.5px;
+                }
+            }
+        </style>
+
+        <div class="gen-blog-spot-video videogular-container my-4" *ngIf="!selectedVideoCommentDetails.isEmpty()">
+            <vg-player>
+                <vg-overlay-play></vg-overlay-play>
+                <vg-buffering></vg-buffering>
+                <vg-scrub-bar>
+                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                </vg-scrub-bar>
+                <vg-controls>
+                    <vg-play-pause></vg-play-pause>
+                    <vg-time-display vgProperty="current" vgFormat="mm:ss">
+                    </vg-time-display>
+                    <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+                    <vg-time-display vgProperty="total" vgFormat="mm:ss">
+                    </vg-time-display>
+                    <vg-mute></vg-mute>
+                    <vg-volume></vg-volume>
+                    <vg-fullscreen></vg-fullscreen>
+                </vg-controls>
+                <video [vgMedia]="$any(media)" #media id="singleVideo" preload="metadata" crossorigin
+                    [poster]="selectedVideoCommentDetails.getIn(['thumbnail', 'src'])">
+                    <source [src]="selectedVideoCommentDetails.get('src')">
+                </video>
+            </vg-player>
+        </div>
+
+        <dl *ngIf="selectedVideoCommentDetails.get('description')">
+            <ng-container>
+                <dt>Description</dt>
+                <dd>
+                    <snap-item-description [itemDescription]="selectedVideoCommentDetails.get('description')">
+                    </snap-item-description>
+                </dd>
+            </ng-container>
+        </dl>
+    </ng-container>
+
+    <ng-container data-modalFooter>
+        <a class="gen-button" data-dismiss="modal" [routerLink]="null" (click)="resetReviewVideoPlacedOnModal()">
+            <div class="gen-button-block"><span class="gen-button-text"> Close </span></div>
+        </a>
+    </ng-container>
+</snap-modal-fullscreen>

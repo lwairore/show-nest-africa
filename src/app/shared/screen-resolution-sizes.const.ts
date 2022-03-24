@@ -70,10 +70,10 @@ export const constructResponsiveSettings = (
     laptopResponsiveSettings?: BreakpointOptions,
     tabletResponsiveSettings?: BreakpointOptions,
     mobileResponsiveSettings?: BreakpointOptions): ResponsiveSettings | undefined => {
-    const OBJECTS_TO_MERGE = [];
+    const OBJECTS_TO_MERGE: Array<{ [klass: string]: BreakpointOptions }> = [];
 
     if (desktopResponsiveSettings) {
-        const DESKTOP_RESPONSIVE_SETTINGS = {};
+        const DESKTOP_RESPONSIVE_SETTINGS: { [klass: string]: BreakpointOptions } = {};
 
         _DESKTOP_SCREEN_RESOLUTION_SIZES.forEach(size => {
             DESKTOP_RESPONSIVE_SETTINGS[size] = desktopResponsiveSettings;
@@ -85,7 +85,7 @@ export const constructResponsiveSettings = (
     }
 
     if (laptopResponsiveSettings) {
-        const LAPTOP_RESPONSIVE_SETTINGS = {};
+        const LAPTOP_RESPONSIVE_SETTINGS: { [klass: string]: BreakpointOptions } = {};
 
         _LAPTOP_SCREEN_RESOLUTION_SIZES.forEach(size => {
             LAPTOP_RESPONSIVE_SETTINGS[size] = laptopResponsiveSettings;
@@ -97,7 +97,7 @@ export const constructResponsiveSettings = (
     }
 
     if (tabletResponsiveSettings) {
-        const TABLET_RESPONSIVE_SETTINGS = {};
+        const TABLET_RESPONSIVE_SETTINGS: { [klass: string]: BreakpointOptions } = {};
 
         _TABLET_SCREEN_RESOLUTION_SIZES.forEach(size => {
             TABLET_RESPONSIVE_SETTINGS[size] = tabletResponsiveSettings;
@@ -110,7 +110,7 @@ export const constructResponsiveSettings = (
 
 
     if (mobileResponsiveSettings) {
-        const MOBILE_RESPONSIVE_SETTINGS = {};
+        const MOBILE_RESPONSIVE_SETTINGS: { [klass: string]: BreakpointOptions } = {};
 
         _MOBILE_SCREEN_RESOLUTION_SIZES.forEach(size => {
             MOBILE_RESPONSIVE_SETTINGS[size] = mobileResponsiveSettings;

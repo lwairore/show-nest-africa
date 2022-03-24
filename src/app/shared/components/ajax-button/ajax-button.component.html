@@ -1,0 +1,8 @@
+<a [routerLink]="null" class="gen-button" [attr.disabled]="busy" [queryParamsHandling]="'preserve'">
+    <div class="gen-button-block">
+        <span [hidden]="!busy">
+            <ng-content select="[data-animator]"></ng-content>
+        </span>
+        <ng-content *ngIf="!busy" select="[data-content]"></ng-content>
+    </div>
+</a>

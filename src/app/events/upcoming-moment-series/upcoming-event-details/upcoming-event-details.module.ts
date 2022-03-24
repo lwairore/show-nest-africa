@@ -7,11 +7,18 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { CompellingEventDescriptionComponent } from './sections/compelling-event-description/compelling-event-description.component';
+import { TrailerComponent } from './sections/trailer/trailer.component';
+import { LibsModule } from 'src/app/libs/libs.module';
+import { UpcommingEventDetailsService } from './upcomming-event-details.service';
 
 
 @NgModule({
   declarations: [
     UpcomingEventDetailsComponent,
+    CompellingEventDescriptionComponent,
+    TrailerComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +28,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
     VgOverlayPlayModule,
     VgBufferingModule,
     SharedModule,
+    CarouselModule,
+    LibsModule,
+  ],
+  providers: [
+    UpcommingEventDetailsService,
   ]
 })
 export class UpcomingEventDetailsModule { }

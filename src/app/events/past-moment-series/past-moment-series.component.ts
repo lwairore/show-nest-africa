@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'snap-past-moment-series',
   templateUrl: './past-moment-series.component.html',
-  styleUrls: ['./past-moment-series.component.css']
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PastMomentSeriesComponent implements OnInit {
 

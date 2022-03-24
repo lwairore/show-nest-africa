@@ -1,0 +1,93 @@
+<ng-container *ngIf="!sponsors.isEmpty()">
+    <h2 class="my-4">Sponsor logos</h2>
+    <div>
+        <div class="owl-carousel owl-loaded owl-drag" data-dots="false" data-nav="true" data-desk_num="4"
+            data-lap_num="3" data-tab_num="2" data-mob_num="1" data-mob_sm="1" data-autoplay="false" data-loop="false"
+            data-margin="30">
+            <owl-carousel-o [options]="configsForSponsorCarousel">
+                <ng-container *ngFor="let sponsor of sponsors; let loopIndex=index">
+                    <ng-template carouselSlide>
+                        <div class="item">
+                            <div
+                                class="movie type-movie status-publish has-post-thumbnail hentry movie_genre-action movie_genre-adventure movie_genre-drama">
+                                <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                    <div class="gen-movie-contain">
+                                        <div class="gen-movie-img">
+                                            <snap-img-lazy [src]="sponsor.getIn([
+                                        'logo',
+                                        'src'
+                                        ])" [alt]="sponsor.getIn([
+                                        'logo',
+                                        'alt'
+                                        ])" width="100%" height="338px"></snap-img-lazy>
+                                        </div>
+                                        <div class="gen-info-contain">
+                                            <div class="gen-movie-info">
+                                                <h3>
+                                                    <a [owlRouterLink]="null">
+                                                        {{ sponsor.get('nameOfSponsor') }}
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div class="gen-movie-meta-holder"
+                                                *ngIf="sponsor.get('socialMediaLinks')?.size">
+                                                <ul>
+                                                    <li>
+                                                        <a class="font-weight-bold" [owlRouterLink]="null"
+                                                            data-toggle="modal"
+                                                            [attr.data-target]="'#'+MODAL_ID_FOR_SPONSOR_LOGOS_SOCIAL_MEDIA_LINKS"
+                                                            (click)="viewSponsorSocialMediaLinks(loopIndex)">Social
+                                                            media
+                                                            links</a>
+                                                    </li>
+                                                    <!-- <li *ngFor="let link of sponsor.get('socialMediaLinks')">
+                                                    <a [href]="link.get('href')">
+                                                        <span>{{ link.get('nameOfSocialMedia') }}</span>
+                                                    </a>
+                                                </li> -->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- #post-## -->
+                        </div>
+                    </ng-template>
+                </ng-container>
+            </owl-carousel-o>
+        </div>
+    </div>
+
+    <snap-modal-fullscreen [modalID]="MODAL_ID_FOR_SPONSOR_LOGOS_SOCIAL_MEDIA_LINKS">
+        <ng-container data-modalTitle>
+            {{ selectedSponsorDetails.get('nameOfSponsor') }}
+        </ng-container>
+
+        <ng-container data-modalHeaderDismissModal>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                style="color: var(--white-color);">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </ng-container>
+
+        <ng-container data-modalBody>
+            <dl>
+                <ng-container *ngFor="let link of selectedSponsorDetails.get('socialMediaLinks')">
+                    <dt> {{ link.get('nameOfSocialMedia')|titlecase }} </dt>
+                    <dd>
+                        <a [href]="link.get('href')" class="font-weight-bold">
+                            <span>{{ link.get('href') | formatUrl}}</span>
+                        </a>
+                    </dd>
+                </ng-container>
+            </dl>
+        </ng-container>
+
+        <ng-container data-modalFooter>
+            <a class="gen-button" data-dismiss="modal" [routerLink]="null">
+                <div class="gen-button-block"><span class="gen-button-text"> Close </span></div>
+            </a>
+        </ng-container>
+    </snap-modal-fullscreen>
+</ng-container>

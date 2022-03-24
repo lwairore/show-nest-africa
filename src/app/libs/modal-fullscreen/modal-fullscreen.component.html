@@ -1,0 +1,19 @@
+<div class="modal fade modal-fullscreen" [class.show]="show" [id]="modalID" tabindex="-1"
+    [attr.aria-labelledby]="modalID + '__Title'" [ngStyle]="theme" [attr.aria-hidden]="show">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" style="background: var(--dark-color);">
+            <div class="modal-header">
+                <h5 class="modal-title text-uppercase" [id]="modalID + '__Title'">
+                    <ng-content select="[data-modalTitle]"></ng-content>
+                </h5>
+                <ng-content select="[data-modalHeaderDismissModal]"></ng-content>
+            </div>
+            <div class="modal-body">
+                <ng-content select="[data-modalBody]"></ng-content>
+            </div>
+            <div class="modal-footer">
+                <ng-content select="[data-modalFooter]"></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,121 @@
+<small *ngIf="formGroupElement?.invalid && (formGroupElement?.touched || submitted)"
+    [ngClass]="['text-danger', 'font-weight-light', 'font-xs', 'd-block', 'mt-2']">
+    <ng-container *ngIf="formGroupElement?.hasError('required') || formGroupElement?.hasError('null')
+    || formGroupElement?.hasError('blank') || formGroupElement?.hasError('noValueProvided');">
+        {{ requiredOrNullOrNoValueProvidedErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('minlength'); else showOtherMinLengthRelatedErrorsIfPresent;">
+        {{ minLengthPrefixErrorMessage }} Add
+        <span *ngIf="formGroupElement?.hasError('minlength'); else generaliseTheNumberOfCharactersToAddToBeAdded"
+            [ngPlural]="formGroupElement?.errors?.minlength?.requiredLength -  formGroupElement?.errors?.minlength?.actualLength">
+            {{
+            formGroupElement?.errors?.minlength?.requiredLength
+            -
+            formGroupElement?.errors?.minlength?.actualLength }}
+            <ng-template ngPluralCase="0">
+                more characters.
+            </ng-template>
+            <ng-template ngPluralCase="1">
+                more character.
+            </ng-template>
+            <ng-template ngPluralCase="other">
+                more characters.
+            </ng-template>
+        </span>
+        <ng-template #generaliseTheNumberOfCharactersToAddToBeAdded> more
+            more characters</ng-template>
+    </ng-container>
+
+    <ng-template #showOtherMinLengthRelatedErrorsIfPresent>
+        <ng-container *ngIf="
+        formGroupElement?.hasError('minCharacterNotGenuinelyAchieved') &&
+        !(formGroupElement?.hasError('required') || formGroupElement?.hasError('null'))">
+            {{ minCharacterNotGenuinelyAchievedErrorMessage }}
+        </ng-container>
+    </ng-template>
+
+    <ng-container *ngIf="formGroupElement?.hasError('associationDoesNotExist')">
+        {{ associationDoesNotExistErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('doesNotExist')">
+        {{ doesNotExistErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('incorrectCredentials')">
+        {{ incorrectCredentialsErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('maxlength')">
+        {{ maxLengthPrefixErrorMessage }} Remove
+        <span
+            [ngPlural]="formGroupElement?.errors?.maxlength?.actualLength -  formGroupElement?.errors?.maxlength?.requiredLength">
+            {{ formGroupElement?.errors?.maxlength?.actualLength
+            - formGroupElement?.errors?.maxlength?.requiredLength
+            }}
+            <ng-template ngPluralCase="0">
+                characters.
+            </ng-template>
+            <ng-template ngPluralCase="1">
+                character.
+            </ng-template>
+            <ng-template ngPluralCase="other">
+                characters.
+            </ng-template>
+        </span>
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('emailHasBeenTaken')">
+        {{ emailHasBeenTakenErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('phoneNumberHasBeenTaken')">
+        {{ phoneNumberHasBeenTakenErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('usernameHasBeenTaken')">
+        {{ usernameHasBeenTakenErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('max')">
+        {{ maxErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('invalid')">
+        {{ invalidErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('pattern')">
+        {{ patternErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('min')">
+        {{ minErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('minValue')">
+        {{ minValueErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('maxValue')">
+        {{ maxValueErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('email')">
+        {{ emailErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('incorrectPassword')">
+        {{ incorrectPasswordErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('pattern') && 
+!formGroupElement?.hasError('cannotContainSpace')">
+        {{ cannotContainSpaceErrorMessage }}
+    </ng-container>
+
+    <ng-container *ngIf="formGroupElement?.hasError('invalidSelectField')">
+        {{invalidSelectFieldErrorMessage}}
+    </ng-container>
+</small>

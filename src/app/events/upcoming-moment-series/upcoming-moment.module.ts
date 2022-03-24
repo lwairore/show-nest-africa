@@ -4,6 +4,7 @@ import { UpcomingMomentSeriesRoutingModule } from './upcoming-moment-series-rout
 import { UpcomingMomentSeriesComponent } from './upcoming-moment-series.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UpcomingMomentMainComponent } from './upcoming-moment-main/upcoming-moment-main.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { UpcomingMomentMainComponent } from './upcoming-moment-main/upcoming-mom
     CommonModule,
     UpcomingMomentSeriesRoutingModule,
     SharedModule,
-  ]
+    NgxSkeletonLoaderModule,
+  ],
 })
 export class UpcomingMomentModule { }

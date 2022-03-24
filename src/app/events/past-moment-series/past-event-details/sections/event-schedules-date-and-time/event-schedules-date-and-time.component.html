@@ -1,0 +1,16 @@
+<h2 class="my-4">Event schedules: date and time</h2>
+
+<dl>
+    <dt>Started: </dt>
+    <dd>
+        <span>
+            {{ eventSchedhuleDetails.get('startsOn') |dateAgo }}
+        </span>
+    </dd>
+    <dt class="mt-4">Ended: </dt>
+    <dd>
+        <span>
+            {{eventSchedhuleDetails.get('endsOn')|dateAgo}}
+        </span>
+    </dd>
+</dl>

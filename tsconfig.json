@@ -3,6 +3,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -14,7 +19,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "strict": true,
+    "paths": {
+      "@sharedModule/*": [
+        "src/app/shared/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

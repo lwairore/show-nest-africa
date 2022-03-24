@@ -1,15 +1,16 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'snap-count-down',
   templateUrl: './count-down.component.html',
   styles: [
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountDownComponent implements OnInit, OnDestroy {
 
-  private subscription: Subscription;
+  private _subscription: Subscription | undefined;
 
   public dateNow = new Date();
 
@@ -25,34 +26,51 @@ export class CountDownComponent implements OnInit, OnDestroy {
   milliSecondsInASecond = 1000;
   hoursInADay = 24;
   minutesInAnHour = 60;
-  SecondsInAMinute = 60;
+  secondsInAMinute = 60;
 
-  public timeDifference;
-  public secondsToDday;
-  public minutesToDday;
-  public hoursToDday;
-  public daysToDday;
+  public timeDifference: number | undefined;
+  public secondsToDday: number | undefined;
+  public minutesToDday: number | undefined;
+  public hoursToDday: number | undefined;
+  public daysToDday: number | undefined;
 
+  constructor(
+    private _changeDetectorRef: ChangeDetectorRef,
+  ) {
 
-  private getTimeDifference() {
-    this.timeDifference = this._dDay.getTime() - new Date().getTime();
-    this.allocateTimeUnits(this.timeDifference);
   }
 
-  private allocateTimeUnits(timeDifference) {
-    this.secondsToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond) % this.SecondsInAMinute);
-    this.minutesToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour) % this.SecondsInAMinute);
-    this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute) % this.hoursInADay);
-    this.daysToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute * this.hoursInADay));
+  private _manuallyTriggerChangeDetection() {
+    this._changeDetectorRef.detectChanges();
+  }
+
+  private getTimeDifference() {
+    if (this._dDay instanceof Date) {
+      this.timeDifference = this._dDay.getTime() - new Date().getTime();
+      this.allocateTimeUnits(this.timeDifference);
+    }
+  }
+
+  private allocateTimeUnits(timeDifference: number) {
+    this.secondsToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond) % this.secondsInAMinute);
+    this.minutesToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour) % this.secondsInAMinute);
+    this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.secondsInAMinute) % this.hoursInADay);
+    this.daysToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.secondsInAMinute * this.hoursInADay));
   }
 
   ngOnInit() {
-    this.subscription = interval(this.intervalToUse)
-      .subscribe(x => { this.getTimeDifference(); });
+    this._subscription = interval(this.intervalToUse)
+      .subscribe(x => {
+        this.getTimeDifference();
+
+        this._manuallyTriggerChangeDetection();
+      });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this._subscription instanceof Subscription) {
+      this._subscription.unsubscribe();
+    }
   }
 
 }

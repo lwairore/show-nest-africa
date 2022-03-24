@@ -14,29 +14,106 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-center">
-                    <form name="pms_login" id="pms_login">
+                    <form id="pms_login" [formGroup]="signInFormGroup" *ngIf="signInFormGroup">
                         <h4>Sign In</h4>
+
+                        <ng-container #errornoteContainer></ng-container>
+
+                        <ng-template #formFieldErrorsTemplate let-formControlFormGroup="formGroup"
+                            let-formFieldErrors="errors">
+                            <snap-display-form-field-errors [formGroupElement]="formControlFormGroup"
+                                [submitted]="submitted"
+                                [requiredOrNullOrNoValueProvidedErrorMessage]="formFieldErrors.requiredOrNullOrNoValueProvidedErrorMessage || null"
+                                [minCharacterNotGenuinelyAchievedErrorMessage]="formFieldErrors.minCharacterNotGenuinelyAchievedErrorMessage || null"
+                                [minLengthPrefixErrorMessage]="formFieldErrors.minLengthPrefixErrorMessage || null"
+                                [incorrectCredentialsErrorMessage]="formFieldErrors.incorrectCredentials || null">
+                            </snap-display-form-field-errors>
+                        </ng-template>
+
                         <p class="login-username">
-                            <label for="user_login">Username or Email Address</label>
-                            <input type="text" name="log" id="user_login" class="input" value="" size="20">
+                            <label
+                                [for]="SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER
+                            .slug(SIGN_IN_PARAM.NAME_OF_FORM_GROUP, SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)"
+                                [class.text-danger]="signInFormGroup
+                                ?.get(SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)?.invalid && (signInFormGroup
+                                ?.get(SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)?.touched || submitted)">
+                                {{ SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.label }}
+                            </label>
+                            <input
+                                [id]="SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER
+                            .slug(SIGN_IN_PARAM.NAME_OF_FORM_GROUP, SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)"
+                                [formControlName]="SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName"
+                                type="text"
+                                [class.is-invalid]="signInFormGroup
+                                ?.get(SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)?.invalid && (signInFormGroup
+                                ?.get(SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)?.touched || submitted)"
+                                [placeholder]="SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.placeholder"
+                                [attr.aria-invalid]="signInFormGroup
+                                ?.get(SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)?.invalid"
+                                [attr.aria-required]="SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.isRequired">
+                            <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                    formGroup: signInFormGroup
+                                    ?.get(SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName),
+                                    errors: SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.errors
+                                }"></ng-container>
                         </p>
                         <p class="login-password">
-                            <label for="user_pass">Password</label>
-                            <input type="password" name="pwd" id="user_pass" class="input" value="" size="20">
+                            <label [for]="SIGN_IN_PARAM.PASSWORD
+                                .slug(SIGN_IN_PARAM.NAME_OF_FORM_GROUP, SIGN_IN_PARAM.PASSWORD.formControlName)"
+                                [class.text-danger]="signInFormGroup
+                                    ?.get(SIGN_IN_PARAM.PASSWORD.formControlName)?.invalid && (signInFormGroup
+                                    ?.get(SIGN_IN_PARAM.PASSWORD.formControlName)?.touched || submitted)">
+                                {{ SIGN_IN_PARAM.PASSWORD.label }}
+                            </label>
+                            <input type="password" #passwordEl [id]="SIGN_IN_PARAM.PASSWORD
+                                .slug(SIGN_IN_PARAM.NAME_OF_FORM_GROUP, SIGN_IN_PARAM.PASSWORD.formControlName)"
+                                [formControlName]="SIGN_IN_PARAM.PASSWORD.formControlName" type="text"
+                                [class.is-invalid]="signInFormGroup
+                                    ?.get(SIGN_IN_PARAM.PASSWORD.formControlName)?.invalid && (signInFormGroup
+                                    ?.get(SIGN_IN_PARAM.PASSWORD.formControlName)?.touched || submitted)"
+                                [placeholder]="SIGN_IN_PARAM.PASSWORD.placeholder" [attr.aria-invalid]="signInFormGroup
+                                    ?.get(SIGN_IN_PARAM.PASSWORD.formControlName)?.invalid"
+                                [attr.aria-required]="SIGN_IN_PARAM.PASSWORD.isRequired">
+                            <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: signInFormGroup
+                                        ?.get(SIGN_IN_PARAM.PASSWORD.formControlName),
+                                        errors: SIGN_IN_PARAM.PASSWORD.errors
+                                    }"></ng-container>
                         </p>
-                        <p class="login-remember">
-                            <label>
-                                <input name="rememberme" type="checkbox" id="rememberme" value="forever"> Remember
-                                Me </label>
+                        <p class="login-remember"
+                            title="Click here to {{togglePasswordVisibilityEl.checked ? 'hide the entered ' : 'see the entered ' }} password">
+                            <label for="togglePasswordVisibility">
+                                <input (change)="togglePasswordVisibilityEl.checked ?
+                                    passwordEl.type='text': passwordEl.type='password';" type="checkbox"
+                                    id="togglePasswordVisibility" #togglePasswordVisibilityEl aria-required="false"
+                                    checked>
+                                Show password
+                            </label>
                         </p>
-                        <p class="login-submit">
+                        <!-- <p class="login-submit">
                             <input type="button" name="wp-submit" id="wp-submit" class="button button-primary"
                                 value="Log In">
                             <input type="hidden" name="redirect_to">
-                        </p>
-                        <input type="hidden" name="pms_login" value="1">
-                        <input type="hidden" name="pms_redirect">
-                        <a routerLink="../register">Register</a> | <a routerLink="../recover-password">Lost your
+                        </p> -->
+
+                        <div class="gen-btn-container">
+                            <snap-ajax-button [execute]="onSubmit" [parameter]="signInFormGroup">
+                                <ng-container data-animator>
+                                    <span class="gen-button-line-left"></span>
+                                    <span class="gen-button-text">
+                                        <span id="pms-submit-button-loading-placeholder-text" class="d-block">Processing
+                                            request...</span>
+                                    </span>
+                                </ng-container>
+                                <ng-container data-content>
+                                    <span class="gen-button-line-left"></span>
+                                    <span class="gen-button-text">sign in</span>
+                                </ng-container>
+                            </snap-ajax-button>
+                        </div>
+
+                        <a routerLink="../register" [queryParamsHandling]="'preserve'">Register</a> | <a
+                            routerLink="../recover-password">Lost your
                             password?</a>
                     </form>
                 </div>
@@ -45,4 +122,3 @@
     </div>
 </section>
 <!-- Log-in  -->
-

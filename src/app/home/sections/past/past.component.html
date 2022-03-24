@@ -1,0 +1,132 @@
+<section class="pt-0 gen-section-padding-2 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6">
+                <h4 class="gen-heading-title">Past</h4>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 d-none d-md-inline-block">
+                <div class="gen-movie-action">
+                    <div class="gen-btn-container text-right">
+                        <a routerLink="/moments/past" class="gen-button gen-button-flat">
+                            <span class="text">More Events</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="gen-style-2">
+                    <div class="owl-carousel owl-loaded owl-drag" data-dots="false" data-nav="true" data-desk_num="4"
+                        data-lap_num="3" data-tab_num="2" data-mob_num="1" data-mob_sm="1" data-autoplay="false"
+                        data-loop="false" data-margin="30">
+                        <ng-container *ngIf="loadingDetails; else showDetails;">
+                            <owl-carousel-o [options]="customOptionsForVideos">
+                                <ng-container *ngFor="let _ of 8|generateFakeObjects">
+                                    <ng-template carouselSlide>
+                                        <ngx-skeleton-loader animation="progress-dark" [theme]="{
+                                    'background-color': '#464646',
+                                height: '253px',
+                                width: '100%'
+                              }"></ngx-skeleton-loader>
+                                        <ngx-skeleton-loader animation="progress-dark" [theme]="{
+                                    'background-color': '#464646',
+                                height: '29px',
+                                width: '80%'
+                              }"></ngx-skeleton-loader>
+                                        <ngx-skeleton-loader animation="progress-dark" [theme]="{
+                                'background-color': '#464646',
+                                height: '29px',
+                                width: '60%'
+                              }"></ngx-skeleton-loader>
+                                    </ng-template>
+                                </ng-container>
+                            </owl-carousel-o>
+                        </ng-container>
+                        <ng-template #showDetails>
+                            <owl-carousel-o [options]="customOptionsForVideos">
+                                <ng-container *ngFor="let event of pastEvents; let loopIndex=index;">
+                                    <ng-template carouselSlide>
+                                        <div class="item">
+                                            <div
+                                                class="movie type-movie status-publish has-post-thumbnail hentry movie_genre-action movie_genre-adventure movie_genre-drama">
+                                                <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                                    <div class="gen-movie-contain">
+                                                        <div class="gen-movie-img">
+                                                            <snap-img-lazy
+                                                                [src]="event.getIn(['proposal', 'poster', 'src'])"
+                                                                [alt]="event.getIn(['proposal', 'poster', 'alt'])">
+                                                            </snap-img-lazy>
+                                                        </div>
+                                                        <div class="gen-info-contain">
+                                                            <div class="gen-movie-info">
+                                                                <h3>
+                                                                    <a
+                                                                        [owlRouterLink]="['/moments','past',event.get('id'),'details']">
+                                                                        {{ event.getIn(['proposal', 'nameOfMoment']) }}
+                                                                    </a>
+                                                                </h3>
+                                                                <span (hesitate)="showArtistNameCollapse(loopIndex)"
+                                                                    [duration]="1000"
+                                                                    (click)="hideArtistNameCollapse(loopIndex)"
+                                                                    (mouseleave)="hideArtistNameCollapse(loopIndex)">
+                                                                    {{ event.getIn(['proposal', 'username']) }}
+                                                                </span>
+
+                                                                <snap-hover-collapse #artistNameCollapseEl
+                                                                    collapseID="{{collapseConfigs.get('artistName')}}__moment__upcomming__{{event.get('id')}}">
+                                                                    <ng-container data-collapseContent>
+                                                                        <div class="card card-body"
+                                                                            style="background: var(--dark-color)">
+                                                                            <span>Event artist was <strong>{{
+                                                                                    event.getIn(['proposal',
+                                                                                    'username']) }}</strong>
+                                                                            </span>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </snap-hover-collapse>
+                                                                <br />
+                                                            </div>
+                                                            <div class="gen-movie-meta-holder">
+                                                                <ul>
+                                                                    <li>
+                                                                        <span (hesitate)="showEndsOnCollapse(loopIndex)"
+                                                                            [duration]="1000"
+                                                                            (click)="hideEndsOnCollapse(loopIndex)"
+                                                                            (mouseleave)="hideEndsOnCollapse(loopIndex)">
+                                                                            {{ event.get('endsOn')|dateAgo }}</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a [routerLink]="null">
+                                                                            <span>Watch Highlights</span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                                <snap-hover-collapse #endsOnCollapseEl
+                                                                    collapseID="{{collapseConfigs.get('endsOn')}}__moment__upcomming__{{event.get('id')}}">
+                                                                    <ng-container data-collapseContent>
+                                                                        <div class="card card-body"
+                                                                            style="background: var(--dark-color)">
+                                                                            <span>Event ended on <strong>{{
+                                                                                    event.get('endsOn')|date:'long'}}</strong>
+                                                                            </span>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </snap-hover-collapse>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- #post-## -->
+                                        </div>
+                                    </ng-template>
+                                </ng-container>
+                            </owl-carousel-o>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

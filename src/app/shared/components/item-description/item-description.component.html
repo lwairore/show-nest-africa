@@ -1,0 +1,11 @@
+<p [innerHTML]="currentText"></p>
+
+<a [routerLink]="null" class="pxp-sp-more text-uppercase font-weight-bold" *ngIf="!hideToggle" (click)="toggleView()">
+    <ng-container *ngIf="isCollapsed; else showLess;">
+        <span class="pxp-sp-more-1">Continue Reading <span class="fa fa-angle-down"></span></span>
+    </ng-container>
+
+    <ng-template #showLess>
+        <span class="pxp-sp-more-2">Show Less <span class="fa fa-angle-up"></span></span>
+    </ng-template>
+</a>

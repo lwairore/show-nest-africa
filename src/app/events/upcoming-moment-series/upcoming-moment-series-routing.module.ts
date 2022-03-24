@@ -14,7 +14,7 @@ const routes: Routes = [
         component: UpcomingMomentMainComponent,
       },
       {
-        path: 'details',
+        path: ':momentID/details',
         loadChildren: () => import('./upcoming-event-details/upcoming-event-details.module')
           .then(u => u.UpcomingEventDetailsModule),
       },

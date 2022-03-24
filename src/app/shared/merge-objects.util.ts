@@ -4,14 +4,14 @@
  * @param obj2
  * @returns newObject a new object based on obj1 and obj2
  */
-export function mergeObjects(objects = []) {
+export function mergeObjects(objects: any) {
     const newObject = {};
 
     for (const objectItem of objects) {
         for (const attrname in objectItem) {
-            newObject[attrname] = objectItem[attrname];
+            [newObject as any][attrname as any] = objectItem[attrname];
         }
     }
-   
+
     return newObject;
 }

@@ -1,0 +1,110 @@
+<!--========== Header ==============-->
+<snap-header>
+
+</snap-header>
+<!--========== Header ==============-->
+
+<!-- breadcrumb -->
+<div class="gen-breadcrumb" style="background-image: url('assets/images/background/asset-25.jpeg');">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <nav aria-label="breadcrumb">
+                    <div class="gen-breadcrumb-title">
+                        <h1>
+                           Manage Profile
+                        </h1>
+                    </div>
+                    <div class="gen-breadcrumb-container">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a routerLink="/">
+                                    <i class="fas fa-home mr-2"></i>Home
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active">Manage profile</li>
+                        </ol>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb -->
+
+<!-- Blog-left-Sidebar -->
+<section class="gen-section-padding-3">
+    <div class="container">
+        <h4 class="main-title mb-4 my-4">Account Setting</h4>
+        <div class="row">
+            <div class="col-xl-3 col-md-12 order-1 order-xl-1 mt-4 mt-xl-0 mb-4">
+                <div class="widget widget_recent_entries">
+                    <!-- <h2 class="widget-title">Recent Posts</h2> -->
+                    <div class="float-right">
+                        <a [routerLink]="null">Edit</a>
+                    </div>
+                    <div class="sign-user_card text-center">
+                        <img src="assets/images/user/user.jpg" class="rounded-circle img-fluid d-block mx-auto mb-3"
+                            alt="user">
+                        <h4 class="mb-3">John Doe</h4>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-md-12 order-2 order-xl-2">
+                <div class="gen-blog gen-blog-col-1">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="mb-3 pb-3 a-border">Personal Details</h5>
+                            <form onsubmit="return false;">
+                                <div class="row gt-form">
+                                    <div class="col-md-12 mb-4">
+                                        <label for="full_name">Your name</label>
+                                        <input type="text" name="full_name" placeholder="John Doe">
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" placeholder="example@gmail.com">
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <label for="dob">Date of Birth</label>
+                                        <input type="date" name="dob" placeholder="08-03-1995">
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <label for="language">Language</label>
+                                        <input type="text" name="language" placeholder="English">
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <label for="phone-number">Phone number</label>
+                                        <input type="text" name="phone-number" placeholder="Cell Phone">
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <label for="gender">Gender</label>
+                                        <select id="gender">
+                                            <option>Choose gender</option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <label for="phone-number">Bio</label>
+                                        <textarea name="your-message" rows="6" placeholder="Your Bio"></textarea>
+                                        <br>
+                                        <input type="submit" value="Update" class="mt-4">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog-left-Sidebar -->
+
+<!-- Footer -->
+<snap-footer>
+
+</snap-footer>

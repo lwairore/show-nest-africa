@@ -1,0 +1,32 @@
+<p [ngClass]="['errornote', 'mb-4']" [ngStyle]="{
+    fontSize: '14px',
+    fontWeight: 700,
+    display: 'block',
+    padding: '10px 12px',
+    margin: '0 0 10px 0',
+    color: '#ba2121',
+    border: '1px solid #ba2121',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+    backgroundPosition: '5px 12px'
+}
+" *ngIf="totalInvalidFormControls;"><span [ngClass]="['fa', 'fa-warning', 'mr-2']"></span>
+    <ng-container *ngIf="errorMessage; else displayDefaultErrorMessage;">
+        {{ errorMessage }}
+    </ng-container>
+    <ng-template #displayDefaultErrorMessage>
+        Please correct the
+        <ng-container [ngPlural]="totalInvalidFormControls || 0">
+            <ng-template ngPluralCase="0">
+                errors
+            </ng-template>
+            <ng-template ngPluralCase="1">
+                error
+            </ng-template>
+            <ng-template ngPluralCase="other">
+                errors
+            </ng-template>
+        </ng-container>
+        below.
+    </ng-template>
+</p>

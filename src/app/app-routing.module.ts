@@ -9,6 +9,11 @@ const routes: Routes = [
       .then(h => h.HomeModule),
   },
   {
+    path: 'rtc',
+    loadChildren: () => import('./rtc/rtc.module')
+      .then(r => r.RtcModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module')
       .then(a => a.AuthModule),
@@ -24,13 +29,26 @@ const routes: Routes = [
       .then(l => l.LiveBoxModule),
   },
   {
+    path: 'manage-profile',
+    loadChildren: () => import('./user-management/user-management.module')
+      .then(u => u.UserManagementModule),
+  },
+  {
+    path: 'contact-us',
+    loadChildren: () => import('./contact-us/contact-us.module')
+      .then(c => c.ContactUsModule),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes,
+    { enableTracing: false }
+  )],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

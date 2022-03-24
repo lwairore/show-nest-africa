@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'snap-events',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.css']
+  styles: []
 })
 export class EventsComponent implements OnInit {
 

@@ -14,54 +14,226 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-center">
-                    <form id="pms_register-form" class="pms-form" >
-                        <h4>Register</h4>
-                        <input type="hidden" id="pmstkn" name="pmstkn" value="59b502f483">
-                        <!-- <input type="hidden" name="_wp_http_referer" value="/register/"> -->
-                        <ul class="pms-form-fields-wrapper pl-0">
-                            <li class="pms-field pms-user-login-field ">
-                                <label for="pms_user_login">Username *</label>
-                                <input id="pms_user_login" name="user_login" type="text" value="">
-                            </li>
-                            <li class="pms-field pms-user-email-field ">
-                                <label for="pms_user_email">E-mail *</label>
-                                <input id="pms_user_email" name="user_email" type="text" value="">
-                            </li>
-                            <li class="pms-field pms-first-name-field ">
-                                <label for="pms_first_name">First Name</label>
-                                <input id="pms_first_name" name="first_name" type="text" value="">
-                            </li>
-                            <li class="pms-field pms-last-name-field ">
-                                <label for="pms_last_name">Last Name</label>
-                                <input id="pms_last_name" name="last_name" type="text" value="">
-                            </li>
-                            <li class="pms-field pms-pass1-field">
-                                <label for="pms_pass1">Password *</label>
-                                <input id="pms_pass1" name="pass1" type="password">
-                            </li>
-                            <li class="pms-field pms-pass2-field">
-                                <label for="pms_pass2">Repeat Password *</label>
-                                <input id="pms_pass2" name="pass2" type="password">
-                            </li>
-                            <li class="pms-field pms-field-subscriptions">
-                                <div class="pms-subscription-plan">
-                                    <p class="ZGwn1">By registering, you agree to our <a [routerLink]="null">Terms</a> ,
-                                        <a [routerLink]="null">Data
-                                            Policy</a> and <a [routerLink]="null">Cookies
-                                            Policy</a> .
-                                    </p>
-                                </div>
+                    <form id="pms_register-form" class="pms-form" [formGroup]="signUpFormGroup" autocomplete="off"
+                        *ngIf="signUpFormGroup" spellcheck="false" autocomplete="off"
+                        [attr.aria-invalid]="signUpFormGroup?.invalid">
+                        <h4>Create your Account - It's Free</h4>
 
-                                <div class="pms-subscription-plan">
-                                    <p class="ZGwn1">
-                                        Have an account?<a routerLink="../log-in"> Log in</a>
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                        <span id="pms-submit-button-loading-placeholder-text" class="d-none">Processing. Please
-                            wait...</span>
-                        <input name="pms_register" type="button" value="Register">
+                        <div #compellingReasonsToSignUpSection></div>
+
+                        <ng-container #errornoteContainer></ng-container>
+
+                        <ng-template #formFieldErrorsTemplate let-formControlFormGroup="formGroup"
+                            let-formFieldErrors="errors">
+                            <snap-display-form-field-errors [formGroupElement]="formControlFormGroup"
+                                [submitted]="submitted"
+                                [requiredOrNullOrNoValueProvidedErrorMessage]="formFieldErrors.requiredOrNullOrNoValueProvidedErrorMessage || null"
+                                [minCharacterNotGenuinelyAchievedErrorMessage]="formFieldErrors.minCharacterNotGenuinelyAchievedErrorMessage || null"
+                                [maxLengthPrefixErrorMessage]="formFieldErrors.maxLengthPrefixErrorMessage || null"
+                                [minLengthPrefixErrorMessage]="formFieldErrors.minLengthPrefixErrorMessage || null"
+                                [emailErrorMessage]="formFieldErrors.emailErrorMessage || null"
+                                [emailHasBeenTakenErrorMessage]="formFieldErrors.emailHasBeenTakenErrorMessage || null"
+                                [phoneNumberHasBeenTakenErrorMessage]="formFieldErrors.phoneNumberHasBeenTakenErrorMessage || null"
+                                [usernameHasBeenTakenErrorMessage]="formFieldErrors.usernameHasBeenTakenErrorMessage || null">
+                            </snap-display-form-field-errors>
+                        </ng-template>
+
+                        <div class="row gt-form">
+                            <div class="col-md-6 mb-4">
+                                <label [for]="REGISTER_PARAM.FIRST_NAME
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.FIRST_NAME.formControlName)"
+                                    [class.text-danger]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.FIRST_NAME.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.FIRST_NAME.formControlName)?.touched || submitted)">
+                                    {{ REGISTER_PARAM.FIRST_NAME.label }}
+                                </label>
+                                <input [id]="REGISTER_PARAM.FIRST_NAME
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.FIRST_NAME.formControlName)"
+                                    [formControlName]="REGISTER_PARAM.FIRST_NAME.formControlName" type="text"
+                                    [class.is-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.FIRST_NAME.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.FIRST_NAME.formControlName)?.touched || submitted)"
+                                    [placeholder]="REGISTER_PARAM.FIRST_NAME.placeholder" [attr.aria-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.FIRST_NAME.formControlName)?.invalid"
+                                    [attr.aria-required]="REGISTER_PARAM.FIRST_NAME.isRequired">
+                                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: signUpFormGroup
+                                        ?.get(REGISTER_PARAM.FIRST_NAME.formControlName),
+                                        errors: REGISTER_PARAM.FIRST_NAME.errors
+                                    }"></ng-container>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label [for]="REGISTER_PARAM.LAST_NAME
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.LAST_NAME.formControlName)"
+                                    [class.text-danger]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.LAST_NAME.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.LAST_NAME.formControlName)?.touched || submitted)">
+                                    {{ REGISTER_PARAM.LAST_NAME.label }}
+                                </label>
+                                <input [id]="REGISTER_PARAM.LAST_NAME
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.LAST_NAME.formControlName)"
+                                    [formControlName]="REGISTER_PARAM.LAST_NAME.formControlName" type="text"
+                                    [class.is-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.LAST_NAME.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.LAST_NAME.formControlName)?.touched || submitted)"
+                                    [placeholder]="REGISTER_PARAM.LAST_NAME.placeholder" [attr.aria-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.LAST_NAME.formControlName)?.invalid"
+                                    [attr.aria-required]="REGISTER_PARAM.LAST_NAME.isRequired">
+                                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: signUpFormGroup
+                                        ?.get(REGISTER_PARAM.LAST_NAME.formControlName),
+                                        errors: REGISTER_PARAM.LAST_NAME.errors
+                                    }"></ng-container>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label [for]="REGISTER_PARAM.EMAIL
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.EMAIL.formControlName)"
+                                    [class.text-danger]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.EMAIL.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.EMAIL.formControlName)?.touched || submitted)">
+                                    {{ REGISTER_PARAM.EMAIL.label }}
+                                </label>
+                                <input type="email" [id]="REGISTER_PARAM.EMAIL
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.EMAIL.formControlName)"
+                                    [formControlName]="REGISTER_PARAM.EMAIL.formControlName" type="text"
+                                    [class.is-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.EMAIL.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.EMAIL.formControlName)?.touched || submitted)"
+                                    [placeholder]="REGISTER_PARAM.EMAIL.placeholder" [attr.aria-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.EMAIL.formControlName)?.invalid"
+                                    [attr.aria-required]="REGISTER_PARAM.EMAIL.isRequired"
+                                    snapHasBeenTaken="emailHasBeenTaken" [validateFunction]="checkIfEmailHasBeenTaken"
+                                    snapBusyIndicator>
+                                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: signUpFormGroup
+                                        ?.get(REGISTER_PARAM.EMAIL.formControlName),
+                                        errors: REGISTER_PARAM.EMAIL.errors
+                                    }"></ng-container>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label [for]="REGISTER_PARAM.PHONE_NUMBER
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.PHONE_NUMBER.formControlName)"
+                                    [class.text-danger]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PHONE_NUMBER.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PHONE_NUMBER.formControlName)?.touched || submitted)">
+                                    {{ REGISTER_PARAM.PHONE_NUMBER.label }}
+                                </label>
+                                <input type="tel" [id]="REGISTER_PARAM.PHONE_NUMBER
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.PHONE_NUMBER.formControlName)"
+                                    [formControlName]="REGISTER_PARAM.PHONE_NUMBER.formControlName" [class.is-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PHONE_NUMBER.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PHONE_NUMBER.formControlName)?.touched || submitted)"
+                                    [placeholder]="REGISTER_PARAM.PHONE_NUMBER.placeholder" [attr.aria-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PHONE_NUMBER.formControlName)?.invalid"
+                                    [attr.aria-required]="REGISTER_PARAM.PHONE_NUMBER.isRequired"
+                                    [attr.aria-required]="REGISTER_PARAM.PHONE_NUMBER.isRequired"
+                                    snapHasBeenTaken="phoneNumberHasBeenTaken"
+                                    [validateFunction]="checkIfPhoneNumberHasBeenTaken" snapBusyIndicator>
+                                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: signUpFormGroup
+                                        ?.get(REGISTER_PARAM.PHONE_NUMBER.formControlName),
+                                        errors: REGISTER_PARAM.PHONE_NUMBER.errors
+                                    }"></ng-container>
+                            </div>
+
+                            <div class="col-md-12 mb-4">
+                                <label [for]="REGISTER_PARAM.USERNAME
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.USERNAME.formControlName)"
+                                    [class.text-danger]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.USERNAME.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.USERNAME.formControlName)?.touched || submitted)">
+                                    {{ REGISTER_PARAM.USERNAME.label }}
+                                </label>
+                                <input [id]="REGISTER_PARAM.USERNAME
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.USERNAME.formControlName)"
+                                    [formControlName]="REGISTER_PARAM.USERNAME.formControlName" type="text"
+                                    [class.is-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.USERNAME.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.USERNAME.formControlName)?.touched || submitted)"
+                                    [placeholder]="REGISTER_PARAM.USERNAME.placeholder" [attr.aria-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.USERNAME.formControlName)?.invalid"
+                                    [attr.aria-required]="REGISTER_PARAM.USERNAME.isRequired"
+                                    [attr.aria-required]="REGISTER_PARAM.USERNAME.isRequired"
+                                    snapHasBeenTaken="usernameHasBeenTaken"
+                                    [validateFunction]="checkIfUsernameHasBeenTaken" snapBusyIndicator>
+                                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: signUpFormGroup
+                                        ?.get(REGISTER_PARAM.USERNAME.formControlName),
+                                        errors: REGISTER_PARAM.USERNAME.errors
+                                    }"></ng-container>
+                            </div>
+
+                            <div class="col-md-12 mb-4">
+                                <label [for]="REGISTER_PARAM.PASSWORD
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.PASSWORD.formControlName)"
+                                    [class.text-danger]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PASSWORD.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PASSWORD.formControlName)?.touched || submitted)">
+                                    {{ REGISTER_PARAM.PASSWORD.label }}
+                                </label>
+                                <input type="password" #passwordEl [id]="REGISTER_PARAM.PASSWORD
+                                .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.PASSWORD.formControlName)"
+                                    [formControlName]="REGISTER_PARAM.PASSWORD.formControlName" type="text"
+                                    [class.is-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PASSWORD.formControlName)?.invalid && (signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PASSWORD.formControlName)?.touched || submitted)"
+                                    [placeholder]="REGISTER_PARAM.PASSWORD.placeholder" [attr.aria-invalid]="signUpFormGroup
+                                    ?.get(REGISTER_PARAM.PASSWORD.formControlName)?.invalid"
+                                    [attr.aria-required]="REGISTER_PARAM.PASSWORD.isRequired">
+                                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: signUpFormGroup
+                                        ?.get(REGISTER_PARAM.PASSWORD.formControlName),
+                                        errors: REGISTER_PARAM.PASSWORD.errors
+                                    }"></ng-container>
+                            </div>
+                        </div>
+
+                        <div [ngClass]="['checkbox', 'custom-checkbox']"
+                            title="Click here to {{togglePasswordVisibilityEl.checked ? 'hide the entered ' : 'see the entered ' }} password">
+                            <label for="togglePasswordVisibility">
+                                <input (change)="togglePasswordVisibilityEl.checked ?
+                                    passwordEl.type='text': passwordEl.type='password';" type="checkbox"
+                                    id="togglePasswordVisibility" #togglePasswordVisibilityEl aria-required="false"
+                                    checked>
+                                Show password
+                            </label>
+                        </div>
+
+                        <div class="pms-field pms-field-subscriptions">
+                            <div class="pms-subscription-plan">
+                                <p class="ZGwn1">By registering, you agree to our <a [routerLink]="null">Terms</a> ,
+                                    <a [routerLink]="null">Data
+                                        Policy</a> and <a [routerLink]="null">Cookies
+                                        Policy</a> .
+                                </p>
+                            </div>
+
+                            <div class="pms-subscription-plan">
+                                <p class="ZGwn1">
+                                    Have an account?<a routerLink="../log-in" [queryParamsHandling]="'preserve'"> Log
+                                        in</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="gen-btn-container">
+                            <snap-ajax-button [execute]="onSubmit" [parameter]="signUpFormGroup">
+                                <ng-container data-animator>
+                                    <span class="gen-button-line-left"></span>
+                                    <span class="gen-button-text">
+                                        <span id="pms-submit-button-loading-placeholder-text" class="d-block">Processing
+                                            request...</span>
+                                    </span>
+                                </ng-container>
+                                <ng-container data-content>
+                                    <span class="gen-button-line-left"></span>
+                                    <span class="gen-button-text">Register</span>
+                                </ng-container>
+                            </snap-ajax-button>
+                        </div>
                     </form>
                 </div>
             </div>
