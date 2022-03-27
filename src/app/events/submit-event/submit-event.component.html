@@ -71,29 +71,29 @@
                             <ul class="pms-form-fields-wrapper pl-0 mb-4">
                                 <li class="pms-field mb-5">
                                     <label
-                                        [for]="SUBMIT_EVENT_PARAM.USERNAME
-                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.USERNAME.formControlName)"
+                                        [for]="SUBMIT_EVENT_PARAM.PUBLIC_NAME
+                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)"
                                         [class.text-danger]="submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.USERNAME.formControlName)?.invalid && (submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.USERNAME.formControlName)?.touched || submitted)">
-                                        {{ SUBMIT_EVENT_PARAM.USERNAME.label }}
+                                        ?.get(SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)?.invalid && (submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)?.touched || submitted)">
+                                        {{ SUBMIT_EVENT_PARAM.PUBLIC_NAME.label }}
                                     </label>
                                     <input
-                                        [id]="SUBMIT_EVENT_PARAM.USERNAME
-                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.USERNAME.formControlName)"
-                                        [formControlName]="SUBMIT_EVENT_PARAM.USERNAME.formControlName" type="text"
+                                        [id]="SUBMIT_EVENT_PARAM.PUBLIC_NAME
+                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)"
+                                        [formControlName]="SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName" type="text"
                                         [class.is-invalid]="submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.USERNAME.formControlName)?.invalid && (submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.USERNAME.formControlName)?.touched || submitted)"
-                                        [placeholder]="SUBMIT_EVENT_PARAM.USERNAME.placeholder" [attr.aria-invalid]="submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.USERNAME.formControlName)?.invalid"
-                                        [attr.aria-required]="SUBMIT_EVENT_PARAM.USERNAME.isRequired"
-                                        [attr.aria-required]="SUBMIT_EVENT_PARAM.USERNAME.isRequired">
+                                        ?.get(SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)?.invalid && (submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)?.touched || submitted)"
+                                        [placeholder]="SUBMIT_EVENT_PARAM.PUBLIC_NAME.placeholder" [attr.aria-invalid]="submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)?.invalid"
+                                        [attr.aria-required]="SUBMIT_EVENT_PARAM.PUBLIC_NAME.isRequired"
+                                        [attr.aria-required]="SUBMIT_EVENT_PARAM.PUBLIC_NAME.isRequired">
                                     <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
                                         [ngTemplateOutletContext]="{
                                             formGroup: submitEventFormGroup
-                                            ?.get(SUBMIT_EVENT_PARAM.USERNAME.formControlName),
-                                            errors: SUBMIT_EVENT_PARAM.USERNAME.errors
+                                            ?.get(SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName),
+                                            errors: SUBMIT_EVENT_PARAM.PUBLIC_NAME.errors
                                         }"></ng-container>
                                 </li>
                                 <li class="pms-field mb-5">
@@ -151,6 +151,34 @@
                                 </li>
                                 <li class="pms-field mb-5">
                                     <label
+                                        [for]="SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME
+                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)"
+                                        [class.text-danger]="submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)?.invalid && (submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)?.touched || submitted)">
+                                        {{ SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.label }}
+                                    </label>
+                                    <input
+                                        [id]="SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME
+                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)"
+                                        [formControlName]="SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName"
+                                        type="text"
+                                        [class.is-invalid]="submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)?.invalid && (submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)?.touched || submitted)"
+                                        [placeholder]="SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.placeholder"
+                                        [attr.aria-invalid]="submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)?.invalid"
+                                        [attr.aria-required]="SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.isRequired">
+                                    <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                        [ngTemplateOutletContext]="{
+                                            formGroup: submitEventFormGroup
+                                            ?.get(SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName),
+                                            errors: SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.errors
+                                        }"></ng-container>
+                                </li>
+                                <li class="pms-field mb-5">
+                                    <label
                                         [for]="SUBMIT_EVENT_PARAM.NAME_OF_EVENT
                                     .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.NAME_OF_EVENT.formControlName)"
                                         [class.text-danger]="submitEventFormGroup
@@ -174,68 +202,6 @@
                                             formGroup: submitEventFormGroup
                                             ?.get(SUBMIT_EVENT_PARAM.NAME_OF_EVENT.formControlName),
                                             errors: SUBMIT_EVENT_PARAM.NAME_OF_EVENT.errors
-                                        }"></ng-container>
-                                </li>
-                                <li class="pms-field mb-5">
-                                    <label
-                                        [class.text-danger]="submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)
-                                ?.invalid && (submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)?.touched || submitted )"
-                                        [for]="SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.slug(
-                                    SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP,
-                                    SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName
-                                )">
-                                        {{ SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.label }}
-
-                                    </label>
-                                    <select [formControlName]="SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName"
-                                        [class.is-invalid]="submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)
-                                ?.invalid && (submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)?.touched || submitted )"
-                                        [style.border-color]="(submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)?.invalid && (submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)
-                                ?.touched || submitted )) ? '#dc3545': null" [id]="SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.slug(
-                                    SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP,
-                                    SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName
-                                )" aria-required="true" [attr.aria-invalid]="submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)
-                                ?.invalid">
-                                        <option [disabled]="true"
-                                            [value]="SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.defaultValue">
-                                            Select type</option>
-                                        <option *ngFor="let moment of typeOfTicket; trackBy: trackByForTypeOfTicket"
-                                            [value]="moment?.get('id')">{{
-                                            moment?.get('title') | titlecase}}
-                                        </option>
-                                    </select>
-
-                                    <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
-                                        [ngTemplateOutletContext]="{
-                                        formGroup: submitEventFormGroup?.get(SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)
-                                    }">
-                                    </ng-container>
-                                </li>
-
-                                <li class="pms-field mb-5">
-                                    <label
-                                        [for]="SUBMIT_EVENT_PARAM.COST
-                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.COST.formControlName)"
-                                        [class.text-danger]="submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.COST.formControlName)?.invalid && (submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.COST.formControlName)?.touched || submitted)">
-                                        {{ SUBMIT_EVENT_PARAM.COST.label }}
-                                    </label>
-                                    <input
-                                        [id]="SUBMIT_EVENT_PARAM.COST
-                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.COST.formControlName)"
-                                        [formControlName]="SUBMIT_EVENT_PARAM.COST.formControlName" type="text"
-                                        [class.is-invalid]="submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.COST.formControlName)?.invalid && (submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.COST.formControlName)?.touched || submitted)"
-                                        [placeholder]="SUBMIT_EVENT_PARAM.COST.placeholder" [attr.aria-invalid]="submitEventFormGroup
-                                        ?.get(SUBMIT_EVENT_PARAM.COST.formControlName)?.invalid"
-                                        [attr.aria-required]="SUBMIT_EVENT_PARAM.COST.isRequired">
-                                    <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
-                                        [ngTemplateOutletContext]="{
-                                            formGroup: submitEventFormGroup
-                                            ?.get(SUBMIT_EVENT_PARAM.COST.formControlName),
-                                            errors: SUBMIT_EVENT_PARAM.COST.errors
                                         }"></ng-container>
                                 </li>
 
@@ -274,10 +240,10 @@
                                 <div class="col-md-6 mb-4">
                                     <snap-ajax-button [execute]="onSubmit" [parameter]="submitEventFormGroup">
                                         <ng-container data-animator>
-                                            <span class="gen-button-line-left"></span>
+                                            <span class="loadmore-icon d-inline-block"><i
+                                                    class="fa fa-spinner fa-spin"></i></span>
                                             <span class="gen-button-text">
-                                                <span id="pms-submit-button-loading-placeholder-text"
-                                                    class="d-block">Processing
+                                                <span id="pms-submit-button-loading-placeholder-text">Processing
                                                     request...</span>
                                             </span>
                                         </ng-container>
@@ -288,7 +254,7 @@
                                     </snap-ajax-button>
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <a [routerLink]="null" class="gen-button">
+                                    <a routerLink="" class="gen-button">
                                         <div class="gen-button-block">
                                             Cancel
                                         </div>

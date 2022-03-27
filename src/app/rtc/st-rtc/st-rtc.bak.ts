@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { blobToFile, convertItemToNumeric, convertItemToString, isANumber, isObjectEmpty, stringIsEmpty } from '@sharedModule/utilities';
+import { blobToFile, convertItemToNumeric, convertItemToString, ExpectedType, isANumber, isObjectEmpty, stringIsEmpty, whichValueShouldIUse } from '@sharedModule/utilities';
 import { liveQuery } from 'dexie';
 import * as Immutable from 'immutable';
 import { defer, EMPTY, from, Observable, Subscription, timer } from 'rxjs';
@@ -9,20 +9,8 @@ import { db, TodoList } from '../db/db';
 import { LiveStream } from '../db/livestream.db';
 import { UploadVideoService } from '../upload-video.service';
 
-@Component({
-  selector: 'snap-st-rtc',
-  templateUrl: './st-rtc.component.html',
-  styles: [
-    `video {
-      background: #222;
-      margin: 0 0 20px 0;
-      --width: 100%;
-      width: var(--width);
-      height: calc(var(--width) * 0.75);
-    }`
-  ]
-})
-export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
+
+export class StRtc2Component implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('recordedVideo') recordVideoElementRef: ElementRef | undefined;
 
   @ViewChild('video') videoElementRef: ElementRef | undefined;
@@ -39,6 +27,10 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   mediaRecorder: MediaRecorder | undefined;
 
+  private _routeParams = Immutable.Map({});
+
+  private _routeParamsSubscription: Subscription | undefined;
+
   recordedBlobs: Array<LiveStream> = [];
   isRecording: boolean = false
   downloadUrl = '';
@@ -48,37 +40,68 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   saveChunkStreamSubscription: Subscription | undefined;
 
+  private _getFirstItemIdFromIndexedDbSubscription: Subscription | undefined;
+
   private _allLiveStreamChunkItemsFromIndexedDbSubscription: Subscription | undefined;
 
   private _countLiveStreamChunkItemsFromIndexedDbSubscription: Subscription | undefined;
 
   private _addToIndexedDbSubscription: Subscription | undefined;
 
-  NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT = 2;
+  private isCurrentlySubmitting = false;
+
+  todoLists$ = liveQuery(() =>
+    defer(() => from(db.todoLists.toArray())));
+
+  todoLists = [];
+
+  listName = 'My new list';
+
+  readonly NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT = 2;
 
   queryDetails = Immutable.Map({});
 
-  readonly DECREMENT_BY = this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
+  // currentDeterminingKey = this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
+
+  readonly INCREMENT_BY = (this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT - 1);
+
+  async addNewList() {
+    await db.todoLists.add({
+      title: this.listName,
+    });
+  }
+
+  async resetDatabase() {
+    await db.resetDatabase();
+  }
+
+  async listAllLists() {
+    await db.todoLists.toArray().then(details => console.log({ details }));
+  }
+
+  async populateAll() {
+    await db.populate()
+  }
+
+  identifyList(index: number, list: TodoList) {
+    return `${list.id}${list.title}`;
+  }
 
   private _getQueryResultsSubscription: Subscription | undefined;
 
+  private _sendDataPeriodicallySubscription: Subscription | undefined;
+
   private _getProcessedFileSubscription: Subscription | undefined;
+
+  private _hasStartedSubmitting = false;
 
   private _fileDetails = Immutable.Map({
     fileName: ''
   });
 
-  isCurrentUploading = false;
-
   cameraHasStarted = false;
 
-  private _routeParams = Immutable.Map({});
-
-  private _routeParamsSubscription: Subscription | undefined;
-
-  private _getFirstItemIdFromIndexedDbSubscription: Subscription | undefined;
-
-  private _retrieveFirstUploadLivestreamRepsonseSubscription: Subscription | undefined;
+  private _shouldStartSendingChunks = false;
 
   constructor(
     private _uploadVideoService: UploadVideoService,
@@ -101,25 +124,23 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this._extractRouteParams();
 
+    this.setupGetFirstItemIdFromIndexedDb();
+
     this._setupAllLiveStreamChunkItemsFromIndexedDb();
 
     this._setupGetQueryResultsSubscription();
 
     this._setupGetProcessedFileSubscription();
 
-    this.setupGetFirstItemIdFromIndexedDb();
-
-    this._setupRetrieveFirstUploadLivestreamRepsonseSubscription();
+    // this.getFirstItemIdFromIndexedDb();
   }
 
   ngAfterViewInit() {
-    this._setSupportedMimeTypes();
-
-    this._retrieveFirstUploadLivestreamRepsonse();
-
     this.videoElement = this.videoElementRef?.nativeElement;
 
     this.recordVideoElement = this.recordVideoElementRef?.nativeElement;
+
+    this._setSupportedMimeTypes();
   }
 
   ngOnDestroy() {
@@ -143,26 +164,47 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._unsubscribeGetQueryResultsSubscription();
 
+    this._unsubscribeSendDataPeriodicallySubscription();
+
     this._unsubscribeGetProcessedFileSubscription();
 
     this._unsubscribeGetFirstItemIdFromIndexedDbSubscription();
-
-    this._unsubscribeRetrieveFirstUploadLivestreamRepsonseSubscription();
   }
 
-  private _unsubscribeRetrieveFirstUploadLivestreamRepsonseSubscription() {
-    if (this._retrieveFirstUploadLivestreamRepsonseSubscription instanceof Subscription) {
-      this._retrieveFirstUploadLivestreamRepsonseSubscription.unsubscribe();
+  private _unsubscribeGetFirstItemIdFromIndexedDbSubscription() {
+    if (this._getFirstItemIdFromIndexedDbSubscription instanceof Subscription) {
+      this._getFirstItemIdFromIndexedDbSubscription.unsubscribe();
     }
   }
 
-  private _getFirstItemIdFromIndexedDb() {
+  setupGetFirstItemIdFromIndexedDb() {
+    this._getFirstItemIdFromIndexedDbSubscription = this._uploadVideoService
+      .getFirstItemIdFromIndexedDb$().subscribe(details => {
+        console.table(details);
+        if (isANumber(details)) {
+
+          const currentDeterminingKey = this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
+
+          const startFromID = currentDeterminingKey + convertItemToNumeric(
+            details);
+
+          this.queryDetails = this.queryDetails.set(
+            'startFromID', startFromID);
+
+          console.log("this.queryDetails ")
+          console.log(this.queryDetails);
+        }
+      })
+  }
+
+  getFirstItemIdFromIndexedDb() {
     this._uploadVideoService.queryFirstItemFromIndexedDb();
   }
 
   private _setupAllLiveStreamChunkItemsFromIndexedDb() {
     this._allLiveStreamChunkItemsFromIndexedDbSubscription = this._uploadVideoService.getAllLiveStreams$()
       .subscribe(details => {
+        console.log({ details });
         if (Array.isArray(details) && details.length > 0) {
           this.recordedBlobs = [...details];
 
@@ -176,18 +218,13 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
           const superBuffer = new Blob(FORMATTED_RECORDED_BLOBS, { type: MIME_TYPE });
 
           this.downloadUrl = window.URL.createObjectURL(superBuffer); // you can download with <a> tag
+          console.log("this.downloadUrl");
+          console.log(this.downloadUrl);
 
           (this.recordVideoElement as HTMLVideoElement).src = this.downloadUrl;
         }
       });
   }
-
-  private _unsubscribeGetFirstItemIdFromIndexedDbSubscription() {
-    if (this._getFirstItemIdFromIndexedDbSubscription instanceof Subscription) {
-      this._getFirstItemIdFromIndexedDbSubscription.unsubscribe();
-    }
-  }
-
 
   private _unsubscribeRouteParamsSubscription() {
     if (this._routeParamsSubscription instanceof Subscription) {
@@ -198,6 +235,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
   private _extractRouteParams() {
     this._routeParamsSubscription = this._activatedRoute?.parent?.params
       .subscribe(params => {
+        console.log({ params })
         const MOMENT_ID = convertItemToNumeric(
           params['momentID']);
 
@@ -264,8 +302,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('getUserMedia() got stream:', stream);
 
     if (this.videoElementRef instanceof ElementRef) {
-      this.videoElement = this.videoElementRef?.nativeElement;
-
+      this.videoElement = this.videoElementRef?.nativeElement
       this.recordVideoElement = this.recordVideoElementRef?.nativeElement;
 
       if (stream instanceof MediaStream) {
@@ -309,57 +346,27 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private async _retrieveFirstUploadLivestreamRepsonse() {
-    this._uploadVideoService
-      .retrieveFirstUploadLivestreamRepsonse();
+
+  private _unsubscribeSendDataPeriodicallySubscription() {
+    if (this._sendDataPeriodicallySubscription instanceof Subscription) {
+      this._sendDataPeriodicallySubscription.unsubscribe();
+    }
   }
-
-  private _setupRetrieveFirstUploadLivestreamRepsonseSubscription() {
-    this._retrieveFirstUploadLivestreamRepsonseSubscription = this._uploadVideoService
-      .getFirstUploadLivestreamRepsonse$()
-      .subscribe(details => {
-        console.log("_setupRetrieveFirstUploadLivestreamRepsonseSubscription_setupRetrieveFirstUploadLivestreamRepsonseSubscription")
-        console.log({ details })
-        const PREVIOUS_FILE_NAME = convertItemToString(
-          this._fileDetails.get('fileName'));
-
-        if (!stringIsEmpty(PREVIOUS_FILE_NAME)) {
-          console.warn(`Aborted...resetting of value of "fileName" on "_fileDetails" since value has already been set.`)
-
-          return;
-        }
-
-        if (!stringIsEmpty(details)) {
-          console.log("_setupRetrieveFirstUploadLivestreamRepsonseSubscription this._fileDetailsthis._fileDetailsthis._fileDetails")
-          this._fileDetails = this._fileDetails.set('fileName',
-            details as string);
-        }
-      })
-  }
-
 
   private _setupGetProcessedFileSubscription() {
     this._getProcessedFileSubscription = this._uploadVideoService.getProcessedFile$()
       .pipe(
-        // take(1),
-        // BUG: Keeps resending the same request.
         switchMap(details => {
+          console.log("_setupGetProcessedFileSubscription")
+          console.log({ details });
 
           if (details instanceof File) {
             const FORM_DATA = new FormData();
 
             FORM_DATA.append('chunk', details);
 
-            console.log("this.fileDetails");
-            console.log(this._fileDetails);
-
-
-
             const FILE_NAME = convertItemToString(
               this._fileDetails.get('fileName'));
-
-            console.log({ FILE_NAME });
-
             if (!stringIsEmpty(FILE_NAME)) {
               FORM_DATA.append('fileName', FILE_NAME)
             }
@@ -370,189 +377,151 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
               throw Error('Unable to proceed! Value for "moment id" is not valid.');
             }
 
-            let sendLiveStreamFile$!: Observable<any>;
+            return this._uploadVideoService
+              .sendLiveStreamFile$(
+                convertItemToString(MOMENT_ID), FORM_DATA).pipe(
+                  tap(fileReminderDetails => {
+                    if (!isObjectEmpty(fileReminderDetails)) {
+                      this._fileDetails = this._fileDetails.set('fileName',
+                        fileReminderDetails?.fileName);
+                    }
+                    this.isCurrentlySubmitting = false;
 
-            if (stringIsEmpty(FILE_NAME)) {
-              sendLiveStreamFile$ = this._uploadVideoService
-                .sendLiveStreamFile$(
-                  convertItemToString(MOMENT_ID),
-                  FORM_DATA, 'POST');
-            } else {
-              sendLiveStreamFile$ = this._uploadVideoService
-                .sendLiveStreamFile$(
-                  convertItemToString(MOMENT_ID),
-                  FORM_DATA, 'PUT');
-            }
+                    let currentDeterminingKey = convertItemToNumeric(
+                      this.queryDetails.get('startFrom'));
 
-            return sendLiveStreamFile$.pipe(
-              tap(fileReminderDetails => {
-                if (!isObjectEmpty(fileReminderDetails) && !stringIsEmpty(fileReminderDetails?.fileName)) {
-                  console.log("Setting this._fileDetails");
-                  this._fileDetails = this._fileDetails.set('fileName',
-                    fileReminderDetails?.fileName);
+                    currentDeterminingKey += this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
 
-                  console.table(fileReminderDetails)
+                    this.queryDetails = this.queryDetails.set('startFrom',
+                      currentDeterminingKey
+                    );
 
-                  console.log(this._fileDetails)
-                }
+                    console.log("Starting sendDataPeriodically")
+                    this.sendDataPeriodically();
+                  }),
+                  catchError(err => {
+                    this.isCurrentlySubmitting = false;
 
-                const startFrom = this.queryDetails.get('startFrom') as number;
-                const bumpedStartFrom = startFrom + this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
+                    console.log("Starting sendDataPeriodically (err)")
+                    this.sendDataPeriodically();
 
-                this.queryDetails = this.queryDetails.set('startFrom',
-                  bumpedStartFrom);
+                    return EMPTY;
+                  })
+                );
+          }
 
-                this.isCurrentUploading = false;
-              }),
-              catchError(err => {
-                this.isCurrentUploading = false;
-
-                if (err.status === 404) {
-                  this._uploadVideoService
-                    .resetUploadLivestreamResponseDb();
-
-                  const STORED_FILE_NAME = this._fileDetails.get('fileName');
-
-                  if (!stringIsEmpty(STORED_FILE_NAME)) {
-                    this._fileDetails = this._fileDetails.set(
-                      'fileName', '');
-                  }
-                }
-
-                return EMPTY;
-              })
-            );
+          if (this._hasStartedSubmitting) {
+            this.sendDataPeriodically();
           }
 
           return EMPTY;
         })
       )
       .subscribe(details => {
+        console.log("Setup and sending");
         console.log({ details });
+        console.log("Setup and sending");
       })
   }
 
 
   mergeBlobsToAFile(livestreams: Array<LiveStream>) {
-    if (!this.isCurrentUploading) {
-      console.warn(`Prevented any attempt to merge "livestreams" since "uploadChunks" command has not been issued.`);
-
-      return;
-    }
+    // For debugging purposes only to simulate lower data value
+    // if (!this._hasStoppedRecording) {
+    //   this._hasStoppedRecording = true;
+    // }
 
     if (Array.isArray(livestreams) && livestreams.length) {
       if (livestreams.length === this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT) {
         const MIME_TYPE = this._getSelectedMimeType();
 
+        console.log("Data processing has been commissioned.")
         this._uploadVideoService.mergeBlobsToAFile(livestreams, MIME_TYPE);
 
+        console.log("Removing _unsubscribeSendDataPeriodicallySubscription")
+        this._unsubscribeSendDataPeriodicallySubscription();
       } else if (
         (livestreams.length < this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT) && (
-          !this.isRecording)) {
+          this._shouldStartSendingChunks && !this.isRecording)) {
         const MIME_TYPE = this._getSelectedMimeType();
 
+        console.log("Value is smaller than expected");
+        console.log("Data processing has been commissioned. () ");
         this._uploadVideoService.mergeBlobsToAFile(livestreams, MIME_TYPE);
 
-      } else {
-        this.isCurrentUploading = false;
+        console.log("Removing _unsubscribeSendDataPeriodicallySubscription")
+        this._unsubscribeSendDataPeriodicallySubscription();
       }
     }
-    else {
-      console.warn(`Unable to merge blobs.`);
-      console.warn(`Not livestreams have been provided.`);
-      console.warn(`This may occur if 'ID' of the first livestream is ahead of the query ID.`);
-      console.warn(`Or, if there aren't any stored livestreams`);
-
-
-      if (this.isCurrentUploading) {
-        console.warn(`Will know bump the query ID.`);
-
-        const startFrom = this.queryDetails.get('startFrom') as number;
-        const bumpedStartFrom = startFrom + this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
-
-        this.queryDetails = this.queryDetails.set('startFrom',
-          bumpedStartFrom);
-      }
-
-      this.isCurrentUploading = false;
-    }
 
   }
 
-  setupGetFirstItemIdFromIndexedDb() {
-    this._getFirstItemIdFromIndexedDbSubscription = this._uploadVideoService
-      .getFirstItemIdFromIndexedDb$().subscribe(details => {
-        if (!this.isCurrentUploading) {
-          console.warn(`Preventing setting of the starting point since "uploadChunk" command has not been issued.`);
-          return;
-        }
-
-        this.isCurrentUploading = false;
-
-        const startFrom = this.queryDetails.get('startFrom');
-        if (isANumber(startFrom)) {
-          console.warn(`Can't reset the "startFrom" value since it has already been set.`)
-          return;
-        }
-
-        console.log({ details });
-
-        if (isANumber(details)) {
-
-          const currentDeterminingKey = this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
-
-          const startFrom = currentDeterminingKey + convertItemToNumeric(
-            details);
-
-          this.queryDetails = this.queryDetails.set(
-            'startFrom', startFrom);
-
-          console.log("this.queryDetails ")
-          console.log(this.queryDetails);
-
-          this.uploadChunkStream();
-        } else {
-          console.warn(`Unable to trigger command "uploadChunkStream" since the starting point has not been determined.`);
-
-          return;
-        }
-      })
-  }
-
-  uploadChunkStream() {
-    if (this.isCurrentUploading) {
-      console.warn('Action not permitted!');
-      console.warn(`Will ignore command because there's a current submission underway`)
-      return;
-    }
-
-    this.isCurrentUploading = true;
-
-    const startFrom = this.queryDetails.get('startFrom');
-    console.log({ startFrom });
-
-    if (isANumber(startFrom)) {
-      this._queryFromIndexedDb();
-    } else {
-      console.warn(`Issuing command "_getFirstItemIdFromIndexedDb" since 'startFrom' is unknown.`);
-
-      this._getFirstItemIdFromIndexedDb();
-    }
-  }
 
   private _setupGetQueryResultsSubscription() {
     this._getQueryResultsSubscription = this._uploadVideoService.getQueryResults$()
-      .subscribe((details: LiveStream[]) => {
-        this.mergeBlobsToAFile(details);
+      .subscribe(details => {
+        console.log("Query Results")
+        console.log({ details });
+        console.log("Query Results");
+
+        if (Array.isArray(details) && details.length) {
+          this.mergeBlobsToAFile(details);
+        }
+        else {
+          // Set `isCurrentlySubmitting` to `false` for a quixk fix to enable
+          // `sendDataPeriodically` to try to submit data. 
+          this.isCurrentlySubmitting = false;
+
+          // Increment `startFromID` accordingly inorder to check if the next IDs
+          // have a value.
+          console.warn(`Increment "startFromID" accordingly inorder to check if the next IDs
+          // have a value.`);
+
+          const startFrom = whichValueShouldIUse(
+            this.queryDetails.get('startFrom'), 0, ExpectedType.NUMBER);
+
+          const startFromID = this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT + startFrom;
+
+          this.queryDetails = this.queryDetails.set(
+            'startFromID', startFromID);
+        }
       });
   }
 
- private _queryFromIndexedDb() {
-    const startFrom = this.queryDetails.get('startFrom') as number;
+  queryFromIndexedDb(ticker?: number) {
+    console.log("queryFromIndexedDb(ticker?: number) {")
+    console.log("this.queryDetails.get('startFrom')")
+    console.log(this.queryDetails.get('startFrom'))
+    this.isCurrentlySubmitting = true;
 
-    this._uploadVideoService
-      .queryFromIndexedDb(startFrom,
-        this.DECREMENT_BY);
+    const startFrom = whichValueShouldIUse(
+      this.queryDetails.get('startFrom'), 0, ExpectedType.NUMBER);
+
+
+    console.log("queryFromIndexedDb(ticker?: number)")
+    console.table(startFrom);
+    console.log("queryFromIndexedDb(ticker?: number)")
+
+    if (isANumber(startFrom) && startFrom) {
+      console.log("Showing details for ticker ", ticker);
+      console.log("We startFrom value is", startFrom);
+      this._uploadVideoService
+        .queryFromIndexedDb(startFrom, this.INCREMENT_BY);
+    } else {
+      console.warn("Falling back to starting from the first item (id=1) since the ID of the first item in the index DB has not been determined.")
+
+      // // Set `isCurrentlySubmitting` to `false` for a quixk fix to enable
+      // // `sendDataPeriodically` to try to submit data. 
+      // this.isCurrentlySubmitting = false;
+
+      const currentDeterminingKey = startFrom + this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
+
+      this.queryDetails = this.queryDetails.set('startFrom',
+        currentDeterminingKey);
+
+      this._uploadVideoService
+        .queryFromIndexedDb(currentDeterminingKey, this.INCREMENT_BY);
+    }
   }
 
   private _unsubscribeGetQueryResultsSubscription() {
@@ -564,6 +533,51 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
   displayAllStoredChunks() {
     this._uploadVideoService
       .listLivestreams();
+  }
+
+  sendChunkStream(loopIndex: number) {
+    const chunkToSave = this.recordedBlobs[loopIndex];
+
+    const chunkFile = blobToFile(chunkToSave.blob,)
+
+    const formData = new FormData();
+
+    formData.append('chunk', chunkFile);
+
+    this.saveChunkStreamSubscription = this._uploadVideoService
+      .sendChunkStream(formData).subscribe(details => {
+        console.log({ details })
+      }, err => console.error(err));
+  }
+
+  sendDataPeriodically() {
+
+    // DEBUGGING ONLY
+    if (!this._shouldStartSendingChunks) {
+      this._shouldStartSendingChunks = true;
+    }
+
+    if (!this._hasStartedSubmitting) {
+      this._hasStartedSubmitting = true;
+    }
+
+    let timer$ = timer(5000, 5000);
+
+    this._sendDataPeriodicallySubscription = timer$.subscribe(ticker => {
+      // this.ticks = t
+      console.log("***************************************************")
+      console.log("foo", ticker);
+      if (!this.isCurrentlySubmitting) {
+        this.queryFromIndexedDb(ticker);
+      } else {
+        console.log("Will skip because there's a current submission underway")
+      }
+      console.log("***************************************************")
+    });
+
+    // timer(5000, 1000) 
+    //   .subscribe(i => console.log("foo");
+    // //prints foo after 5 seconds
   }
 
   startRecording() {
@@ -590,11 +604,21 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.isRecording = true;
 
+      this._shouldStartSendingChunks = true;
+
+      // this.sendDataPeriodically();
+
       this.onDataAvailableEvent();
       this.onStopRecordingEvent();
 
       console.log('Created MediaRecorder', this.mediaRecorder, 'with options', options);
     }
+  }
+
+  private _restartSendDataPeriodically() {
+    this._unsubscribeSendDataPeriodicallySubscription();
+
+    this.sendDataPeriodically();
   }
 
   stopRecording() {
@@ -617,11 +641,14 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('Data', event.data);
 
         if (event.data && event.data.size > 0) {
+          // this.recordedBlobs.push(event.data);
+          // console.log("new this.recordedBlobs")
+          // console.log(this.recordedBlobs);
           this._addToIndexedDb(event.data);
         }
       }
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
   }
 
@@ -629,7 +656,6 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     this._uploadVideoService
       .addToIndexedDb(blob);
   }
-
 
   onStopRecordingEvent() {
     try {
@@ -642,4 +668,6 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(error)
     }
   }
+
+
 }

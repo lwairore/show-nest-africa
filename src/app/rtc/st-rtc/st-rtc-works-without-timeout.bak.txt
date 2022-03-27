@@ -78,8 +78,6 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _getFirstItemIdFromIndexedDbSubscription: Subscription | undefined;
 
-  private _retrieveFirstUploadLivestreamRepsonseSubscription: Subscription | undefined;
-
   constructor(
     private _uploadVideoService: UploadVideoService,
     private _renderer2: Renderer2,
@@ -109,17 +107,9 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.setupGetFirstItemIdFromIndexedDb();
 
-    this._setupRetrieveFirstUploadLivestreamRepsonseSubscription();
   }
-
   ngAfterViewInit() {
     this._setSupportedMimeTypes();
-
-    this._retrieveFirstUploadLivestreamRepsonse();
-
-    this.videoElement = this.videoElementRef?.nativeElement;
-
-    this.recordVideoElement = this.recordVideoElementRef?.nativeElement;
   }
 
   ngOnDestroy() {
@@ -146,14 +136,6 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     this._unsubscribeGetProcessedFileSubscription();
 
     this._unsubscribeGetFirstItemIdFromIndexedDbSubscription();
-
-    this._unsubscribeRetrieveFirstUploadLivestreamRepsonseSubscription();
-  }
-
-  private _unsubscribeRetrieveFirstUploadLivestreamRepsonseSubscription() {
-    if (this._retrieveFirstUploadLivestreamRepsonseSubscription instanceof Subscription) {
-      this._retrieveFirstUploadLivestreamRepsonseSubscription.unsubscribe();
-    }
   }
 
   private _getFirstItemIdFromIndexedDb() {
@@ -264,8 +246,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('getUserMedia() got stream:', stream);
 
     if (this.videoElementRef instanceof ElementRef) {
-      this.videoElement = this.videoElementRef?.nativeElement;
-
+      this.videoElement = this.videoElementRef?.nativeElement
       this.recordVideoElement = this.recordVideoElementRef?.nativeElement;
 
       if (stream instanceof MediaStream) {
@@ -307,34 +288,6 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this._getProcessedFileSubscription instanceof Subscription) {
       this._getProcessedFileSubscription.unsubscribe();
     }
-  }
-
-  private async _retrieveFirstUploadLivestreamRepsonse() {
-    this._uploadVideoService
-      .retrieveFirstUploadLivestreamRepsonse();
-  }
-
-  private _setupRetrieveFirstUploadLivestreamRepsonseSubscription() {
-    this._retrieveFirstUploadLivestreamRepsonseSubscription = this._uploadVideoService
-      .getFirstUploadLivestreamRepsonse$()
-      .subscribe(details => {
-        console.log("_setupRetrieveFirstUploadLivestreamRepsonseSubscription_setupRetrieveFirstUploadLivestreamRepsonseSubscription")
-        console.log({ details })
-        const PREVIOUS_FILE_NAME = convertItemToString(
-          this._fileDetails.get('fileName'));
-
-        if (!stringIsEmpty(PREVIOUS_FILE_NAME)) {
-          console.warn(`Aborted...resetting of value of "fileName" on "_fileDetails" since value has already been set.`)
-
-          return;
-        }
-
-        if (!stringIsEmpty(details)) {
-          console.log("_setupRetrieveFirstUploadLivestreamRepsonseSubscription this._fileDetailsthis._fileDetailsthis._fileDetails")
-          this._fileDetails = this._fileDetails.set('fileName',
-            details as string);
-        }
-      })
   }
 
 
@@ -406,19 +359,6 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
               }),
               catchError(err => {
                 this.isCurrentUploading = false;
-
-                if (err.status === 404) {
-                  this._uploadVideoService
-                    .resetUploadLivestreamResponseDb();
-
-                  const STORED_FILE_NAME = this._fileDetails.get('fileName');
-
-                  if (!stringIsEmpty(STORED_FILE_NAME)) {
-                    this._fileDetails = this._fileDetails.set(
-                      'fileName', '');
-                  }
-                }
-
                 return EMPTY;
               })
             );
@@ -532,7 +472,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log({ startFrom });
 
     if (isANumber(startFrom)) {
-      this._queryFromIndexedDb();
+      this.queryFromIndexedDb();
     } else {
       console.warn(`Issuing command "_getFirstItemIdFromIndexedDb" since 'startFrom' is unknown.`);
 
@@ -547,7 +487,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
- private _queryFromIndexedDb() {
+  queryFromIndexedDb() {
     const startFrom = this.queryDetails.get('startFrom') as number;
 
     this._uploadVideoService
@@ -627,8 +567,9 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _addToIndexedDb(blob: Blob) {
     this._uploadVideoService
-      .addToIndexedDb(blob);
+      .addToIndexedDb(blob)
   }
+
 
 
   onStopRecordingEvent() {

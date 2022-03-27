@@ -176,8 +176,7 @@
                                 </label>
                                 <input type="password" #passwordEl [id]="REGISTER_PARAM.PASSWORD
                                 .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.PASSWORD.formControlName)"
-                                    [formControlName]="REGISTER_PARAM.PASSWORD.formControlName" type="text"
-                                    [class.is-invalid]="signUpFormGroup
+                                    [formControlName]="REGISTER_PARAM.PASSWORD.formControlName" [class.is-invalid]="signUpFormGroup
                                     ?.get(REGISTER_PARAM.PASSWORD.formControlName)?.invalid && (signUpFormGroup
                                     ?.get(REGISTER_PARAM.PASSWORD.formControlName)?.touched || submitted)"
                                     [placeholder]="REGISTER_PARAM.PASSWORD.placeholder" [attr.aria-invalid]="signUpFormGroup
@@ -196,8 +195,7 @@
                             <label for="togglePasswordVisibility">
                                 <input (change)="togglePasswordVisibilityEl.checked ?
                                     passwordEl.type='text': passwordEl.type='password';" type="checkbox"
-                                    id="togglePasswordVisibility" #togglePasswordVisibilityEl aria-required="false"
-                                    checked>
+                                    id="togglePasswordVisibility" #togglePasswordVisibilityEl aria-required="false">
                                 Show password
                             </label>
                         </div>
@@ -222,9 +220,10 @@
                         <div class="gen-btn-container">
                             <snap-ajax-button [execute]="onSubmit" [parameter]="signUpFormGroup">
                                 <ng-container data-animator>
-                                    <span class="gen-button-line-left"></span>
+                                    <span class="loadmore-icon d-inline-block"><i
+                                            class="fa fa-spinner fa-spin"></i></span>
                                     <span class="gen-button-text">
-                                        <span id="pms-submit-button-loading-placeholder-text" class="d-block">Processing
+                                        <span id="pms-submit-button-loading-placeholder-text">Processing
                                             request...</span>
                                     </span>
                                 </ng-container>

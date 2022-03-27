@@ -4,11 +4,11 @@ import { LiveStream, livestreamDb } from "../db/livestream.db";
 
 addEventListener('message', ({ data }) => {
   console.log({ data });
-  addNewLiveStream(data);
+  addNewLiveStream(data).then(details => {
+    const response = `Worker successfully added livestream`;
 
-  const response = `Worker successfully added livestream`;
-
-  postMessage(response);
+    postMessage(response);
+  });
 });
 
 

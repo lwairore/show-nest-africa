@@ -3,47 +3,52 @@
 import { livestreamDb } from "../db/livestream.db";
 
 addEventListener('message', async ({ data }) => {
-  let responseDetails: any;
-
   await queryFromIndexedDb(data)
     .then(details => {
-      responseDetails = details;
+      const responseDetails = details;
       console.log("in worker");
       console.log({ details });
 
-      return details;
+      console.log({ responseDetails })
+
+      postMessage(responseDetails);
     });
-
-  console.log({ responseDetails })
-
-  postMessage(responseDetails);
 });
 
 
 async function queryFromIndexedDb(configs: {
   key: number,
-  incrementBy?: number
+  decrementBy: number
 }) {
   // return await livestreamDb.liveStreams
   //   .where('id').belowOrEqual(2).toArray();
 
+  console.table(configs)
+
   const RANGES = deriveLowerLimit(
-    configs.key, configs.incrementBy);
+    configs.key, configs.decrementBy);
 
   console.table(RANGES)
 
   const LOWER = RANGES.lower;
   const UPPER = RANGES.upper;
 
+  const INCLUDE_LOWER = true;
+  const INCLUDE_UPPER = true;
+
   return await livestreamDb.liveStreams
-    .where('id').between(LOWER, UPPER, true, true).toArray();
+    .where('id').between(LOWER, UPPER,
+      INCLUDE_LOWER, INCLUDE_UPPER).toArray();
 }
 
-function deriveLowerLimit(upperLimit: number, incrementBy = 3) {
-  let LOWER = upperLimit - incrementBy;
+function deriveLowerLimit(upperLimit: number, decrementBy: number) {
+  let LOWER = upperLimit - decrementBy;
+
+  const UPPER = upperLimit - 1;
+  // Reduce "UPPER" limit by one in order to get 2 items at a time instead of 3.
 
   return {
     'lower': LOWER,
-    'upper': upperLimit
+    'upper': UPPER
   }
 }

@@ -28,8 +28,6 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
 
   profileDetails = Immutable.fromJS({});
 
-  typeOfTicket = Immutable.fromJS([]);
-
   private _loadRequiredDetailsSubscription: Subscription | undefined;
 
   SUBMIT_EVENT_PARAM = SubmitEventParam;
@@ -39,11 +37,9 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
 
   emailFieldValueChangesSubscription: Subscription | undefined;
 
-  usernameFieldValueChangesSubscription: Subscription | undefined;
+  publicNameFieldValueChangesSubscription: Subscription | undefined;
 
   phoneNumberFieldValueChangesSubscription: Subscription | undefined;
-
-  costFieldValueChangesSubscription: Subscription | undefined;
 
   objectURLS = Immutable.fromJS([]);
 
@@ -77,8 +73,6 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._unsubscribeEmailFieldValueChangesSubscription();
 
-    this._unsubscribeCostFieldValueChangesSubscription();
-
     this._unsubscribeUsernameFieldValueChangesSubscription();
 
     this._unsubscribePhoneNumberFieldValueChangesSubscription();
@@ -101,15 +95,9 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
     this.objectURLS = Immutable.fromJS([]);
   }
 
-  private _unsubscribeCostFieldValueChangesSubscription() {
-    if (this.costFieldValueChangesSubscription instanceof Subscription) {
-      this.costFieldValueChangesSubscription.unsubscribe();
-    }
-  }
-
   private _unsubscribeUsernameFieldValueChangesSubscription() {
-    if (this.usernameFieldValueChangesSubscription instanceof Subscription) {
-      this.usernameFieldValueChangesSubscription.unsubscribe();
+    if (this.publicNameFieldValueChangesSubscription instanceof Subscription) {
+      this.publicNameFieldValueChangesSubscription.unsubscribe();
     }
   }
 
@@ -167,18 +155,10 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
           this.profileDetails = Immutable.fromJS(details);
 
           this._prepopulateProfileFields();
-
-
         }));
 
-    const TYPE_OF_TICKET$ = this._submitEvent
-      .listTypeOfTicket$()
-      .pipe(tap(details => {
-        this.typeOfTicket = Immutable.fromJS(details);
-      }))
-
     this._loadRequiredDetailsSubscription = forkJoin([
-      SEO_DETAIL$, PROFILE_DETAIL$, TYPE_OF_TICKET$,
+      SEO_DETAIL$, PROFILE_DETAIL$,
     ])
       .subscribe(_ => {
         if (!this.profileDetails.isEmpty()) {
@@ -189,19 +169,20 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _prepopulateProfileFields() {
-    const USERNAME = convertItemToString(
+    const PUBLIC_NAME = convertItemToString(
       this.profileDetails.get('username'));
 
     if (fieldValueHasBeenUpdated(
-      this.SUBMIT_EVENT_PARAM.USERNAME.defaultValue,
-      USERNAME)) {
+      this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.defaultValue,
+      PUBLIC_NAME)) {
       this.submitEventFormGroup?.get(
-        this.SUBMIT_EVENT_PARAM.USERNAME.formControlName)
-        ?.setValue(USERNAME);
+        this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)
+        ?.setValue(PUBLIC_NAME);
     }
 
     const EMAIL = convertItemToString(
       this.profileDetails.get('email'));
+
     if (fieldValueHasBeenUpdated(
       this.SUBMIT_EVENT_PARAM.EMAIL.defaultValue,
       EMAIL)) {
@@ -227,11 +208,12 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
         this.SUBMIT_EVENT_PARAM.NAME_OF_EVENT.defaultValue,
         this.SUBMIT_EVENT_PARAM.NAME_OF_EVENT.validators],
 
-      [this.SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName]: [
-        this.SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.defaultValue, this.SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.validators],
+      [this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName]: [
+        this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.defaultValue,
+        this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.validators],
 
-      [this.SUBMIT_EVENT_PARAM.USERNAME.formControlName]: [
-        this.SUBMIT_EVENT_PARAM.USERNAME.defaultValue, this.SUBMIT_EVENT_PARAM.USERNAME.validators],
+      [this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName]: [
+        this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.defaultValue, this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.validators],
 
       [this.SUBMIT_EVENT_PARAM.EMAIL.formControlName]: [
         this.SUBMIT_EVENT_PARAM.EMAIL.defaultValue,
@@ -241,18 +223,12 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
         this.SUBMIT_EVENT_PARAM.PHONE_NUMBER.defaultValue,
         this.SUBMIT_EVENT_PARAM.PHONE_NUMBER.validators],
 
-      [this.SUBMIT_EVENT_PARAM.COST.formControlName]: [
-        this.SUBMIT_EVENT_PARAM.COST.defaultValue,
-        this.SUBMIT_EVENT_PARAM.COST.validators],
-
       [this.SUBMIT_EVENT_PARAM.POSTER.formControlName]: [
         this.SUBMIT_EVENT_PARAM.POSTER.defaultValue,
         this.SUBMIT_EVENT_PARAM.POSTER.validators],
     }, { updateOn: 'blur' });
 
     this.automaticallyCleanUpEmailField();
-
-    this.automaticallyCleanUpCostField();
 
     this.automaticallyCleanUpUsernameField();
 
@@ -292,7 +268,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
   automaticallyCleanUpUsernameField(): void {
     this.emailFieldValueChangesSubscription = this.submitEventFormGroup
       ?.get(
-        this.SUBMIT_EVENT_PARAM.USERNAME.formControlName
+        this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName
       )
       ?.valueChanges
       ?.pipe(distinctUntilChanged())
@@ -303,7 +279,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (fieldValueHasBeenUpdated(value, CLEANED_VALUE)) {
           this.submitEventFormGroup?.get(
-            this.SUBMIT_EVENT_PARAM.USERNAME.formControlName
+            this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName
           )?.setValue(
             CLEANED_VALUE, {
             onlySelf: true
@@ -327,29 +303,6 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
         if (fieldValueHasBeenUpdated(value, CLEANED_VALUE)) {
           this.submitEventFormGroup?.get(
             this.SUBMIT_EVENT_PARAM.PHONE_NUMBER.formControlName
-          )?.setValue(
-            CLEANED_VALUE, {
-            onlySelf: true
-          });
-        }
-      });
-  }
-
-  automaticallyCleanUpCostField(): void {
-    this.costFieldValueChangesSubscription = this.submitEventFormGroup
-      ?.get(
-        this.SUBMIT_EVENT_PARAM.COST.formControlName
-      )
-      ?.valueChanges
-      ?.pipe(distinctUntilChanged())
-      ?.subscribe(value => {
-        const exp = /\D/g;
-
-        const CLEANED_VALUE = REGEX_REPLACE_WITH(exp, value, '')
-
-        if (fieldValueHasBeenUpdated(value, CLEANED_VALUE)) {
-          this.submitEventFormGroup?.get(
-            this.SUBMIT_EVENT_PARAM.COST.formControlName
           )?.setValue(
             CLEANED_VALUE, {
             onlySelf: true
@@ -454,17 +407,17 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
     newMomentDetailsFormData.append(
       this.SUBMIT_EVENT_PARAM.NAME_OF_EVENT.formControlName, nameOfMoment);
 
-    const typeOfTicket = convertItemToString(
+    const instagramUsername = convertItemToString(
       formGroupForEvent?.get(
-        this.SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName)?.value)?.trim();
+        this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)?.value)?.trim();
     newMomentDetailsFormData.append(
-      this.SUBMIT_EVENT_PARAM.TYPE_OF_TICKET.formControlName, typeOfTicket);
+      this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName, instagramUsername);
 
-    const username = convertItemToString(
+    const publicName = convertItemToString(
       formGroupForEvent?.get(
-        this.SUBMIT_EVENT_PARAM.USERNAME.formControlName)?.value)?.trim();
+        this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)?.value)?.trim();
     newMomentDetailsFormData.append(
-      this.SUBMIT_EVENT_PARAM.USERNAME.formControlName, username);
+      this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName, publicName);
 
     const email = convertItemToString(
       formGroupForEvent?.get(
@@ -477,12 +430,6 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
         this.SUBMIT_EVENT_PARAM.PHONE_NUMBER.formControlName)?.value)?.trim();
     newMomentDetailsFormData.append(
       this.SUBMIT_EVENT_PARAM.PHONE_NUMBER.formControlName, phoneNumber);
-
-    const cost = convertItemToString(
-      formGroupForEvent?.get(
-        this.SUBMIT_EVENT_PARAM.COST.formControlName)?.value)?.trim();
-    newMomentDetailsFormData.append(
-      this.SUBMIT_EVENT_PARAM.COST.formControlName, cost);
 
     const poster = formGroupForEvent?.get(
       this.SUBMIT_EVENT_PARAM.POSTER.formControlName)?.value;
@@ -523,10 +470,10 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
 class SubmitEventParam {
   public static readonly NAME_OF_FORM_GROUP = 'submitEventFormGroup';
 
-  public static readonly USERNAME = {
-    formControlName: 'username',
-    temporaryStoreKey: 'username',
-    permanentStoreKey: 'username',
+  public static readonly PUBLIC_NAME = {
+    formControlName: 'publicName',
+    temporaryStoreKey: 'publicName',
+    permanentStoreKey: 'publicName',
     isRequired: true,
     validators: Validators.compose([
       Validators.required,
@@ -534,15 +481,15 @@ class SubmitEventParam {
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What username would like to use?',
+    label: 'What name do fans know you by?',
     defaultValue: '',
     placeholder: '',
     slug: constructInputFieldIdentification,
     errors: {
-      requiredOrNullOrNoValueProvidedErrorMessage: 'Provide username.',
-      minCharacterNotGenuinelyAchievedErrorMessage: 'Are you sure you entered your username correctly?',
-      maxLengthPrefixErrorMessage: 'That username is too long. You need to shortern that username.',
-      minLengthPrefixErrorMessage: 'That username is too short. You need to lengthen that username.',
+      requiredOrNullOrNoValueProvidedErrorMessage: 'Provide public name.',
+      minCharacterNotGenuinelyAchievedErrorMessage: 'Are you sure you entered your public name correctly?',
+      maxLengthPrefixErrorMessage: 'That public name is too long. You need to shortern that public name.',
+      minLengthPrefixErrorMessage: 'That public name is too short. You need to lengthen that public name.',
     },
   };
 
@@ -609,48 +556,27 @@ class SubmitEventParam {
     },
   };
 
-  public static readonly TYPE_OF_TICKET = {
-    formControlName: 'typeOfTicket',
-    temporaryStoreKey: 'typeOfTicket',
-    permanentStoreKey: 'typeOfTicket',
+  public static readonly INSTAGRAM_USERNAME = {
+    formControlName: 'instagramUsername',
+    temporaryStoreKey: 'instagramUsername',
+    permanentStoreKey: 'instagramUsername',
     validators: Validators.compose([
       Validators.required,
       Validators.maxLength(250),
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What is the type of the ticket?',
+    label: 'What is your instagram username?',
     defaultValue: '',
     isRequired: true,
     placeholder: '',
     slug: constructInputFieldIdentification,
     errors: {
-      requiredOrNullOrNoValueProvidedErrorMessage: 'Provide type of ticket.',
-      minCharacterNotGenuinelyAchievedErrorMessage: 'Are you sure you entered your type of ticket correctly?',
-      maxLengthPrefixErrorMessage: 'That type of ticket is too long. You need to shortern that type of ticket.',
-      minLengthPrefixErrorMessage: 'That type of ticket is too short. You need to lengthen that type of ticket.'
+      requiredOrNullOrNoValueProvidedErrorMessage: 'Provide instagram username .',
+      minCharacterNotGenuinelyAchievedErrorMessage: 'Are you sure you entered your instagram username  correctly?',
+      maxLengthPrefixErrorMessage: 'That instagram username  is too long. You need to shortern that instagram username .',
+      minLengthPrefixErrorMessage: 'That instagram username  is too short. You need to lengthen that instagram username .'
     },
-  };
-
-  public static readonly COST = {
-    formControlName: 'cost',
-    temporaryStoreKey: 'cost',
-    permanentStoreKey: 'cost',
-    isRequired: true,
-    validators: Validators.compose([
-      Validators.required,
-      Validators.maxLength(20),
-      Validators.pattern(/^[+\d()./N,*;#]{1,20}$/)
-    ]),
-    label: 'What is the cost per ticket (KES)?',
-    defaultValue: '',
-    placeholder: '',
-    slug: constructInputFieldIdentification,
-    errors: {
-      requiredOrNullOrNoValueProvidedErrorMessage: 'Provide cost per ticket.',
-      pattern: `Are you sure you entered the phone properly?`,
-      maxlength: `That cost is too high.`,
-    }
   };
 
   static readonly POSTER = {
@@ -668,9 +594,9 @@ class SubmitEventParam {
   public static constructFields() {
     const fields = [
       {
-        formControlName: this.USERNAME.formControlName,
-        temporaryStoreKey: this.USERNAME.temporaryStoreKey,
-        permanentStoreKey: this.USERNAME.permanentStoreKey,
+        formControlName: this.PUBLIC_NAME.formControlName,
+        temporaryStoreKey: this.PUBLIC_NAME.temporaryStoreKey,
+        permanentStoreKey: this.PUBLIC_NAME.permanentStoreKey,
       },
       {
         formControlName: this.EMAIL.formControlName,
@@ -686,16 +612,6 @@ class SubmitEventParam {
         formControlName: this.NAME_OF_EVENT.formControlName,
         temporaryStoreKey: this.NAME_OF_EVENT.temporaryStoreKey,
         permanentStoreKey: this.NAME_OF_EVENT.permanentStoreKey
-      },
-      {
-        formControlName: this.TYPE_OF_TICKET.formControlName,
-        temporaryStoreKey: this.TYPE_OF_TICKET.temporaryStoreKey,
-        permanentStoreKey: this.TYPE_OF_TICKET.permanentStoreKey
-      },
-      {
-        formControlName: this.COST.formControlName,
-        temporaryStoreKey: this.COST.temporaryStoreKey,
-        permanentStoreKey: this.COST.permanentStoreKey
       },
       {
         formControlName: this.POSTER.formControlName,

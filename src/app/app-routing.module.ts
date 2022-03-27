@@ -9,7 +9,7 @@ const routes: Routes = [
       .then(h => h.HomeModule),
   },
   {
-    path: 'rtc',
+    path: 'moments/:momentID/rtc',
     loadChildren: () => import('./rtc/rtc.module')
       .then(r => r.RtcModule),
   },

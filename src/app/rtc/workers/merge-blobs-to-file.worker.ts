@@ -12,18 +12,14 @@ addEventListener('message', ({ data }) => {
 
   console.table(MIME_TYPE)
 
-  const STREAMS = data.livestreams;
+  const STREAMS = data.streams;
 
   console.table(STREAMS);
 
   // const BUFFERS_TO_ARRAY
 
   const FORMATTED_RECORDED_BLOBS = STREAMS?.map(
-    (detail: LiveStream) => {
-      const blob = detail.blob
-
-      blob.type
-    });
+    (detail: LiveStream) => detail.blob);
 
   console.log({ FORMATTED_RECORDED_BLOBS });
 

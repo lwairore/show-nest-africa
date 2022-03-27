@@ -8,14 +8,14 @@ export const environment = {
   baseURL: `http://localhost:8000/`,
   imageBaseURL: `http://localhost:8000`,
   brandName: 'Shownest Africa',
-  manualChunkUpload: {
-    rootURL: 'manual-chunk-upload/',
-    sendChunkStream: function () {
-      return this.rootURL;
-    },
-  },
   moments: {
     rootURL: `moments/`,
+    livestreamChunk: {
+      rootURL: `:momentID/livestream/submit/`,
+      sendChunk: function () {
+        return this.rootURL;
+      },
+    },
     submitMoment: {
       rootURL: `submit/`,
       retrieveSEO: function () {

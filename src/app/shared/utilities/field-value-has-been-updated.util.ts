@@ -1,7 +1,10 @@
 import { memoize } from "lodash-es";
 
 
-export const fieldValueHasBeenUpdated = memoize((previousValue: any, currentValue: any, trim = true) => {
+export const fieldValueHasBeenUpdated = (previousValue: any, currentValue: any, trim = true) => {
+    console.log({ previousValue });
+
+    console.log({ currentValue });
     if (trim) {
         if (typeof (previousValue) === 'string') {
             previousValue = previousValue.trim();
@@ -13,4 +16,4 @@ export const fieldValueHasBeenUpdated = memoize((previousValue: any, currentValu
     }
 
     return previousValue !== currentValue;
-})
+}

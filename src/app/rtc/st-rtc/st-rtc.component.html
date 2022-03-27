@@ -47,16 +47,20 @@
                           Stop Recording</a>
                       </li>
                       <li class="gen-post-tag">
-                        <a [routerLink]="null" (click)="sendDataPeriodically()">
-                          sendDataPeriodically</a>
+                        <ng-container *ngIf="isCurrentUploading; else showUploadCtrls;">
+                          <a [routerLink]="null">
+                            <span class="loadmore-icon d-inline-block"><i class="fa fa-spinner fa-spin"></i></span>
+                            Uploading</a>
+                        </ng-container>
+                        <ng-template #showUploadCtrls>
+                          <a [routerLink]="null" (click)="uploadChunkStream()">
+                            Upload chunk stream</a>
+                        </ng-template>
+
                       </li>
                       <li class="gen-post-tag">
                         <a [routerLink]="null" (click)="displayAllStoredChunks()">
                           Display all stored</a>
-                      </li>
-                      <li class="gen-post-tag">
-                        <a [routerLink]="null" (click)="queryFromIndexedDb()">
-                          Query</a>
                       </li>
                     </ul>
                   </div>
@@ -70,7 +74,6 @@
                   <p>Echo cancellation:
                     <input type="checkbox" #echoCancellationEl>
                   </p>
-
                 </div>
               </div>
             </div>
@@ -81,21 +84,3 @@
     </div>
   </div>
 </section>
-
-<div style="text-align:center" *ngIf="0">
-  <h1>Welcome to WebRTC</h1>
-  <!-- <video class="video" #video autoplay controls></video> -->
-
-  <span class="m-1"></span>
-
-  <br>
-
-  <button class="btn btn-warning btn-lg" (click)="sendDataPeriodically()">sendDataPeriodically</button>
-
-  <button class="btn btn-warning btn-lg" (click)="displayAllStoredChunks()">Display all stored</button>
-
-  <button class="btn btn-warning btn-lg" (click)="queryFromIndexedDb()">Query</button>
-
-  <button class="btn btn-success btn-lg" (click)="sendChunkStream(loopIndex)"
-    *ngFor="let blob of recordedBlobs; let loopIndex=index">Submit blob {{ loopIndex }} </button>
-</div>

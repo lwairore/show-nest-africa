@@ -67,8 +67,7 @@
                             </label>
                             <input type="password" #passwordEl [id]="SIGN_IN_PARAM.PASSWORD
                                 .slug(SIGN_IN_PARAM.NAME_OF_FORM_GROUP, SIGN_IN_PARAM.PASSWORD.formControlName)"
-                                [formControlName]="SIGN_IN_PARAM.PASSWORD.formControlName" type="text"
-                                [class.is-invalid]="signInFormGroup
+                                [formControlName]="SIGN_IN_PARAM.PASSWORD.formControlName" [class.is-invalid]="signInFormGroup
                                     ?.get(SIGN_IN_PARAM.PASSWORD.formControlName)?.invalid && (signInFormGroup
                                     ?.get(SIGN_IN_PARAM.PASSWORD.formControlName)?.touched || submitted)"
                                 [placeholder]="SIGN_IN_PARAM.PASSWORD.placeholder" [attr.aria-invalid]="signInFormGroup
@@ -85,8 +84,7 @@
                             <label for="togglePasswordVisibility">
                                 <input (change)="togglePasswordVisibilityEl.checked ?
                                     passwordEl.type='text': passwordEl.type='password';" type="checkbox"
-                                    id="togglePasswordVisibility" #togglePasswordVisibilityEl aria-required="false"
-                                    checked>
+                                    id="togglePasswordVisibility" #togglePasswordVisibilityEl aria-required="false">
                                 Show password
                             </label>
                         </p>
@@ -99,9 +97,10 @@
                         <div class="gen-btn-container">
                             <snap-ajax-button [execute]="onSubmit" [parameter]="signInFormGroup">
                                 <ng-container data-animator>
-                                    <span class="gen-button-line-left"></span>
+                                    <span class="loadmore-icon d-inline-block"><i
+                                            class="fa fa-spinner fa-spin"></i></span>
                                     <span class="gen-button-text">
-                                        <span id="pms-submit-button-loading-placeholder-text" class="d-block">Processing
+                                        <span id="pms-submit-button-loading-placeholder-text">Processing
                                             request...</span>
                                     </span>
                                 </ng-container>
