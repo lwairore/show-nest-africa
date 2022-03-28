@@ -52,11 +52,9 @@ export class EventService {
             const FORMATTED_DETAIL: UpcommingEventFormatHttpResponse = {
               startsOn: convertItemToString(detail.starts_on),
               id: DETAIL_ID,
-              proposal: {
-                username: convertItemToString(detail?.proposal?.username),
-                nameOfMoment: convertItemToString(detail?.proposal?.name_of_moment),
-                poster: formatShowcaseItemWithPhoto(detail.proposal?.poster),
-              }
+              username: convertItemToString(detail?.username),
+              nameOfMoment: convertItemToString(detail?.name_of_moment),
+              poster: formatShowcaseItemWithPhoto(detail.poster),
             };
 
             return FORMATTED_DETAIL;
@@ -97,11 +95,9 @@ export class EventService {
             const FORMATTED_DETAIL: PastEventFormatHttpResponse = {
               endsOn: convertItemToString(detail.ends_on),
               id: DETAIL_ID,
-              proposal: {
-                username: convertItemToString(detail?.proposal?.username),
-                nameOfMoment: convertItemToString(detail?.proposal?.name_of_moment),
-                poster: formatShowcaseItemWithPhoto(detail.proposal?.poster),
-              }
+              username: convertItemToString(detail?.username),
+              nameOfMoment: convertItemToString(detail?.name_of_moment),
+              poster: formatShowcaseItemWithPhoto(detail.poster),
             };
 
             return FORMATTED_DETAIL;
