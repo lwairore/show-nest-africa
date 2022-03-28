@@ -9,8 +9,6 @@ export { PaginatedItemHttpResponse } from './paginated-item-http-response';
 export { VideoItemPreviewFormatHttpResponse } from './video-item-preview-format-http-response';
 export { VideoItemPreviewHttpResponse } from './video-item-preview-http-response';
 export { UpcommingEventHttpResponse } from "./upcomming-event-http-response";
-export { ProposalHttpResponse } from "./proposal-http-response";
-export { ProposalFormatHttpResponse } from "./proposal-format-http-response";
 export { UpcommingEventFormatHttpResponse } from './upcomming-event-format-http-response';
 export { PastEventFormatHttpResponse } from './past-event-format-http-response';
 export { PastEventHttpResponse } from './past-event-http-response';
