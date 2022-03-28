@@ -49,19 +49,19 @@
                             <div class="gen-carousel-movies-style-2 movie-grid style-2">
                                 <div class="gen-movie-contain">
                                     <div class="gen-movie-img" (click)="navigateToMomentDetail(event.get('id'))">
-                                        <snap-img-lazy [src]="event.getIn(['proposal', 'poster', 'src'])"
-                                            [alt]="event.getIn(['proposal', 'poster', 'alt'])" height="230px">
+                                        <snap-img-lazy [src]="event.getIn(['poster', 'src'])"
+                                            [alt]="event.getIn(['poster', 'alt'])" height="230px">
                                         </snap-img-lazy>
                                     </div>
                                     <div class="gen-info-contain">
                                         <div class="gen-movie-info">
                                             <h3>
                                                 <a [routerLink]="['/moments','past',event.get('id'),'details']">
-                                                    {{ event.getIn(['proposal', 'nameOfMoment']) }}
+                                                    {{ event.get('nameOfMoment') }}
                                                 </a>
                                             </h3>
                                             <span>
-                                                {{ event.getIn(['proposal', 'username']) }}
+                                                {{ event.get('username') }}
                                             </span>
                                             <br />
                                         </div>
