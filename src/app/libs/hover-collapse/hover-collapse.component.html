@@ -1,7 +1,7 @@
-<a #collapseAnchorTriggerEl class="d-none" data-toggle="collapse" [href]="'#'+collapseID" role="button" aria-expanded="false"
+<a #collapseAnchorTriggerEl ngClass="d-none" data-toggle="collapse" [href]="'#'+collapseID" role="button" aria-expanded="false"
     [attr.aria-controls]="collapseID">
     Link with href
 </a>
-<div class="collapse" [id]="collapseID">
+<div ngClass="collapse" [id]="collapseID">
     <ng-content select="[data-collapseContent]"></ng-content>
 </div>

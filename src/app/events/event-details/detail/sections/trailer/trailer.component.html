@@ -1,0 +1,122 @@
+<ng-container *ngIf="!trailer.isEmpty() && trailer.getIn(['video','src'], '')">
+    <section ngClass="pt-0 pb-0 my-4">
+        <div ngClass="container-fluid px-0">
+            <div ngClass="row no-gutters">
+                <div ngClass="col-12">
+                    <div ngClass="gen-banner-movies banner-style-2">
+                        <div ngClass="item"
+                            [style.background]="'url(' + trailer.getIn(['video','thumbnail', 'src'], '') +')'"
+                            [style.height.vh]="80">
+                            <div ngClass="gen-movie-contain-style-2 h-100">
+                                <div ngClass="container h-100">
+                                    <div ngClass="row flex-row-reverse align-items-center h-100">
+                                        <div ngClass="col-12">
+                                            <div ngClass="gen-front-image ">
+                                                <a [routerLink]="null" data-toggle="modal"
+                                                    [attr.data-target]="'#'+MODAL_ID_FOR_VIDEO"
+                                                    ngClass="playBut popup-youtube popup-vimeo popup-gmaps">
+                                                    <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In  -->
+                                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                        width="213.7px" height="213.7px" viewBox="0 0 213.7 213.7"
+                                                        enable-background="new 0 0 213.7 213.7" xml:space="preserve">
+                                                        <polygon ngClass="triangle" id="XMLID_19_" fill="none"
+                                                            stroke-width="7" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-miterlimit="10" points="
+                                            73.5,62.5 148.5,105.8 73.5,149.1 "></polygon>
+                                                        <circle ngClass="circle" id="XMLID_20_" fill="none"
+                                                            stroke-width="7" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-miterlimit="10" cx="106.8"
+                                                            cy="106.8" r="103.3">
+                                                        </circle>
+                                                    </svg>
+                                                    <span>Watch Trailer</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <snap-modal-fullscreen [modalID]="MODAL_ID_FOR_VIDEO">
+        <ng-container data-modalTitle>
+            {{ trailer.get('nameOfMoment') }} - Trailer
+        </ng-container>
+
+        <ng-container data-modalHeaderDismissModal>
+            <button type="button" ngClass="close" data-dismiss="modal" aria-label="Close"
+                style="color: var(--white-color);" (click)="pauseAllPlayers()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </ng-container>
+
+        <ng-container data-modalBody>
+            <style>
+                .videogular-container {
+                    width: 100%;
+                    height: 320px;
+                    margin: auto;
+                    overflow: hidden;
+                }
+
+                @media (min-width: 1200px) {
+                    .videogular-container {
+                        width: 100%;
+                        height: 329.0625px;
+                    }
+                }
+
+                @media (min-width: 992px) and (max-width: 1199px) {
+                    .videogular-container {
+                        width: 100%;
+                        height: 409.75px;
+                    }
+                }
+
+                @media (min-width: 768px) and (max-width: 991px) {
+                    .videogular-container {
+                        width: 100%;
+                        height: 409.5px;
+                    }
+                }
+            </style>
+
+            <div ngClass="gen-blog-spot-video videogular-container my-4" *ngIf="trailer.getIn(['video','src'], '')">
+                <vg-player>
+                    <vg-overlay-play></vg-overlay-play>
+                    <vg-buffering></vg-buffering>
+                    <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                    </vg-scrub-bar>
+                    <vg-controls>
+                        <vg-play-pause></vg-play-pause>
+                        <vg-time-display vgProperty="current" vgFormat="mm:ss">
+                        </vg-time-display>
+                        <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+                        <vg-time-display vgProperty="total" vgFormat="mm:ss">
+                        </vg-time-display>
+                        <vg-mute></vg-mute>
+                        <vg-volume></vg-volume>
+                        <vg-fullscreen></vg-fullscreen>
+                    </vg-controls>
+                    <video [vgMedia]="$any(media)" #media id="singleVideo" preload="metadata" crossorigin
+                        [poster]="trailer.getIn(['video','thumbnail', 'src'], '')">
+                        <source [src]="trailer.getIn(['video','src'], '')">
+                    </video>
+                </vg-player>
+            </div>
+        </ng-container>
+
+        <ng-container data-modalFooter>
+            <a ngClass="gen-button" data-dismiss="modal" [routerLink]="null" (click)="pauseAllPlayers()">
+                <div ngClass="gen-button-block"><span ngClass="gen-button-text"> Close </span></div>
+            </a>
+        </ng-container>
+    </snap-modal-fullscreen>
+</ng-container>

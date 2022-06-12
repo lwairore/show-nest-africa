@@ -14,6 +14,8 @@ import { UploadLivestreamResponse } from './db/upload-livestream-response.db';
 export class UploadVideoService {
   private _queryResultsBS = new BehaviorSubject<Array<LiveStream>>([]);
 
+  private _markedChunkAsSent = new BehaviorSubject<boolean>(false);
+
   private _firstItemIdFromIndexedDbBS = new BehaviorSubject<number | null>(null);
 
   private _firstUploadLivestreamRepsonseBS = new BehaviorSubject<string | null>(null);
@@ -50,6 +52,10 @@ export class UploadVideoService {
 
       worker.postMessage(DATA);
     }
+  }
+
+  reportMarkingOfChunkAsSentStatus() {
+    return this._markedChunkAsSent.asObservable();
   }
 
   getFirstUploadLivestreamRepsonse$() {
@@ -232,7 +238,7 @@ export class UploadVideoService {
     }
   }
 
-   async resetUploadLivestreamResponseDb() {
+  async resetUploadLivestreamResponseDb() {
     if (typeof Worker !== 'undefined') {
       const worker = new Worker('./workers/reset-upload-livestream-response-db.worker',
         {
@@ -244,6 +250,28 @@ export class UploadVideoService {
       };
 
       worker.postMessage({});
+    }
+  }
+
+  async markChunksAsSent(chunks: Array<LiveStream>) {
+    for (let chunk of chunks) {
+      chunk.sent = true;
+      chunk.sentOn = Date.now();
+    }
+
+    if (typeof Worker !== 'undefined') {
+      const worker = new Worker('./workers/mark-chunks-as-sent.worker',
+        {
+          type: 'module'
+        });
+
+      worker.onmessage = ({ data }) => {
+        console.log({ data });
+
+        this._markedChunkAsSent.next(true);
+      };
+
+      worker.postMessage(chunks);
     }
   }
 }

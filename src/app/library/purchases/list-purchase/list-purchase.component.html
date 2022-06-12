@@ -1,0 +1,186 @@
+<snap-header></snap-header>
+
+<snap-breadcrumb>
+    <ng-container data-breadcrumbTitle>
+        <h1> My Events</h1>
+    </ng-container>
+
+    <ng-container data-breadcrumbItems>
+        <ng-template snapBreadcrumbItem>
+            <a routerLink="">
+                <i ngClass="fas fa-home mr-2"></i>Home
+            </a>
+        </ng-template>
+
+        <ng-template snapBreadcrumbItem active="true">
+            My events
+        </ng-template>
+    </ng-container>
+</snap-breadcrumb>
+
+
+<section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-lg-12">
+                <h4 ngClass="gen-heading-title mb-4">Invited</h4>
+            </div>
+
+            <div ngClass="col-lg-12">
+                <div ngClass="gen-style-1">
+                    <div ngClass="row">
+                        <div ngClass="col-lg-12" *ngIf="invitedEvents.isEmpty(); else listInvitedEventsSection;">
+                            <p>
+                                No invitations, your invitations will appear here.
+                            </p>
+                        </div>
+
+                        <ng-template #listInvitedEventsSection>
+                            <div ngClass="col-xl-4 col-lg-4 col-md-4" *ngFor="let event of invitedEvents;">
+                                <div ngClass="gen-carousel-movies-style-2 movie-grid style-2">
+                                    <div ngClass="gen-movie-contain">
+                                        <div ngClass="gen-movie-img" (click)="navigateToInvitedMomentDetail(event.get('id'))">
+                                            <snap-img-lazy [src]="event.getIn(['poster', 'src'])"
+                                                [alt]="event.getIn(['poster', 'alt'])" height="230px">
+                                            </snap-img-lazy>
+                                        </div>
+                                        <div ngClass="gen-info-contain">
+                                            <div ngClass="gen-movie-info">
+                                                <h3>
+                                                    <a [routerLink]="[
+                                                    event.get('id'), 
+                                                    'details',
+                                                    'ticket-details',
+                                                    'invited-moment']">
+                                                        {{ event.get('nameOfMoment') }}
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div ngClass="gen-movie-meta-holder">
+                                                <ul>
+                                                    <li>
+                                                        <a [routerLink]="['/moments',event.get('id'), 'details']">
+                                                            <span>Event details</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ngClass="col-lg-12" *ngIf="paginationDetailsForInvitedEvent.get('next')">
+                                <div ngClass="gen-load-more-button">
+                                    <div ngClass="gen-btn-container">
+                                        <a ngClass="gen-button gen-button-loadmore" [routerLink]="null"
+                                            (click)="loadMoreInvitedEvent()">
+                                            <span ngClass="loadmore-icon"
+                                                [style.display]="loadingInvitedEvents ? 'inline-block': 'none'"><i
+                                                    ngClass="fa fa-spinner fa-spin"></i></span>
+                                            <span ngClass="button-text">Load More</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ngClass="row mt-5">
+            <div ngClass="col-lg-12">
+                <h4 ngClass="gen-heading-title mb-4">Purchased</h4>
+            </div>
+
+            <div ngClass="col-lg-12" *ngIf="purchases.isEmpty(); else listPurchasesSection;">
+                <p>
+                    Browse thousands of events. Your purchases will appear here.
+                </p>
+                <div ngClass="gen-btn-container my-5">
+                    <a routerLink="" ngClass="gen-button">
+                        <div ngClass="gen-button-block">
+                            <span ngClass="gen-button-text"> Browse events </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <ng-template #listPurchasesSection>
+                <div ngClass="col-lg-12">
+                    <div ngClass="gen-style-1">
+                        <div ngClass="row">
+                            <div ngClass="col-xl-4 col-lg-4 col-md-4" *ngFor="let event of purchases;">
+                                <div ngClass="gen-carousel-movies-style-2 movie-grid style-2">
+                                    <div ngClass="gen-movie-contain">
+                                        <div ngClass="gen-movie-img" (click)="navigateToMomentDetail(event.get('id'))">
+                                            <snap-img-lazy [src]="event.getIn(['poster', 'src'])"
+                                                [alt]="event.getIn(['poster', 'alt'])" height="230px">
+                                            </snap-img-lazy>
+                                        </div>
+                                        <div ngClass="gen-info-contain">
+                                            <div ngClass="gen-movie-info">
+                                                <h3>
+                                                    <a [routerLink]="[
+                                                    event.get('id'),
+                                                    'details',
+                                                    'ticket-details'
+                                                    ]">
+                                                        {{ event.get('nameOfMoment') }}
+                                                    </a>
+                                                </h3>
+                                                <!-- 
+                                                    <br />
+                                                    <snap-count-down [startDate]="event.get('startsOn')"></snap-count-down> -->
+                                            </div>
+                                            <div ngClass="gen-movie-meta-holder">
+                                                <ul>
+                                                    <li [ngPlural]="event.get('totalTickets', 0)">
+                                                        {{ event.get('totalTickets', 0)|number: '1.0-0' }}
+                                                        <ng-template ngPluralCase="0">tickets</ng-template>
+                                                        <ng-template ngPluralCase="1">ticket</ng-template>
+                                                        <ng-template ngPluralCase="other">tickets</ng-template>
+                                                    </li>
+                                                </ul>
+                                                <ul>
+                                                    <li>
+                                                        <a [routerLink]="[
+                                                            '/moments',event.get('id'), 'details', 'get-tickets']">
+                                                            <span>Get More Tickets</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a [routerLink]="['/moments',event.get('id'), 'details']">
+                                                            <span>Event details</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="col-lg-12" *ngIf="paginationDetailsForPurchases.get('next')">
+                    <div ngClass="gen-load-more-button">
+                        <div ngClass="gen-btn-container">
+                            <a ngClass="gen-button gen-button-loadmore" [routerLink]="null"
+                                (click)="loadMorePurchase()">
+                                <span ngClass="loadmore-icon"
+                                    [style.display]="loadingPurchases ? 'inline-block': 'none'"><i
+                                        ngClass="fa fa-spinner fa-spin"></i></span>
+                                <span ngClass="button-text">Load More</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+
+    <snap-footer></snap-footer>
+
+</section>

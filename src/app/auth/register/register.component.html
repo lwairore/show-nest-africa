@@ -7,21 +7,21 @@
 <!--=========== Loader =============-->
 
 <!-- register -->
-<section class="position-relative pb-0">
-    <div class="gen-register-page-background" style="background-image: url('assets/images/background/asset-3.jpeg');">
+<section ngClass="position-relative pb-0">
+    <div ngClass="gen-register-page-background" style="background-image: url('assets/images/background/asset-3.jpeg');">
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center">
-                    <form id="pms_register-form" class="pms-form" [formGroup]="signUpFormGroup" autocomplete="off"
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-lg-12">
+                <div ngClass="text-center">
+                    <form id="pms_register-form" ngClass="pms-form" [formGroup]="signUpFormGroup" autocomplete="off"
                         *ngIf="signUpFormGroup" spellcheck="false" autocomplete="off"
                         [attr.aria-invalid]="signUpFormGroup?.invalid">
                         <h4>Create your Account - It's Free</h4>
 
                         <div #compellingReasonsToSignUpSection></div>
 
-                        <ng-container #errornoteContainer></ng-container>
+                        <snap-errornote></snap-errornote>
 
                         <ng-template #formFieldErrorsTemplate let-formControlFormGroup="formGroup"
                             let-formFieldErrors="errors">
@@ -38,8 +38,8 @@
                             </snap-display-form-field-errors>
                         </ng-template>
 
-                        <div class="row gt-form">
-                            <div class="col-md-6 mb-4">
+                        <div ngClass="row gt-form">
+                            <div ngClass="col-md-6 mb-4">
                                 <label [for]="REGISTER_PARAM.FIRST_NAME
                                 .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.FIRST_NAME.formControlName)"
                                     [class.text-danger]="signUpFormGroup
@@ -63,7 +63,7 @@
                                     }"></ng-container>
                             </div>
 
-                            <div class="col-md-6 mb-4">
+                            <div ngClass="col-md-6 mb-4">
                                 <label [for]="REGISTER_PARAM.LAST_NAME
                                 .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.LAST_NAME.formControlName)"
                                     [class.text-danger]="signUpFormGroup
@@ -87,7 +87,7 @@
                                     }"></ng-container>
                             </div>
 
-                            <div class="col-md-6 mb-4">
+                            <div ngClass="col-md-6 mb-4">
                                 <label [for]="REGISTER_PARAM.EMAIL
                                 .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.EMAIL.formControlName)"
                                     [class.text-danger]="signUpFormGroup
@@ -113,7 +113,7 @@
                                     }"></ng-container>
                             </div>
 
-                            <div class="col-md-6 mb-4">
+                            <div ngClass="col-md-6 mb-4">
                                 <label [for]="REGISTER_PARAM.PHONE_NUMBER
                                 .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.PHONE_NUMBER.formControlName)"
                                     [class.text-danger]="signUpFormGroup
@@ -139,7 +139,7 @@
                                     }"></ng-container>
                             </div>
 
-                            <div class="col-md-12 mb-4">
+                            <div ngClass="col-md-12 mb-4">
                                 <label [for]="REGISTER_PARAM.USERNAME
                                 .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.USERNAME.formControlName)"
                                     [class.text-danger]="signUpFormGroup
@@ -166,7 +166,7 @@
                                     }"></ng-container>
                             </div>
 
-                            <div class="col-md-12 mb-4">
+                            <div ngClass="col-md-12 mb-4">
                                 <label [for]="REGISTER_PARAM.PASSWORD
                                 .slug(REGISTER_PARAM.NAME_OF_FORM_GROUP, REGISTER_PARAM.PASSWORD.formControlName)"
                                     [class.text-danger]="signUpFormGroup
@@ -200,36 +200,35 @@
                             </label>
                         </div>
 
-                        <div class="pms-field pms-field-subscriptions">
-                            <div class="pms-subscription-plan">
-                                <p class="ZGwn1">By registering, you agree to our <a [routerLink]="null">Terms</a> ,
-                                    <a [routerLink]="null">Data
-                                        Policy</a> and <a [routerLink]="null">Cookies
-                                        Policy</a> .
+                        <div ngClass="pms-field pms-field-subscriptions">
+                            <div ngClass="pms-subscription-plan">
+                                <p ngClass="ZGwn1">By registering, you agree to our<a
+                                        routerLink="/policies/terms-of-use"> Terms</a>, and<a routerLink="/policies/privacy-notice"> Data
+                                        Policy</a>.
                                 </p>
                             </div>
 
-                            <div class="pms-subscription-plan">
-                                <p class="ZGwn1">
+                            <div ngClass="pms-subscription-plan">
+                                <p ngClass="ZGwn1">
                                     Have an account?<a routerLink="../log-in" [queryParamsHandling]="'preserve'"> Log
                                         in</a>
                                 </p>
                             </div>
                         </div>
 
-                        <div class="gen-btn-container">
+                        <div ngClass="gen-btn-container">
                             <snap-ajax-button [execute]="onSubmit" [parameter]="signUpFormGroup">
                                 <ng-container data-animator>
-                                    <span class="loadmore-icon d-inline-block"><i
-                                            class="fa fa-spinner fa-spin"></i></span>
-                                    <span class="gen-button-text">
-                                        <span id="pms-submit-button-loading-placeholder-text">Processing
-                                            request...</span>
+                                    <span ngClass="loadmore-icon d-inline-block"><i
+                                            ngClass="fa fa-spinner fa-spin"></i></span>
+                                    <span ngClass="gen-button-text">
+                                        <span id="pms-submit-button-loading-placeholder-text">
+                                            Creating account...</span>
                                     </span>
                                 </ng-container>
                                 <ng-container data-content>
-                                    <span class="gen-button-line-left"></span>
-                                    <span class="gen-button-text">Register</span>
+                                    <span ngClass="gen-button-line-left"></span>
+                                    <span ngClass="gen-button-text">Register</span>
                                 </ng-container>
                             </snap-ajax-button>
                         </div>

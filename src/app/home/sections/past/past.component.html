@@ -1,23 +1,23 @@
-<section class="pt-0 gen-section-padding-2 mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6">
-                <h4 class="gen-heading-title">Past</h4>
+<section ngClass="pt-0 gen-section-padding-2 mt-5">
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-xl-6 col-lg-6 col-md-6">
+                <h4 ngClass="gen-heading-title">Past</h4>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 d-none d-md-inline-block">
-                <div class="gen-movie-action">
-                    <div class="gen-btn-container text-right">
-                        <a routerLink="/moments/past" class="gen-button gen-button-flat">
-                            <span class="text">More Events</span>
+            <div ngClass="col-xl-6 col-lg-6 col-md-6 d-none d-md-inline-block">
+                <div ngClass="gen-movie-action">
+                    <div ngClass="gen-btn-container text-right">
+                        <a routerLink="/moments/series/past" ngClass="gen-button gen-button-flat">
+                            <span ngClass="text">More Events</span>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-12">
-                <div class="gen-style-2">
-                    <div class="owl-carousel owl-loaded owl-drag" data-dots="false" data-nav="true" data-desk_num="4"
+        <div ngClass="row mt-3">
+            <div ngClass="col-12">
+                <div ngClass="gen-style-2">
+                    <div ngClass="owl-carousel owl-loaded owl-drag" data-dots="false" data-nav="true" data-desk_num="4"
                         data-lap_num="3" data-tab_num="2" data-mob_num="1" data-mob_sm="1" data-autoplay="false"
                         data-loop="false" data-margin="30">
                         <ng-container *ngIf="loadingDetails; else showDetails;">
@@ -45,23 +45,25 @@
                         </ng-container>
                         <ng-template #showDetails>
                             <owl-carousel-o [options]="customOptionsForVideos">
-                                <ng-container *ngFor="let event of pastEvents; let loopIndex=index;">
+                                <ng-container
+                                    *ngFor="let event of pastEvents; let loopIndex=index;trackBy:trackByMomentID">
                                     <ng-template carouselSlide>
-                                        <div class="item">
+                                        <div ngClass="item">
                                             <div
-                                                class="movie type-movie status-publish has-post-thumbnail hentry movie_genre-action movie_genre-adventure movie_genre-drama">
-                                                <div class="gen-carousel-movies-style-2 movie-grid style-2">
-                                                    <div class="gen-movie-contain">
-                                                        <div class="gen-movie-img">
+                                                ngClass="movie type-movie status-publish has-post-thumbnail hentry movie_genre-action movie_genre-adventure movie_genre-drama">
+                                                <div ngClass="gen-carousel-movies-style-2 movie-grid style-2">
+                                                    <div ngClass="gen-movie-contain">
+                                                        <div ngClass="gen-movie-img"
+                                                            (click)="navigateToMomentDetail(event.get('id'))">
                                                             <snap-img-lazy [src]="event.getIn(['poster', 'src'])"
                                                                 [alt]="event.getIn(['poster', 'alt'])">
                                                             </snap-img-lazy>
                                                         </div>
-                                                        <div class="gen-info-contain">
-                                                            <div class="gen-movie-info">
+                                                        <div ngClass="gen-info-contain">
+                                                            <div ngClass="gen-movie-info">
                                                                 <h3>
                                                                     <a
-                                                                        [owlRouterLink]="['/moments','past',event.get('id'),'details']">
+                                                                        [owlRouterLink]="['/moments',event.get('id'),'details']">
                                                                         {{ event.get('nameOfMoment') }}
                                                                     </a>
                                                                 </h3>
@@ -75,7 +77,7 @@
                                                                 <snap-hover-collapse #artistNameCollapseEl
                                                                     collapseID="{{collapseConfigs.get('artistName')}}__moment__upcomming__{{event.get('id')}}">
                                                                     <ng-container data-collapseContent>
-                                                                        <div class="card card-body"
+                                                                        <div ngClass="card card-body"
                                                                             style="background: var(--dark-color)">
                                                                             <span>Event artist was <strong>{{
                                                                                     event.get('username') }}</strong>
@@ -85,7 +87,7 @@
                                                                 </snap-hover-collapse>
                                                                 <br />
                                                             </div>
-                                                            <div class="gen-movie-meta-holder">
+                                                            <div ngClass="gen-movie-meta-holder">
                                                                 <ul>
                                                                     <li>
                                                                         <span (hesitate)="showEndsOnCollapse(loopIndex)"
@@ -94,18 +96,33 @@
                                                                             (mouseleave)="hideEndsOnCollapse(loopIndex)">
                                                                             {{ event.get('endsOn')|dateAgo }}</span>
                                                                     </li>
-                                                                    <li>
-                                                                        <a [routerLink]="null">
-                                                                            <span>Watch Highlights</span>
+                                                                    <li
+                                                                        *ngIf="event.get('canPurchaseReplay', false) || event.get('higlightsIsAvailable', false)">
+                                                                        <a *ngIf="event.get('canPurchaseReplay', false); else probablyHasHighlights;"
+                                                                            [owlRouterLink]="[
+                                                                            '/moments',
+                                                                            event.get('id'),
+                                                                            'details',
+                                                                            'get-tickets'
+                                                                            ]">
+                                                                            <span>Buy Replay</span>
                                                                         </a>
+
+                                                                        <ng-template #probablyHasHighlights>
+                                                                            <a *ngIf="event.get('higlightsIsAvailable', false)"
+                                                                                [owlRouterLink]="['/moments',event.get('id'),'details']">
+                                                                                <span>Watch Highlights</span>
+                                                                            </a>
+                                                                        </ng-template>
                                                                     </li>
                                                                 </ul>
                                                                 <snap-hover-collapse #endsOnCollapseEl
                                                                     collapseID="{{collapseConfigs.get('endsOn')}}__moment__upcomming__{{event.get('id')}}">
                                                                     <ng-container data-collapseContent>
-                                                                        <div class="card card-body"
+                                                                        <div ngClass="card card-body"
                                                                             style="background: var(--dark-color)">
-                                                                            <span>Event ended on <strong>{{
+                                                                            <span>Event ended on
+                                                                                <strong>{{
                                                                                     event.get('endsOn')|date:'long'}}</strong>
                                                                             </span>
                                                                         </div>

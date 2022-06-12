@@ -16,10 +16,10 @@ export class ErrornoteComponent implements OnInit {
     private _changeDetectorRef: ChangeDetectorRef,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.resetTotalInvalidControlsAndErrorMessage();
   }
 

@@ -1,25 +1,96 @@
-<div class="timer">
-    <ng-container *ngIf="daysToDday">
-        <span id="days">
-            {{ daysToDday | pluralSingular:'Dy':'Dys'}}
+<ng-container [ngSwitch]="displayFormat">
+    <ng-container *ngSwitchCase="'yev'">
+        <div ngClass="d-flex justify-content-center">
+            <ng-container *ngIf="daysToDday">
+                <div ngClass="text-center">
+                    <div ngClass="font-size-h1 font-weight-bolder">
+                        {{ daysToDday }}
+                    </div>
+                    <div ngClass="heading-xxs text-uppercase" [ngPlural]="daysToDday">
+                        <ng-template ngPluralCase="1">
+                            Day
+                        </ng-template>
+
+                        <ng-template ngPluralCase="other">
+                            Days
+                        </ng-template>
+                    </div>
+                </div>
+                <div ngClass="px-1 px-md-4">
+                    <div ngClass="font-size-h2 font-weight-bolder">:</div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="hoursToDday">
+                <div ngClass="text-center">
+                    <div ngClass="font-size-h1 font-weight-bolder" data-hours>
+                        {{ hoursToDday }}
+                    </div>
+                    <div ngClass="heading-xxs text-uppercase" [ngPlural]="hoursToDday">
+                        <ng-template ngPluralCase="1">
+                            Hour
+                        </ng-template>
+                        <ng-template ngPluralCase="other">
+                            Hours
+                        </ng-template>
+                    </div>
+                </div>
+                <div ngClass="px-1 px-md-4">
+                    <div ngClass="font-size-h2 font-weight-bolder">:</div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="minutesToDday">
+                <div ngClass="text-center">
+                    <div ngClass="font-size-h1 font-weight-bolder" data-minutes>
+                        {{ minutesToDday }}
+                    </div>
+                    <div ngClass="heading-xxs text-uppercase" [ngPlural]="minutesToDday">
+                        <ng-template ngPluralCase="1">Minute</ng-template>
+                        <ng-template ngPluralCase="other">Minutes</ng-template>
+                    </div>
+                </div>
+                <div ngClass="px-1 px-md-4">
+                    <div ngClass="font-size-h2 font-weight-bolder">:</div>
+                </div>
+            </ng-container>
+
+            <div ngClass="text-center" *ngIf="secondsToDday">
+                <div ngClass="font-size-h1 font-weight-bolder" data-seconds>
+                    {{ secondsToDday }}
+                </div>
+                <div ngClass="heading-xxs text-uppercase" [ngPlural]="secondsToDday">
+                    <ng-template ngPluralCase="1">Second</ng-template>
+                    <ng-template ngPluralCase="other">Seconds</ng-template>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'normal'">
+        <span ngClass="timer {{displayProperty}}">
+            <ng-container *ngIf="daysToDday">
+                <span id="days">
+                    {{ daysToDday | pluralSingular:'Dy':'Dys'}}
+                </span>
+
+            </ng-container>
+
+            <ng-container *ngIf="hoursToDday">
+                <span id="hours">
+                    {{ hoursToDday | pluralSingular:'Hr':'Hrs'}}
+                </span>
+            </ng-container>
+
+            <ng-container *ngIf="minutesToDday">
+                <span id="minutes">
+                    {{ minutesToDday | pluralSingular:'Min':'Mins'}}
+                </span>
+
+            </ng-container>
+
+            <ng-container *ngIf="minutesToDday">
+                <span id="seconds"> {{secondsToDday}} </span>S
+            </ng-container>
         </span>
-
     </ng-container>
-
-    <ng-container *ngIf="hoursToDday">
-        <span id="hours">
-            {{ hoursToDday | pluralSingular:'Hr':'Hrs'}}
-        </span>
-    </ng-container>
-
-    <ng-container *ngIf="minutesToDday">
-        <span id="minutes">
-            {{ minutesToDday | pluralSingular:'Min':'Mins'}}
-        </span>
-
-    </ng-container>
-
-    <ng-container *ngIf="minutesToDday">
-        <span id="seconds"> {{secondsToDday}} </span>S
-    </ng-container>
-</div>
+</ng-container>

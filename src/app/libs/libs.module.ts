@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ModalFullscreenComponent } from './modal-fullscreen/modal-fullscreen.component';
 import { RouterModule } from '@angular/router';
 import { HoverCollapseComponent } from './hover-collapse/hover-collapse.component';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+import { LoadingScreenService } from './loading-screen/loading-screen.service';
 
 
 
@@ -10,6 +12,7 @@ import { HoverCollapseComponent } from './hover-collapse/hover-collapse.componen
   declarations: [
     ModalFullscreenComponent,
     HoverCollapseComponent,
+    LoadingScreenComponent,
   ],
   imports: [
     CommonModule,
@@ -18,6 +21,7 @@ import { HoverCollapseComponent } from './hover-collapse/hover-collapse.componen
   exports: [
     ModalFullscreenComponent,
     HoverCollapseComponent,
-  ]
+    LoadingScreenComponent,
+  ],
 })
 export class LibsModule { }

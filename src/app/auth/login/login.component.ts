@@ -12,6 +12,7 @@ import { SeoSocialShareService } from 'ngx-seo';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { LoadingScreenService } from '@libsModule/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'snap-login',
@@ -27,10 +28,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showPassword = false;
 
-  private _errornoteRef: ComponentRef<ErrornoteComponent> | undefined;
-
-  @ViewChild('errornoteContainer', { read: ViewContainerRef })
-  private _errornoteContainer: ViewContainerRef | undefined;
+  @ViewChild(ErrornoteComponent, { read: ErrornoteComponent })
+  private _errornoteCmp: ErrornoteComponent | undefined;
 
   private _activatedRouteSubscription: Subscription | undefined;
 
@@ -53,24 +52,31 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _changeDetectorRef: ChangeDetectorRef,
+    private _loadingScreenService: LoadingScreenService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._retrieveParams();
 
     this._initializeSignInFormGroup();
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this._retrieveSignInSEODetails();
+
+    this._stopLoading();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._unsubscribeRetrieveSignInSEODetailsSubscription();
 
     this._unsubscribeActivateRouteSubscription();
 
     this._unsubscribeIdentityFieldValueChangesSubscription();
+  }
+
+  private _stopLoading() {
+    this._loadingScreenService.stopLoading();
   }
 
   private _unsubscribeIdentityFieldValueChangesSubscription() {
@@ -94,8 +100,6 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   private _retrieveParams() {
     this._activatedRouteSubscription = this._activatedRoute.queryParams
       .subscribe(params => {
-        console.log({ params });
-
         if (params.hasOwnProperty('returnUrl')) {
           this.routeParams = this.routeParams.set('returnUrl',
             params.returnUrl);
@@ -115,8 +119,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-
-  automaticallyCleanIdentityField(): void {
+  private _automaticallyCleanIdentityField() {
     this._identityFieldValueChangesSubscription = this.signInFormGroup
       ?.get(
         this.SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName
@@ -124,12 +127,9 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
       ?.valueChanges
       ?.pipe(distinctUntilChanged())
       ?.subscribe(value => {
-        console.log({ value })
         const exp = new RegExp('\\s+', 'g');
 
         const CLEANED_VALUE = REGEX_REPLACE_WITH(exp, value, '');
-
-        console.log({ CLEANED_VALUE })
 
         if (fieldValueHasBeenUpdated(value, CLEANED_VALUE, false)) {
           this.signInFormGroup?.get(
@@ -142,16 +142,11 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  private _showErrorNote = (totalInvalidFormControls: number) => {
-    if (!this._errornoteRef) {
-      const factory = this._componentFactoryResolver.resolveComponentFactory(ErrornoteComponent);
-      this._errornoteRef = this._errornoteContainer?.createComponent(factory);
-    }
+  private _showErrorNote(totalInvalidFormControls: number | undefined, errorMessage = '') {
+    if (!(this._errornoteCmp instanceof ErrornoteComponent)) { return; }
 
-    if (this._errornoteRef instanceof ComponentRef) {
-      this._errornoteRef.instance.totalInvalidFormControls = totalInvalidFormControls;
-      this._errornoteRef.injector.get(ChangeDetectorRef).detectChanges();
-    }
+    this._errornoteCmp.showErrorNote(totalInvalidFormControls, errorMessage);
+    this._errornoteCmp.manuallyTriggerChangeDetection();
   }
 
   private _retrieveSignInSEODetails() {
@@ -189,7 +184,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
         this.SIGN_IN_PARAM.PASSWORD.defaultValue, this.SIGN_IN_PARAM.PASSWORD.validators],
     }, { updateOn: 'blur' });
 
-    this.automaticallyCleanIdentityField();
+    this._automaticallyCleanIdentityField();
   }
 
   private _manuallyTriggerChangeDetection() {
@@ -269,9 +264,6 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
           ?.setErrors({
             incorrectCredentials: true,
           });
-
-        console.log(this.signInFormGroup?.get(
-          this.SIGN_IN_PARAM.PASSWORD.formControlName))
 
         this._manuallyTriggerChangeDetection();
 

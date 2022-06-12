@@ -1,0 +1,122 @@
+<snap-breadcrumb>
+    <ng-container data-breadcrumbTitle>
+        <h1> Policies</h1>
+    </ng-container>
+
+    <ng-container data-breadcrumbItems>
+        <ng-template snapBreadcrumbItem>
+            <a routerLink="">
+                <i ngClass="fas fa-home mr-2"></i>Home
+            </a>
+        </ng-template>
+
+        <ng-template snapBreadcrumbItem active="true">
+            Terms of Use
+        </ng-template>
+    </ng-container>
+</snap-breadcrumb>
+
+<section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-lg-9 col-md-12">
+                <div ngClass="gen-blog-post" *ngIf="!termsOfUseDetails.isEmpty()">
+                    <!-- <div ngClass="gen-post-media">
+                        <img src="images/background/asset-19.jpeg" alt="blog-image" loading="lazy">
+                    </div> -->
+                    <div ngClass="gen-blog-contain">
+                        <div ngClass="gen-post-meta">
+                            <ul>
+                                <li ngClass="gen-post-meta">
+                                    <a [routerLink]="null">
+                                        <i ngClass="fa fa-calendar"></i>
+                                        {{ $any(termsOfUseDetails.get('modifiedDate')) | date: 'longDate' }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <h2 ngClass="my-4">Agreement To Terms</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('agreementToTerms')"></div>
+
+                        <h2 ngClass="my-4">Intellectual Property Rights</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('intellectualPropertyRights')"></div>
+
+                        <h2 ngClass="my-4">User Representations</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('userRepresentation')"></div>
+
+                        <h2 ngClass="my-4">Prohibited Activities</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('prohibitedActivity')"></div>
+
+                        <h2 ngClass="my-4">User Generated Contributions</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('userGeneratedContribution')">
+                        </div>
+
+                        <h2 ngClass="my-4">Contribution License</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('contributionLicense')"></div>
+
+                        <h2 ngClass="my-4">Submissions</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('submission')"></div>
+
+                        <h2 ngClass="my-4">Site Management</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('siteManagement')"></div>
+
+                        <h2 ngClass="my-4">Term And Termination</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('termAndTermination')"></div>
+
+                        <h2 ngClass="my-4">Modifications And Interruptions</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('modificationAndInterruption')"></div>
+
+                        <h2 ngClass="my-4">Governing Law</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('governingLaw')"></div>
+
+                        <h2 ngClass="my-4">Dispute Resolution</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('disputeResolution')"></div>
+
+                        <h2 ngClass="my-4">Corrections</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('correction')">
+                        </div>
+
+                        <h2 ngClass="my-4">Disclaimer</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('disclaimer')"></div>
+
+                        <h2 ngClass="my-4">Limitations Of Liability</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('limitationOfLiability')"></div>
+
+                        <h2 ngClass="my-4">Indemnification</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('indemnification')"></div>
+
+                        <h2 ngClass="my-4">User Data</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('userData')"></div>
+
+                        <h2 ngClass="my-4">Electronic Communications, Transactions, And Signatures</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('electronicCommunicationTransactionSignatures')"></div>
+
+                        <h2 ngClass="my-4">Miscellaneous</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('miscellaneous')"></div>
+
+                        <h2 ngClass="my-4">Contact Us</h2>
+                        <div [innerHTML]="termsOfUseDetails.get('contactUs')"></div>
+                    </div>
+                </div>
+            </div>
+            <div ngClass="col-lg-3 col-md-12 mt-4 mt-lg-0">
+                <div ngClass="widget widget_recent_entries">
+                    <h2 ngClass="widget-title">Policies</h2>
+                    <ul>
+                        <li>
+                            <a routerLink="../privacy-notice">
+                                Privacy Notice
+                            </a>
+                        </li>
+                        <li>
+                            <a ngClass="active" routerLink=".">
+                                Terms of use
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

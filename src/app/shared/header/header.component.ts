@@ -35,6 +35,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     background: ''
   });
 
+  showGenAccountMenu = false;
+
+  readonly CONFIRM_LOGOUT_MODAL_ID = 'modalLogoutConfirmation';
+
   constructor(
     private _router: Router,
     private _location: Location,
@@ -50,14 +54,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._subscribeToRouterEvents();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.validateIfUserIsLoggedIn();
     }
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._unsubscribeRouterEventSubscription();
+  }
+
+  toggleGenAccountMenu() {
+    this.showGenAccountMenu = !this.showGenAccountMenu;
   }
 
   private _intToRGB(value: any) {
@@ -77,7 +85,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._changeDetectorRef.detectChanges();
   }
 
-  validateIfUserIsLoggedIn(): void {
+  validateIfUserIsLoggedIn() {
     const CURRENT_USER_EMAIL = convertItemToString(
       this.authenticationService.currentUserEmail);
 
@@ -106,7 +114,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           (event: NavigationEvent) => {
 
             if (event instanceof NavigationEnd) {
-              console.log('Route changed')
               if (this._location.path() !== this.ROOT_URL) {
                 this.isRoot = false;
               } else {

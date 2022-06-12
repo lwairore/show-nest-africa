@@ -1,0 +1,85 @@
+<ng-container *ngIf="!upcommingEvents.isEmpty()">
+    <!-- breadcrumb -->
+    <snap-breadcrumb>
+        <ng-container data-breadcrumbTitle>
+            <h1> Upcomming Events</h1>
+        </ng-container>
+
+        <ng-container data-breadcrumbItems>
+            <ng-template snapBreadcrumbItem>
+                <a routerLink="">
+                    <i ngClass="fas fa-home mr-2"></i>Home
+                </a>
+            </ng-template>
+
+            <ng-template snapBreadcrumbItem active="true">
+                Upcomming Events
+            </ng-template>
+        </ng-container>
+    </snap-breadcrumb>
+    <!-- breadcrumb -->
+
+    <!-- Section-1 Start -->
+    <section ngClass="gen-section-padding-3">
+        <div ngClass="container">
+            <div ngClass="row">
+                <div ngClass="col-lg-12">
+                    <div ngClass="gen-style-1">
+                        <div ngClass="row">
+                            <div ngClass="col-xl-4 col-lg-4 col-md-4" *ngFor="let event of upcommingEvents;">
+                                <div ngClass="gen-carousel-movies-style-2 movie-grid style-2">
+                                    <div ngClass="gen-movie-contain">
+                                        <div ngClass="gen-movie-img" (click)="navigateToMomentDetail(event.get('id'))">
+                                            <snap-img-lazy [src]="event.getIn(['poster', 'src'])"
+                                                [alt]="event.getIn(['poster', 'alt'])" height="230px">
+                                            </snap-img-lazy>
+                                        </div>
+                                        <div ngClass="gen-info-contain">
+                                            <div ngClass="gen-movie-info">
+                                                <h3>
+                                                    <a [routerLink]="['/moments',event.get('id'),'details']">
+                                                        {{ event.get('nameOfMoment') }}
+                                                    </a>
+                                                </h3>
+                                                <span>
+                                                    {{ event.get('username') }}
+                                                </span>
+                                                <br />
+                                                <snap-count-down [startDate]="event.get('startsOn')"></snap-count-down>
+                                            </div>
+                                            <div ngClass="gen-movie-meta-holder">
+                                                <ul>
+                                                    <li>
+                                                        <a [routerLink]="[
+                                                    '/moments',event.get('id'),'details',
+                                                    'get-tickets']">
+                                                            <span>Get Tickets</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="col-lg-12" *ngIf="paginationDetailsForUpcommingEvent.get('next')">
+                    <div ngClass="gen-load-more-button">
+                        <div ngClass="gen-btn-container">
+                            <a ngClass="gen-button gen-button-loadmore" [routerLink]="null"
+                                (click)="loadMoreUpcommingEvent()">
+                                <span ngClass="loadmore-icon"
+                                    [style.display]="loadingUpcommingEvents ? 'inline-block': 'none'"><i
+                                        ngClass="fa fa-spinner fa-spin"></i></span>
+                                <span ngClass="button-text">Load More</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section-1 End -->
+</ng-container>

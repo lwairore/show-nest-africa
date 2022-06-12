@@ -6,4 +6,6 @@ export type PastEventFormatHttpResponse = Readonly<{
     username: string;
     nameOfMoment: string;
     poster: ImageItemPreviewFormatHttpResponse;
+    canPurchaseReplay: boolean;
+    higlightsIsAvailable: boolean;
 }>

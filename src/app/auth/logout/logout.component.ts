@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { AuthenticationService } from '@sharedModule/services';
 import { convertItemToString } from '@sharedModule/utilities';
 import { Subscription } from 'rxjs';
+import { LoadingScreenService } from '@libsModule/loading-screen/loading-screen.service';
 
 @Component({
   selector: 'snap-logout',
@@ -11,38 +12,37 @@ import { Subscription } from 'rxjs';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoutComponent implements OnInit, OnDestroy {
+export class LogoutComponent implements OnInit, AfterViewInit, OnDestroy {
   routeSubscription: Subscription | undefined;
 
   logoutSubscription: Subscription | undefined;
 
-  signingOut = false;
-
-  signoutPermitted = true;
-
-  errorOccuredWhenSigningOut = false;
-
-  signedOutSuccessfully = false;
-
-  signedOutUser: {
-    firstName: string;
-  } = {
-      firstName: ''
-    }
-
   constructor(
+    private _router: Router,
     private activatedRoute: ActivatedRoute,
     private authenticationService: AuthenticationService,
+    private _loadingScreenService: LoadingScreenService,
   ) { }
 
-  ngOnInit(): void {
-    this.loadRouteData();
+  ngOnInit() {
   }
 
-  ngOnDestroy(): void {
+  ngAfterViewInit() {
+    this.logout();
+  }
+
+  ngOnDestroy() {
     this._unsubscribeRouteSubscription();
 
     this._unsubscribeLogoutSubscription();
+  }
+
+  private _startLoading() {
+    this._loadingScreenService.startLoading();
+  }
+
+  private _stopLoading() {
+    this._loadingScreenService.stopLoading();
   }
 
   private _unsubscribeLogoutSubscription() {
@@ -57,49 +57,29 @@ export class LogoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadRouteData(): void {
-    this.routeSubscription = this.activatedRoute.data
-      .subscribe((data: Data) => {
-        this.signoutPermitted = data?.signoutPermitted;
-      }, err => console.error(err));
-  }
+  logout() {
 
-  private _resetErrorOccuredWhenSignIngOut() {
-    if (this.errorOccuredWhenSigningOut) {
-      this.errorOccuredWhenSigningOut = false;
-    }
-  }
+    this._startLoading();
 
-  logout(): void {
-    if (!this.signingOut) {
-      this.signingOut = true;
-    }
+    this.logoutSubscription = this.authenticationService
+      .logout()
+      .subscribe((result) => {
+        this._stopLoading();
 
-    this._resetErrorOccuredWhenSignIngOut();
-
-    this.logoutSubscription = this.authenticationService.logout().subscribe(
-      (result: {
-        firstName: string;
-      }) => {
-        this.signedOutSuccessfully = true;
-
-        this.signedOutUser.firstName = result.firstName;
-
-        this.signingOut = false;
+        this._router.navigate(['/']);
       }, err => {
-        this.signedOutUser.firstName = convertItemToString(
-          this.authenticationService
-            .clearCredentials()?.firstName);
         console.error(err);
-        // this.errorOccuredWhenSigningOut = true;
-        this.signedOutSuccessfully = true;
 
-        this.signingOut = false;
-      }
-    );
+        this.authenticationService
+          .clearCredentials();
+
+        this._stopLoading();
+
+        this._router.navigate(['/']);
+      });
   }
 
-  tryAgainToSignout(): void {
+  tryAgainToSignout() {
     this.logout();
   }
 }

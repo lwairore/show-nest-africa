@@ -14,9 +14,10 @@ import {
   ExpectedType,
   isANumber,
   isObjectEmpty,
-  whichValueShouldIUse
+  whichValueShouldIUse,
+  formatShowcaseItemWithPhoto,
+  getBoolean
 } from '@sharedModule/utilities';
-import { formatShowcaseItemWithPhoto } from '@sharedModule/utilities/format-showcase-item-with-photo.util';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -25,7 +26,7 @@ import { environment } from 'src/environments/environment';
 })
 export class EventService {
 
-  constructor(private _httpClient: HttpClient,) { }
+  constructor(private _httpClient: HttpClient, ) { }
 
   listUpcommingEvent$(pageNumber?: string) {
     const API = environment.baseURL +
@@ -62,7 +63,7 @@ export class EventService {
 
           const FORMATTED_DETAILS: PaginatedItemHttpResponse<UpcommingEventFormatHttpResponse> = {
             next: whichValueShouldIUse(details.next, undefined, ExpectedType.NUMBER),
-            results: FORMATTED_MOMENTS ?? Array()
+            results: whichValueShouldIUse(FORMATTED_MOMENTS, Array(), ExpectedType.ARRAY)
           }
 
           return FORMATTED_DETAILS;
@@ -98,6 +99,8 @@ export class EventService {
               username: convertItemToString(detail?.username),
               nameOfMoment: convertItemToString(detail?.name_of_moment),
               poster: formatShowcaseItemWithPhoto(detail.poster),
+              canPurchaseReplay: getBoolean(detail.can_purchase_replay),
+              higlightsIsAvailable: getBoolean(detail.higlights_is_available),
             };
 
             return FORMATTED_DETAIL;
@@ -105,7 +108,7 @@ export class EventService {
 
           const FORMATTED_DETAILS: PaginatedItemHttpResponse<PastEventFormatHttpResponse> = {
             next: whichValueShouldIUse(details.next, undefined, ExpectedType.NUMBER),
-            results: FORMATTED_MOMENTS ?? Array()
+            results: whichValueShouldIUse(FORMATTED_MOMENTS, Array(), ExpectedType.ARRAY)
           }
 
           return FORMATTED_DETAILS;

@@ -122,35 +122,16 @@ export class AuthenticationService {
       .pipe(
         retryWithBackoff(1000, 5),
         map(details => {
-          const email = convertItemToString(details.email);
-          if (stringIsEmpty(email)) {
-            return {};
-          }
-
-          const token = convertItemToString(details.token);
-          if (stringIsEmpty(token)) {
-            return {};
-          }
-
-          const firstName = convertItemToString(details.first_name);
-          if (stringIsEmpty(firstName)) {
-            return {};
-          }
-
-          const lastName = convertItemToString(details.last_name);
-          if (stringIsEmpty(lastName)) {
-            return {};
-          }
-
           const FORMATTED_DETAILS: CurrentUserDetailFormatHttpResponse = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            token: token
+            fullName: convertItemToString(details.full_name),
+            email: convertItemToString(details.email),
+            token: convertItemToString(details.token)
           };
 
           if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('snapCurrentUser', JSON.stringify(FORMATTED_DETAILS));
+            localStorage.setItem(
+              'snapCurrentUser',
+              JSON.stringify(FORMATTED_DETAILS));
           }
 
           this.currentUserSubject?.next(FORMATTED_DETAILS);
@@ -165,38 +146,17 @@ export class AuthenticationService {
 
     return this.http.post<CurrentUserDetailHttpResponse>(API, credentials)
       .pipe(retryWithBackoff(1000, 5), map(details => {
-        const email = convertItemToString(details.email);
-        if (stringIsEmpty(email)) {
-          return {};
-        }
-
-        const token = convertItemToString(details.token);
-        if (stringIsEmpty(token)) {
-          return {};
-        }
-
-        const firstName = convertItemToString(details.first_name);
-        if (stringIsEmpty(firstName)) {
-          return {};
-        }
-
-        const lastName = convertItemToString(details.last_name);
-        if (stringIsEmpty(lastName)) {
-          return {};
-        }
 
         const FORMATTED_DETAILS: CurrentUserDetailFormatHttpResponse = {
-          firstName: convertItemToString(firstName),
-          lastName: convertItemToString(lastName),
-          email: email,
-          token: token
+          fullName: convertItemToString(details.full_name),
+          email: convertItemToString(details.email),
+          token: convertItemToString(details.token)
         };
 
         if (isPlatformBrowser(this.platformId)) {
           localStorage.setItem('snapCurrentUser', JSON.stringify(FORMATTED_DETAILS));
         }
         this.currentUserSubject?.next(FORMATTED_DETAILS);
-        // this.updateCurrentUser();
         return FORMATTED_DETAILS;
       }));
   }
@@ -205,7 +165,7 @@ export class AuthenticationService {
     const parseCurrentUser = this.currentUserValue;
 
     const API = environment.baseURL + environment.authentication.rootURL +
-      environment.authentication.signOut;
+      environment.authentication.signOut.signOut();
 
     return this.http.delete(API
     ).pipe(retryWithBackoff(1000, 5), map(
@@ -228,16 +188,11 @@ export class AuthenticationService {
 
   clearCredentials() {
     try {
-      const loggedOutUser: {
-        firstName: string;
-      } = {
-        firstName: this.currentUserValue.firstName
-      };
       if (isPlatformBrowser(this.platformId)) {
         localStorage.removeItem('snapCurrentUser');
       }
       this.currentUserSubject?.next(null);
-      return loggedOutUser;
+      return true;
     } catch (TypeError) {
       if (isPlatformBrowser(this.platformId)) {
         localStorage.removeItem('snapCurrentUser');

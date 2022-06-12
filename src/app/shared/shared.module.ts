@@ -23,6 +23,14 @@ import { ItemDescriptionComponent } from './components/item-description/item-des
 import { FormatUrlPipe } from './pipes/format-url.pipe';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { HesitateDirective } from './directives/hesitate.directive';
+import { LibsModule } from '@libsModule/libs.module';
+import { FormatPhoneNumberPipe } from './pipes/format-phone-number.pipe';
+import { BreadcrumbItemDirective } from './components/breadcrumb/breadcrumb-item.directive';
+import { ClickStopPropagationDirective } from './directives/click-stop-propagation.directive';
+import { ParseNamePipe } from './pipes/parse-name.pipe';
+import { DynamicallySetHeightUsingScrollHeightDirective } from './directives/dynamically-set-height-using-scroll-height.directive';
+import { Footer2Component } from './footer2/footer2.component';
+import { DisableRightClickDirective } from './disable-right-click.directive';
 
 
 
@@ -48,11 +56,19 @@ import { HesitateDirective } from './directives/hesitate.directive';
     FormatUrlPipe,
     BreadcrumbComponent,
     HesitateDirective,
+    FormatPhoneNumberPipe,
+    BreadcrumbItemDirective,
+    ClickStopPropagationDirective,
+    ParseNamePipe,
+    DynamicallySetHeightUsingScrollHeightDirective,
+    Footer2Component,
+    DisableRightClickDirective,
   ],
   imports: [
     CommonModule,
     RouterModule,
     NgxSkeletonLoaderModule,
+    LibsModule,
   ],
   exports: [
     HeaderComponent,
@@ -75,6 +91,13 @@ import { HesitateDirective } from './directives/hesitate.directive';
     FormatUrlPipe,
     BreadcrumbComponent,
     HesitateDirective,
+    FormatPhoneNumberPipe,
+    BreadcrumbItemDirective,
+    ClickStopPropagationDirective,
+    ParseNamePipe,
+    DynamicallySetHeightUsingScrollHeightDirective,
+    Footer2Component,
+    DisableRightClickDirective,
   ],
   providers: [
     AuthenticationService

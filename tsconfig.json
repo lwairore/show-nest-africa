@@ -24,8 +24,14 @@
     "paths": {
       "@sharedModule/*": [
         "src/app/shared/*"
+      ],
+      "@libsModule/*": [
+        "src/app/libs/*"
       ]
-    }
+    },
+    "types": [
+      "paypal-checkout-components"
+    ]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

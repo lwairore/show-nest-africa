@@ -35,32 +35,32 @@ Design and Developed by: Gentechtree.com
             jQuery('.gen-search-form').slideToggle();
             jQuery('.gen-search-form').toggleClass('gen-form-show');
             if (jQuery('.gen-search-form').hasClass("gen-form-show")) {
-                jQuery(this).html('<i class="fa fa-times"></i>');
+                jQuery(this).html('<i ngClass="fa fa-times"></i>');
             } else {
-                jQuery(this).html('<i class="fa fa-search"></i>');
+                jQuery(this).html('<i ngClass="fa fa-search"></i>');
             }
         });
 
-        jQuery('.gen-account-menu').hide();
-         jQuery('#gen-user-btn').on('click', function(e) {
+        // jQuery('.gen-account-menu').hide();
+        //  jQuery('#gen-user-btn').on('click', function(e) {
             
-            jQuery('.gen-account-menu').slideToggle();
+        //     jQuery('.gen-account-menu').slideToggle();
 
-             e.stopPropagation();
-            // jQuery('.gen-account-menu').toggleClass('gen-form-show');
-            // if (jQuery('.gen-account-menu').hasClass("gen-form-show")) {
-            //     jQuery(this).html('<i class="fa fa-times"></i>');
-            // } else {
-            //     jQuery(this).html('<i class="fa fa-user"></i>');
-            // }
-        });
+        //      e.stopPropagation();
+        //     // jQuery('.gen-account-menu').toggleClass('gen-form-show');
+        //     // if (jQuery('.gen-account-menu').hasClass("gen-form-show")) {
+        //     //     jQuery(this).html('<i ngClass="fa fa-times"></i>');
+        //     // } else {
+        //     //     jQuery(this).html('<i ngClass="fa fa-user"></i>');
+        //     // }
+        // });
 
-        jQuery('body').on('click' , function(){
-            if(jQuery('.gen-account-menu').is(":visible"))
-            {
-                jQuery('.gen-account-menu').slideUp();
-            }
-        });
+        // jQuery('body').on('click' , function(){
+        //     if(jQuery('.gen-account-menu').is(":visible"))
+        //     {
+        //         jQuery('.gen-account-menu').slideUp();
+        //     }
+        // });
         /*------------------------
                 Sidebar Toggle
         --------------------------*/
@@ -127,7 +127,7 @@ Design and Developed by: Gentechtree.com
             var url = jQuery('.tv-show-back-data').data('url');
             console.log(url);
             var html = '';
-            html += `<div class="tv-single-background">
+            html += `<div ngClass="tv-single-background">
                 <img src="`+url+`">
             </div>`;
             jQuery('#main').prepend(html);

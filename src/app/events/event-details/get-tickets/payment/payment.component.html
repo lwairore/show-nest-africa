@@ -1,0 +1,286 @@
+<ng-container *ngIf="!momentDetail.isEmpty()">
+  <section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+      <div ngClass="py-5 text-center">
+        <snap-img-lazy [src]="momentDetail.getIn(['poster', 'src'])" imgClass="d-block mx-auto mb-4"
+          [alt]="momentDetail.getIn(['poster', 'alt'])" width="72" height="72" [momentRoundImgCard]="false">
+        </snap-img-lazy>
+
+        <h2>
+          {{ momentDetail.get('nameOfMoment') }}
+        </h2>
+      </div>
+      <div ngClass="text-center my-5" [ngSwitch]="momentDetail?.get('eventIs', '')">
+        <ng-container *ngSwitchCase="'upcomming'">
+          <span *ngIf="momentDetail.get('startsOn')">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+              ngClass="mr-2">
+              <path
+                d="M2.509 13.538h9.474c1.525 0 2.332-.813 2.332-2.317v-8.3c0-1.503-.807-2.31-2.332-2.31H2.51C.99.611.178 1.418.178 2.921v8.3c0 1.51.813 2.317 2.33 2.317zm.068-1.565c-.547 0-.834-.274-.834-.841v-6.18c0-.574.287-.84.834-.84h9.338c.54 0 .834.266.834.84v6.18c0 .567-.294.84-.834.84H2.577zm3.37-5.578h.397c.253 0 .335-.076.335-.322V5.67c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zM3.74 8.562h.403c.246 0 .335-.076.335-.322v-.403c0-.246-.09-.321-.335-.321h-.404c-.246 0-.328.075-.328.32v.404c0 .246.082.322.328.322zm2.207 0h.397c.253 0 .335-.076.335-.322v-.403c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zm-6.61 2.173h.403c.246 0 .335-.082.335-.328v-.396c0-.246-.09-.328-.335-.328h-.404c-.246 0-.328.082-.328.328v.396c0 .246.082.328.328.328zm2.207 0h.397c.253 0 .335-.082.335-.328v-.396c0-.246-.082-.328-.335-.328h-.397c-.253 0-.335.082-.335.328v.396c0 .246.082.328.335.328zm2.201 0h.404c.246 0 .328-.082.328-.328v-.396c0-.246-.082-.328-.328-.328h-.404c-.246 0-.335.082-.335.328v.396c0 .246.09.328.335.328z"
+                fill="currentColor"></path>
+            </svg> Event starts on:
+            <span ngClass="d-block">
+              {{ momentDetail.get('startsOn') |date:'full'}}
+            </span>
+            <!-- April 7th - 5am EAT -->
+          </span>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'ongoing'">
+       Event started {{ momentDetail.get('startsOn') | dateAgo }}
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'past'">
+          <ng-container *ngIf="momentDetail.get('endsOn'); else replayIsProbablyPresent;">
+            Event ended {{ momentDetail.get('endsOn') | dateAgo }}
+          </ng-container>
+
+          <ng-template #replayIsProbablyPresent>
+            <ng-container [ngSwitch]="momentDetail.getIn(['replayDetails', 'salesIs'])">
+              <ng-container *ngSwitchCase="'upcomming'">
+                <span *ngIf="momentDetail.getIn(['replayDetails', 'salesStartsOn'])">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    ngClass="mr-2">
+                    <path
+                      d="M2.509 13.538h9.474c1.525 0 2.332-.813 2.332-2.317v-8.3c0-1.503-.807-2.31-2.332-2.31H2.51C.99.611.178 1.418.178 2.921v8.3c0 1.51.813 2.317 2.33 2.317zm.068-1.565c-.547 0-.834-.274-.834-.841v-6.18c0-.574.287-.84.834-.84h9.338c.54 0 .834.266.834.84v6.18c0 .567-.294.84-.834.84H2.577zm3.37-5.578h.397c.253 0 .335-.076.335-.322V5.67c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zM3.74 8.562h.403c.246 0 .335-.076.335-.322v-.403c0-.246-.09-.321-.335-.321h-.404c-.246 0-.328.075-.328.32v.404c0 .246.082.322.328.322zm2.207 0h.397c.253 0 .335-.076.335-.322v-.403c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zm-6.61 2.173h.403c.246 0 .335-.082.335-.328v-.396c0-.246-.09-.328-.335-.328h-.404c-.246 0-.328.082-.328.328v.396c0 .246.082.328.328.328zm2.207 0h.397c.253 0 .335-.082.335-.328v-.396c0-.246-.082-.328-.335-.328h-.397c-.253 0-.335.082-.335.328v.396c0 .246.082.328.335.328zm2.201 0h.404c.246 0 .328-.082.328-.328v-.396c0-.246-.082-.328-.328-.328h-.404c-.246 0-.335.082-.335.328v.396c0 .246.09.328.335.328z"
+                      fill="currentColor"></path>
+                  </svg> Replay sales starts on:
+                  <span ngClass="d-block">
+                    {{ momentDetail.getIn(['replayDetails', 'salesStartsOn']) |date:'full'}}
+                  </span>
+                  <!-- April 7th - 5am EAT -->
+                </span>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'ongoing'">
+                <span *ngIf="momentDetail.getIn(['replayDetails', 'salesEndsOn'])">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    ngClass="mr-2">
+                    <path
+                      d="M2.509 13.538h9.474c1.525 0 2.332-.813 2.332-2.317v-8.3c0-1.503-.807-2.31-2.332-2.31H2.51C.99.611.178 1.418.178 2.921v8.3c0 1.51.813 2.317 2.33 2.317zm.068-1.565c-.547 0-.834-.274-.834-.841v-6.18c0-.574.287-.84.834-.84h9.338c.54 0 .834.266.834.84v6.18c0 .567-.294.84-.834.84H2.577zm3.37-5.578h.397c.253 0 .335-.076.335-.322V5.67c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zM3.74 8.562h.403c.246 0 .335-.076.335-.322v-.403c0-.246-.09-.321-.335-.321h-.404c-.246 0-.328.075-.328.32v.404c0 .246.082.322.328.322zm2.207 0h.397c.253 0 .335-.076.335-.322v-.403c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zm-6.61 2.173h.403c.246 0 .335-.082.335-.328v-.396c0-.246-.09-.328-.335-.328h-.404c-.246 0-.328.082-.328.328v.396c0 .246.082.328.328.328zm2.207 0h.397c.253 0 .335-.082.335-.328v-.396c0-.246-.082-.328-.335-.328h-.397c-.253 0-.335.082-.335.328v.396c0 .246.082.328.335.328zm2.201 0h.404c.246 0 .328-.082.328-.328v-.396c0-.246-.082-.328-.328-.328h-.404c-.246 0-.335.082-.335.328v.396c0 .246.09.328.335.328z"
+                      fill="currentColor"></path>
+                  </svg> Replay starts on:
+                  <span ngClass="d-block">
+                    {{ momentDetail.getIn(['replayDetails', 'salesEndsOn']) |date:'full'}}
+                  </span>
+                  <!-- April 7th - 5am EAT -->
+                </span>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'past'">
+                <ng-container [ngSwitch]="momentDetail.getIn(['replayDetails','replayIs'])">
+                  <ng-container *ngSwitchCase="'ongoing'">
+                    Replay started {{ momentDetail.getIn(['replayDetails','salesEndsOn']) | dateAgo}}
+                  </ng-container>
+
+                  <ng-container *ngSwitchCase="'past'">
+                    Replay ended {{ momentDetail.getIn(['replayDetails','replayEndsOn']) | dateAgo }}
+                  </ng-container>
+
+                  <ng-container *ngSwitchDefault></ng-container>
+                </ng-container>
+
+              </ng-container>
+
+              <ng-container *ngSwitchDefault></ng-container>
+            </ng-container>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault></ng-container>
+
+      </div>
+
+      <ng-container *ngIf="thereAreNoMoreTickets">
+        <div ngClass="text-center my-5">
+          <span>
+            We're sorry, but there are no more available tickets to purchase or you are not permitted to make any
+            purchases now.
+          </span>
+        </div>
+
+        <div ngClass="text-center my-5">
+          <a [routerLink]="null" ngClass="gen-button mt-2" (click)="navigateToEventDetails()">
+            <div ngClass="gen-button-block">
+              <span ngClass="gen-button-text"> Go to event details </span>
+            </div>
+          </a>
+        </div>
+      </ng-container>
+
+      <div ngClass="row" *ngIf="!thereAreNoMoreTickets">
+        <div ngClass="col-md-4 order-md-2 mb-4">
+          <h4 ngClass="d-flex justify-content-between align-items-center mb-3">
+            <span>Summary</span>
+            <span ngClass="badge badge-danger badge-pill" style="background: var(--primary-color);"
+              #totalTicketQuantitiesElRef></span>
+          </h4>
+
+          <form [formGroup]="paymentMethodFormGroup" autocomplete="off">
+            <ul ngClass="list-group mb-3">
+
+              <li ngClass="list-group-item d-flex justify-content-between lh-condensed"
+                *ngFor="let formControl of ticketsFormArray.controls; let loopIndex=index;" formArrayName="tickets">
+                <div [formGroupName]="loopIndex">
+                  <h6 ngClass="my-0"
+                    title="Purchase {{momentDetail.getIn(['ticketDetails',loopIndex,'nameOfTicket'])}}">
+                    <input type="checkbox" formControlName="ticket"> {{
+                                    momentDetail.getIn(['ticketDetails',loopIndex,'nameOfTicket']) }}
+                  </h6>
+                  <small ngClass="d-block mb-2 text-muted">
+                    Can stream: <i ngClass="fa fa-{{momentDetail.getIn(
+                    [
+                    'ticketDetails',
+                    loopIndex,
+                    'canStreamOnline'
+                    ], false
+                  ) ? 'check': 'times'}}-circle"></i>
+                  </small>
+                  <small ngClass="text-muted">
+
+                    <a [routerLink]="null" *ngIf="momentDetail.getIn(['ticketDetails',loopIndex,'benefits'])"
+                      data-toggle="modal" [attr.data-target]="'#'+TICKET_BENEFIT_BASE_MODAL_ID + loopIndex.toString()">
+                      See benefits
+                    </a>
+
+                    <snap-modal-fullscreen [modalID]="TICKET_BENEFIT_BASE_MODAL_ID + loopIndex.toString()">
+                      <ng-container data-modalTitle>
+                        {{momentDetail.getIn(['ticketDetails',loopIndex,'nameOfTicket'])}} - Benefits
+                      </ng-container>
+
+                      <ng-container data-modalHeaderDismissModal>
+                        <button type="button" ngClass="close" data-dismiss="modal" aria-label="Close"
+                          style="color: var(--white-color);">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </ng-container>
+
+                      <ng-container data-modalBody>
+                        <div [innerHTML]="momentDetail.getIn(['ticketDetails',loopIndex,'benefits'])"></div>
+                      </ng-container>
+
+                      <ng-container data-modalFooter>
+                        <a ngClass="gen-button" data-dismiss="modal" [routerLink]="null">
+                          <div ngClass="gen-button-block"><span ngClass="gen-button-text"> Close </span></div>
+                        </a>
+                      </ng-container>
+                    </snap-modal-fullscreen>
+
+                  </small>
+                  <input type="text" placeholder="No. of Tickets" formControlName="quantity"
+                    *ngIf="formControl.get('ticket')?.value">
+                </div>
+                <span ngClass="text-muted">{{ momentDetail.getIn(['ticketDetails',loopIndex,'cost']) |
+                                currency:'KES':'symbol':'.2-2' }}
+                  <ng-container *ngIf="formControl.get('ticket')?.value && +formControl.get('quantity')?.value">
+                    x {{formControl.get('quantity')?.value |number: '1.0-0'}}
+                  </ng-container>
+
+                </span>
+              </li>
+              <li ngClass="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <h6 ngClass="my-0">Subtotal</h6>
+                  <small ngClass="text-muted">
+                    This is the total price for
+                    <em>each</em> ticket.
+                  </small>
+                </div>
+                <span ngClass="text-muted" #subTotalElRef>
+
+                </span>
+              </li>
+              <li ngClass="list-group-item d-flex justify-content-between lh-condensed"
+                *ngFor="let fee of additionalFees">
+                <div>
+                  <h6 ngClass="my-0">{{ fee.get('name', '')|titlecase }}</h6>
+                  <small ngClass="text-muted" *ngIf="fee.get('description')">
+                    {{fee.get('description')}}
+                  </small>
+                </div>
+                <span ngClass="text-muted">
+                  {{ fee.get('fee')| currency:'KES':'symbol':'.2-2' }}
+                </span>
+              </li>
+              <li ngClass="list-group-item d-flex justify-content-between">
+                <span>Total (KES)</span>
+                <strong #totalElRef></strong>
+              </li>
+            </ul>
+          </form>
+        </div>
+        <div ngClass="col-md-8 order-md-1">
+          <div ngClass="row">
+            <div ngClass="col-12">
+              <h4 ngClass="mb-3">
+                <ng-container [ngSwitch]="optsToPayWith">
+                  <ng-container *ngSwitchCase="DEBIT_OR_CREDIT_CARD">
+                    Credit/Debit Payment
+                  </ng-container>
+                  <ng-container *ngSwitchCase="MPESA_CHOICE_SLUG">
+                    Lipa na M-PESA Online
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    Choose payment method
+                  </ng-container>
+                </ng-container>
+              </h4>
+
+              <form [formGroup]="paymentMethodFormGroup" ngClass="mb-4" autocomplete="off">
+                <div ngClass="d-block my-3">
+                  <ng-container *ngFor="let method of paymentMethods">
+                    <div ngClass="custom-control custom-radio">
+                      <input [id]="method.get('method')" type="radio" ngClass="custom-control-input"
+                        formControlName="method" [value]="method.get('method')">
+                      <label ngClass="custom-control-label" [for]="method.get('method')"
+                        [ngSwitch]="method.get('method')">
+                        <ng-container *ngSwitchCase="MPESA_CHOICE_SLUG">
+                          M-Pesa
+                        </ng-container>
+                        <ng-container *ngSwitchCase="DEBIT_OR_CREDIT_CARD">
+                          Credit/Debit card
+                        </ng-container>
+                        <ng-container *ngSwitchDefault></ng-container>
+                      </label>
+                    </div>
+                  </ng-container>
+                </div>
+              </form>
+
+
+              <ng-container [ngSwitch]="optsToPayWith">
+                <snap-card *ngSwitchCase="DEBIT_OR_CREDIT_CARD" (formSubmitted)="paymentNonceSubmitted($event)">
+                </snap-card>
+                <snap-m-pesa *ngSwitchCase="MPESA_CHOICE_SLUG"
+                  (formSubmitted)="lipaNaMpesaPaymentCredentialsSubmitted($event)"></snap-m-pesa>
+                <ng-container *ngSwitchDefault></ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <snap-footer2></snap-footer2>
+    </div>
+  </section>
+
+  <snap-modal-fullscreen #paymentResponseModalEl [modalID]="PAYMENT_RESPONSE_MODAL_ID">
+    <span data-modalTitle #dataModalTitleNgContent>
+    </span>
+
+    <ng-container data-modalHeaderDismissModal>
+      <button type="button" ngClass="close" data-dismiss="modal" aria-label="Close" style="color: var(--white-color);">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </ng-container>
+
+    <div data-modalBody #dataModalBodyNgContent>
+    </div>
+
+    <ng-container data-modalFooter>
+      <a ngClass="gen-button" data-dismiss="modal" [routerLink]="null">
+        <div ngClass="gen-button-block"><span ngClass="gen-button-text"> Close </span></div>
+      </a>
+    </ng-container>
+  </snap-modal-fullscreen>
+</ng-container>

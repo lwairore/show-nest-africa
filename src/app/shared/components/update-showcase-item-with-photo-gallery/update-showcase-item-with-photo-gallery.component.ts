@@ -9,7 +9,7 @@ export class UpdateShowcaseItemWithPhotoGalleryComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }

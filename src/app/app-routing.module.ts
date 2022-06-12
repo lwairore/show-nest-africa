@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '@sharedModule/guards';
 
 
 const routes: Routes = [
@@ -7,6 +8,11 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./home/home.module')
       .then(h => h.HomeModule),
+  },
+  {
+    path: 'policies',
+    loadChildren: () => import('./policies/policies.module')
+      .then(p => p.PoliciesModule),
   },
   {
     path: 'moments/:momentID/rtc',
@@ -32,6 +38,19 @@ const routes: Routes = [
     path: 'manage-profile',
     loadChildren: () => import('./user-management/user-management.module')
       .then(u => u.UserManagementModule),
+  },
+  {
+    path: 'library',
+    loadChildren: () => import('./library/library.module')
+      .then(l => l.LibraryModule),
+    canActivate: [
+      AuthGuard,
+    ]
+  },
+  {
+    path: 'faq',
+    loadChildren: () => import('./faq/faq.module')
+      .then(f => f.FaqModule),
   },
   {
     path: 'contact-us',

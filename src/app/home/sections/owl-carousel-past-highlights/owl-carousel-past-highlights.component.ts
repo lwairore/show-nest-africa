@@ -169,7 +169,7 @@ export class OwlCarouselPastHighlightsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }

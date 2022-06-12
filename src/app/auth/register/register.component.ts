@@ -29,24 +29,22 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showPassword = false;
 
-  emailFieldValueChangesSubscription: Subscription | undefined;
+  private _emailFieldValueChangesSubscription: Subscription | undefined;
 
-  usernameFieldValueChangesSubscription: Subscription | undefined;
+  private _usernameFieldValueChangesSubscription: Subscription | undefined;
 
-  phoneNumberFieldValueChangesSubscription: Subscription | undefined;
+  private _phoneNumberFieldValueChangesSubscription: Subscription | undefined;
 
   private _retrieveSignUpSEODetailsSubscription: Subscription | undefined;
 
   private _activatedRouteSubscription: Subscription | undefined;
 
-  private _errornoteRef: ComponentRef<ErrornoteComponent> | undefined;
-
-  @ViewChild('errornoteContainer', { read: ViewContainerRef })
-  private _errornoteContainer: ViewContainerRef | undefined;
-
   REGISTER_PARAM = RegisterParam;
 
   routeParams = Immutable.Map({});
+
+  @ViewChild(ErrornoteComponent, { read: ErrornoteComponent })
+  private _errornoteCmp: ErrornoteComponent | undefined;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -54,23 +52,22 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     private _seoService: SeoService,
     private _seoSocialShareService: SeoSocialShareService,
     private _location: Location,
-    private _componentFactoryResolver: ComponentFactoryResolver,
     private _scrollService: ScrollService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._retrieveParams();
 
     this._initializeSignUpFormGroup();
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this._retrieveSignUpSEODetails();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._unsubscribeEmailFieldValueChangesSubscription();
 
     this._unsubscribeUsernameFieldValueChangesSubscription();
@@ -95,28 +92,26 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _unsubscribeUsernameFieldValueChangesSubscription() {
-    if (this.usernameFieldValueChangesSubscription instanceof Subscription) {
-      this.usernameFieldValueChangesSubscription.unsubscribe();
+    if (this._usernameFieldValueChangesSubscription instanceof Subscription) {
+      this._usernameFieldValueChangesSubscription.unsubscribe();
     }
   }
 
   private _unsubscribePhoneNumberFieldValueChangesSubscription() {
-    if (this.phoneNumberFieldValueChangesSubscription instanceof Subscription) {
-      this.phoneNumberFieldValueChangesSubscription.unsubscribe();
+    if (this._phoneNumberFieldValueChangesSubscription instanceof Subscription) {
+      this._phoneNumberFieldValueChangesSubscription.unsubscribe();
     }
   }
 
   private _unsubscribeEmailFieldValueChangesSubscription() {
-    if (this.emailFieldValueChangesSubscription instanceof Subscription) {
-      this.emailFieldValueChangesSubscription.unsubscribe();
+    if (this._emailFieldValueChangesSubscription instanceof Subscription) {
+      this._emailFieldValueChangesSubscription.unsubscribe();
     }
   }
 
   private _retrieveParams() {
     this._activatedRouteSubscription = this._activatedRoute.queryParams
       .subscribe(params => {
-        console.log({ params });
-
         if (params.hasOwnProperty('returnUrl')) {
           this.routeParams = this.routeParams.set('returnUrl',
             params.returnUrl);
@@ -136,20 +131,17 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  automaticallyCleanUpEmailField(): void {
-    this.emailFieldValueChangesSubscription = this.signUpFormGroup
+  automaticallyCleanUpEmailField() {
+    this._emailFieldValueChangesSubscription = this.signUpFormGroup
       ?.get(
         this.REGISTER_PARAM.EMAIL.formControlName
       )
       ?.valueChanges
       ?.pipe(distinctUntilChanged())
       ?.subscribe(value => {
-        console.log({ value })
         const exp = new RegExp('\\s+', 'g');
 
         const CLEANED_VALUE = REGEX_REPLACE_WITH(exp, value, '');
-
-        console.log({ CLEANED_VALUE })
 
         if (fieldValueHasBeenUpdated(value, CLEANED_VALUE, false)) {
           this.signUpFormGroup?.get(
@@ -162,8 +154,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  automaticallyCleanUpUsernameField(): void {
-    this.usernameFieldValueChangesSubscription = this.signUpFormGroup
+  automaticallyCleanUpUsernameField() {
+    this._usernameFieldValueChangesSubscription = this.signUpFormGroup
       ?.get(
         this.REGISTER_PARAM.USERNAME.formControlName
       )
@@ -185,8 +177,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  automaticallyCleanUpPhoneNumberField(): void {
-    this.phoneNumberFieldValueChangesSubscription = this.signUpFormGroup
+  automaticallyCleanUpPhoneNumberField() {
+    this._phoneNumberFieldValueChangesSubscription = this.signUpFormGroup
       ?.get(
         this.REGISTER_PARAM.PHONE_NUMBER.formControlName
       )
@@ -208,17 +200,17 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-
-  private _showErrorNote = (totalInvalidFormControls: number) => {
-    if (!this._errornoteRef) {
-      const factory = this._componentFactoryResolver.resolveComponentFactory(ErrornoteComponent);
-      this._errornoteRef = this._errornoteContainer?.createComponent(factory);
+  private _resetErrornote() {
+    if (this._errornoteCmp instanceof ErrornoteComponent) {
+      this._errornoteCmp.resetTotalInvalidControlsAndErrorMessage();
     }
+  }
 
-    if (this._errornoteRef instanceof ComponentRef) {
-      this._errornoteRef.instance.totalInvalidFormControls = totalInvalidFormControls;
-      this._errornoteRef.injector.get(ChangeDetectorRef).detectChanges();
-    }
+  private _showErrorNote(totalInvalidFormControls: number | undefined, errorMessage = '') {
+    if (!(this._errornoteCmp instanceof ErrornoteComponent)) { return; }
+
+    this._errornoteCmp.showErrorNote(totalInvalidFormControls, errorMessage);
+    this._errornoteCmp.manuallyTriggerChangeDetection();
   }
 
   private _retrieveSignUpSEODetails() {
@@ -280,14 +272,12 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   checkIfEmailHasBeenTaken = (email: string): Promise<boolean> => {
     email = convertItemToString(email);
-    console.log({ email })
 
     const checkIfEmailHasBeenTaken$ = this._authenticationService
       .checkIfEmailHasBeenTaken$(email.trim())
       .pipe(
         mergeMap(
           (details: HasBeenTakenHttpResponse) => {
-            console.log('details')
             if (details.exists) {
               return of(details);
             }
@@ -312,7 +302,6 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         mergeMap(
           (details: HasBeenTakenHttpResponse) => {
-            console.log('details')
             if (details.exists) {
               return of(details);
             }
@@ -337,7 +326,6 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         mergeMap(
           (details: HasBeenTakenHttpResponse) => {
-            console.log('details')
             if (details.exists) {
               return of(details);
             }
@@ -363,7 +351,13 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  private _backToTop() {
+    this._scrollService.animatedScrollToTop();
+  }
+
   onSubmit = (formGroupForSignup: FormGroup): Promise<any> => {
+    this._resetErrornote();
+
     this.submitted = true;
 
     // stop here if form is invalid
@@ -373,7 +367,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this._showErrorNote(totalInvalidFormControls);
 
-      this._scrollService.scrollToPosition(0, 0);
+      this._backToTop();
 
       return Promise.resolve('Form is invalid. Aborting');
     }
@@ -464,7 +458,7 @@ class RegisterParam {
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What is your first name?',
+    label: 'First name',
     defaultValue: '',
     isRequired: true,
     placeholder: '',
@@ -487,7 +481,7 @@ class RegisterParam {
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What is your last name?',
+    label: 'Last name',
     defaultValue: '',
     placeholder: '',
     isRequired: true,
@@ -511,7 +505,7 @@ class RegisterParam {
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What username would like to use?',
+    label: 'Username you would like to use',
     defaultValue: '',
     placeholder: '',
     slug: constructInputFieldIdentification,
@@ -533,7 +527,7 @@ class RegisterParam {
       Validators.required,
       Validators.email,
     ]),
-    label: 'What is your email address?',
+    label: 'Email address',
     defaultValue: '',
     isRequired: true,
     placeholder: '',
@@ -556,7 +550,7 @@ class RegisterParam {
       Validators.maxLength(20),
       Validators.pattern(/^[+\d()./N,*;#]{1,20}$/)
     ]),
-    label: 'What is your phone number?',
+    label: 'Phone number',
     defaultValue: '',
     placeholder: '',
     slug: constructInputFieldIdentification,
@@ -577,7 +571,7 @@ class RegisterParam {
       Validators.required,
       Validators.minLength(1),
     ]),
-    label: 'What password would you like to use?',
+    label: 'Password would you like to use',
     isRequired: true,
     defaultValue: '',
     placeholder: '',

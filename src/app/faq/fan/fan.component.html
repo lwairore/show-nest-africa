@@ -1,0 +1,89 @@
+<!-- breadcrumb -->
+<snap-breadcrumb>
+    <ng-container data-breadcrumbTitle>
+        <h1> FAQs</h1>
+    </ng-container>
+
+    <ng-container data-breadcrumbItems>
+        <ng-template snapBreadcrumbItem>
+            <a routerLink="">
+                <i ngClass="fas fa-home mr-2"></i>Home
+            </a>
+        </ng-template>
+
+        <ng-template snapBreadcrumbItem active="true">
+            FAQs for Fan
+        </ng-template>
+    </ng-container>
+</snap-breadcrumb>
+<!-- breadcrumb -->
+
+<section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-lg-9 col-md-12">
+                <div ngClass="gen-blog-post" *ngIf="!faqs.isEmpty()">
+                    <div ngClass="gen-blog-contain">
+                        <div ngClass="gen-post-meta">
+                            <ul>
+                                <li ngClass="gen-post-meta">
+                                    <a routerLink="/contact-us">
+                                        <i ngClass="fa fa-phone"></i>
+                                        Contact us
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <h2>Your questions answered here</h2>
+                        <p>
+                            We've put together some commonly asked questions to give you more information about
+                            Shownest.
+                        </p>
+                        <p>
+                            If you have a question that you can't find the answer to, please use the
+                            <a ngClass="font-weight-bold" routerLink="/contact-us">
+                                contact us </a> page.
+                        </p>
+
+                        <ng-container *ngFor="let faq of faqs;trackBy: trackByFaq">
+                            <h2 ngClass="my-4" [innerHTML]="faq.get('question')"></h2>
+                            <snap-item-description *ngIf="faq.get('answer')" [itemDescription]="faq.get('answer')">
+                            </snap-item-description>
+                        </ng-container>
+
+
+                        <div ngClass="gen-load-more-button" *ngIf="paginationDetailsForFaqs.get('next')">
+                            <div ngClass="gen-btn-container">
+                                <a ngClass="gen-button gen-button-loadmore" [routerLink]="null" (click)="loadMoreFaq()">
+                                    <span ngClass="loadmore-icon"
+                                        [style.display]="loadingFaqs ? 'inline-block': 'none'"><i
+                                            ngClass="fa fa-spinner fa-spin"></i></span>
+                                    <span ngClass="button-text">Load More</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ngClass="col-lg-3 col-md-12 mt-4 mt-lg-0">
+                <div ngClass="widget widget_recent_entries">
+                    <h2 ngClass="widget-title">FAQs</h2>
+                    <ul>
+                        <li>
+                            <a routerLink="../creator">
+                                Creator
+                            </a>
+                        </li>
+                        <li>
+                            <a ngClass="active" routerLink=".">
+                                Fan
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

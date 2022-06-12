@@ -15,10 +15,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this._backToTop();
   }
 

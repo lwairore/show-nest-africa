@@ -22,7 +22,6 @@ export class ScrollService {
   animatedScrollToTop() {
     const BACK_TO_TOP_EL = this._document.getElementById('top');
 
-    console.log({BACK_TO_TOP_EL})
     if (BACK_TO_TOP_EL instanceof HTMLAnchorElement) {
       BACK_TO_TOP_EL.click();
     }

@@ -19,7 +19,7 @@ import { LibsModule } from '../libs/libs.module';
     UpcomingComponent,
     PastComponent,
     OwlCarouselLiveboxComponent,
-    OwlCarouselPastHighlightsComponent
+    OwlCarouselPastHighlightsComponent,
   ],
   imports: [
     CommonModule,

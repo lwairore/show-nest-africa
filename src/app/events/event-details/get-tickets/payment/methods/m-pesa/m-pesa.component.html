@@ -1,0 +1,54 @@
+<ng-template #formFieldErrorsTemplate let-formControlFormGroup="formGroup" let-formFieldErrors="errors">
+    <snap-display-form-field-errors [formGroupElement]="formControlFormGroup" [submitted]="submitted"
+        [requiredOrNullOrNoValueProvidedErrorMessage]="formFieldErrors.requiredOrNullOrNoValueProvidedErrorMessage || null"
+        [minCharacterNotGenuinelyAchievedErrorMessage]="formFieldErrors.minCharacterNotGenuinelyAchievedErrorMessage || null"
+        [maxLengthPrefixErrorMessage]="formFieldErrors.maxLengthPrefixErrorMessage || null"
+        [minLengthPrefixErrorMessage]="formFieldErrors.minLengthPrefixErrorMessage || null"
+        [emailErrorMessage]="formFieldErrors.emailErrorMessage || null"
+        [emailHasBeenTakenErrorMessage]="formFieldErrors.emailHasBeenTakenErrorMessage || null"
+        [phoneNumberHasBeenTakenErrorMessage]="formFieldErrors.phoneNumberHasBeenTakenErrorMessage || null"
+        [usernameHasBeenTakenErrorMessage]="formFieldErrors.usernameHasBeenTakenErrorMessage || null">
+    </snap-display-form-field-errors>
+</ng-template>
+
+<form [formGroup]="mpesaFormGroup" (ngSubmit)="submit()" autocomplete="off">
+    <div ngClass="row mb-4">
+        <div ngClass="col-12">
+            <p ngClass="comment-form-comment">
+                <label
+                    [for]="MPESA_PARAM.PHONE_NUMBER
+                            .slug(MPESA_PARAM.NAME_OF_FORM_GROUP, MPESA_PARAM.PHONE_NUMBER.formControlName)"
+                    [class.text-danger]="mpesaFormGroup
+                                ?.get(MPESA_PARAM.PHONE_NUMBER.formControlName)?.invalid && (mpesaFormGroup
+                                ?.get(MPESA_PARAM.PHONE_NUMBER.formControlName)?.touched || submitted)">
+                    {{ MPESA_PARAM.PHONE_NUMBER.label }}
+                </label>
+                <input type="tel" [id]="MPESA_PARAM.PHONE_NUMBER
+                                .slug(MPESA_PARAM.NAME_OF_FORM_GROUP, MPESA_PARAM.PHONE_NUMBER.formControlName)"
+                    [formControlName]="MPESA_PARAM.PHONE_NUMBER.formControlName" [class.is-invalid]="mpesaFormGroup
+                                    ?.get(MPESA_PARAM.PHONE_NUMBER.formControlName)?.invalid && (mpesaFormGroup
+                                    ?.get(MPESA_PARAM.PHONE_NUMBER.formControlName)?.touched || submitted)"
+                    [placeholder]="MPESA_PARAM.PHONE_NUMBER.placeholder" [attr.aria-invalid]="mpesaFormGroup
+                                    ?.get(MPESA_PARAM.PHONE_NUMBER.formControlName)?.invalid"
+                    [attr.aria-required]="MPESA_PARAM.PHONE_NUMBER.isRequired"
+                    [attr.aria-required]="MPESA_PARAM.PHONE_NUMBER.isRequired">
+                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                        formGroup: mpesaFormGroup
+                                        ?.get(MPESA_PARAM.PHONE_NUMBER.formControlName),
+                                        errors: MPESA_PARAM.PHONE_NUMBER.errors
+                                    }"></ng-container>
+            </p>
+            <small ngClass="text-muted">
+                This should be a Safaricom Mobile Number that is M-PESA registered in the format 2547XXXXXXXX
+            </small>
+        </div>
+    </div>
+
+    <hr ngClass="mb-4">
+    <p ngClass="mb-3">
+        By purchasing your ticket, you agree to our <a target="_blank" routerLink="/policies/terms-of-use">Terms of
+            Use</a> and our <a target="_blank" routerLink="/policies/privacy-notice">Privacy Policy</a>.
+    </p>
+
+    <input type="submit" value="Buy Tickets" #submitElRef [disabled]="mpesaFormGroup?.invalid">
+</form>

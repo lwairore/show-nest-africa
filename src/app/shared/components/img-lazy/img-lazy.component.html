@@ -1,4 +1,4 @@
-<div class="moment-img-container" *ngIf="!getBoolean(
+<div ngClass="moment-img-container" *ngIf="!getBoolean(
     state.get('loaded'))">
     <ngx-skeleton-loader [theme]="{
         'background-color': '#464646',
@@ -9,7 +9,7 @@
 </div>
 
 <ng-container *ngIf="getBoolean(state.get('visible'))">
-    <img class="moment-img-container" [class.moment-round-img-card]="momentRoundImgCard"
-        [hidden]="!getBoolean(state.get('loaded'))" (load)="onLoad()" [src]="src" [alt]="alt" width="100%"
-        [height]="this.height" />
+    <img (click)="reportImageClicked()" [ngClass]="imgClass" [class.moment-round-img-card]="momentRoundImgCard"
+        [class.moment-img-container]="!imgClass" [hidden]="!getBoolean(state.get('loaded'))" (load)="onLoad()"
+        [src]="src" [alt]="alt" [width]="width" [height]="this.height" />
 </ng-container>

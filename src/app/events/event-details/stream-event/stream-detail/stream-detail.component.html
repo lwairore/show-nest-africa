@@ -1,0 +1,226 @@
+<section ngClass="gen-section-padding-3" [ngSwitch]="currentShowingSection">
+    <ng-container *ngSwitchCase="'chooseATicket'">
+        <snap-choose-a-ticket (selectedTicket)="refresh()" [momentID]="momentID"></snap-choose-a-ticket>
+    </ng-container>
+
+    <div ngClass="container">
+        <ng-container *ngSwitchCase="'errorSection'">
+            <ng-container *ngIf="!errorDetails.isEmpty()">
+                <div ngClass=" py-5 text-center">
+                    <span ngClass="d-block mx-auto mb-4" style="width: 72px; height: 72px">
+                        <i ngClass="fa fa-times-circle" style="font-size:48px;color: var(--primary-color);"></i>
+                    </span>
+                    <h2> {{errorDetails.get('title')}} </h2>
+                </div>
+                <div ngClass="text-center">
+                    <div [innerHTML]="errorDetails.get('description')"></div>
+
+                    <div ngClass="gen-btn-container my-5">
+                        <ng-container [ngSwitch]="errorDetails.getIn(['solution','hint'], '')">
+                            <ng-container *ngSwitchCase="'should__purchaseATicket'">
+                                <a [routerLink]="null" (click)="navigateToGetTickets()" ngClass="gen-button">
+                                    <div ngClass="gen-button-block">
+                                        <span ngClass="gen-button-text">
+                                            {{ errorDetails.getIn([
+                                                'solution', 'ctaTextContent'])  }} </span>
+                                    </div>
+                                </a>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'should__chooseATicket'">
+                                <a [routerLink]="null" ngClass="gen-button" (click)="switchToSection('chooseATicket')">
+                                    <div ngClass="gen-button-block">
+                                        <span ngClass="gen-button-text">
+                                            {{ errorDetails.getIn([
+                                                'solution', 'ctaTextContent'])  }} </span>
+                                    </div>
+                                </a>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'should__connectToInternet'">
+                                <a [routerLink]="null" (click)="refresh()" ngClass="gen-button">
+                                    <div ngClass="gen-button-block">
+                                        <span ngClass="gen-button-text">
+                                            {{ errorDetails.getIn([
+                                                'solution', 'ctaTextContent'])  }} </span>
+                                    </div>
+                                </a>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                            </ng-container>
+
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'streamDetails'">
+            <ng-container *ngIf="!streamDetails.isEmpty();">
+                <div ngClass="py-5 text-center">
+                    <snap-img-lazy [src]="streamDetails.getIn(['poster', 'src'])" imgClass="d-block mx-auto mb-4"
+                        [alt]="streamDetails.getIn(['poster', 'alt'])" width="72" height="72"
+                        [momentRoundImgCard]="false">
+                    </snap-img-lazy>
+
+                    <h2>
+                        {{ streamDetails.get('nameOfMoment') }}
+                    </h2>
+                </div>
+                <div ngClass="text-center">
+                    <ng-container [ngSwitch]="streamDetails?.get('eventIs', '')">
+                        <ng-container *ngSwitchCase="'past'">
+                            <span *ngIf="streamDetails.get('streamEndedOn')">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" ngClass="mr-2">
+                                    <path
+                                        d="M2.509 13.538h9.474c1.525 0 2.332-.813 2.332-2.317v-8.3c0-1.503-.807-2.31-2.332-2.31H2.51C.99.611.178 1.418.178 2.921v8.3c0 1.51.813 2.317 2.33 2.317zm.068-1.565c-.547 0-.834-.274-.834-.841v-6.18c0-.574.287-.84.834-.84h9.338c.54 0 .834.266.834.84v6.18c0 .567-.294.84-.834.84H2.577zm3.37-5.578h.397c.253 0 .335-.076.335-.322V5.67c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zM3.74 8.562h.403c.246 0 .335-.076.335-.322v-.403c0-.246-.09-.321-.335-.321h-.404c-.246 0-.328.075-.328.32v.404c0 .246.082.322.328.322zm2.207 0h.397c.253 0 .335-.076.335-.322v-.403c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zm-6.61 2.173h.403c.246 0 .335-.082.335-.328v-.396c0-.246-.09-.328-.335-.328h-.404c-.246 0-.328.082-.328.328v.396c0 .246.082.328.328.328zm2.207 0h.397c.253 0 .335-.082.335-.328v-.396c0-.246-.082-.328-.335-.328h-.397c-.253 0-.335.082-.335.328v.396c0 .246.082.328.335.328zm2.201 0h.404c.246 0 .328-.082.328-.328v-.396c0-.246-.082-.328-.328-.328h-.404c-.246 0-.335.082-.335.328v.396c0 .246.09.328.335.328z"
+                                        fill="currentColor"></path>
+                                </svg>
+                                Event ended {{ streamDetails.get('streamEndedOn')|dateAgo }}.
+                                <!-- April 7th - 5am EAT -->
+                            </span>
+
+                            <ng-container [ngSwitch]="streamDetails.getIn(['replayDetails', 'replayIs'])">
+                                <ng-container *ngSwitchCase="'upcomming'">
+
+                                    <span
+                                        *ngIf="streamDetails.getIn(['replayDetails', 'playsOn']); else replayPlaysOnNotSet;"
+                                        ngClass="font-weight-bold">
+                                        Replay plays in:
+                                        <snap-count-down [startDate]="streamDetails.getIn(['replayDetails', 'playsOn'])"
+                                            displayFormat="yev">
+                                        </snap-count-down>
+                                        <!-- April 7th - 5am EAT -->
+                                    </span>
+
+                                    <ng-template #replayPlaysOnNotSet>
+                                        Replay plays soon
+                                    </ng-template>
+
+                                </ng-container>
+
+                                <ng-container *ngSwitchCase="'ongoing'">
+                                    <span>
+                                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" ngClass="mr-2">
+                                            <path
+                                                d="M2.509 13.538h9.474c1.525 0 2.332-.813 2.332-2.317v-8.3c0-1.503-.807-2.31-2.332-2.31H2.51C.99.611.178 1.418.178 2.921v8.3c0 1.51.813 2.317 2.33 2.317zm.068-1.565c-.547 0-.834-.274-.834-.841v-6.18c0-.574.287-.84.834-.84h9.338c.54 0 .834.266.834.84v6.18c0 .567-.294.84-.834.84H2.577zm3.37-5.578h.397c.253 0 .335-.076.335-.322V5.67c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zM3.74 8.562h.403c.246 0 .335-.076.335-.322v-.403c0-.246-.09-.321-.335-.321h-.404c-.246 0-.328.075-.328.32v.404c0 .246.082.322.328.322zm2.207 0h.397c.253 0 .335-.076.335-.322v-.403c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zm-6.61 2.173h.403c.246 0 .335-.082.335-.328v-.396c0-.246-.09-.328-.335-.328h-.404c-.246 0-.328.082-.328.328v.396c0 .246.082.328.328.328zm2.207 0h.397c.253 0 .335-.082.335-.328v-.396c0-.246-.082-.328-.335-.328h-.397c-.253 0-.335.082-.335.328v.396c0 .246.082.328.335.328zm2.201 0h.404c.246 0 .328-.082.328-.328v-.396c0-.246-.082-.328-.328-.328h-.404c-.246 0-.335.082-.335.328v.396c0 .246.09.328.335.328z"
+                                                fill="currentColor"></path>
+                                        </svg>
+                                        Replay is ongoing (has started)
+                                        <!-- April 7th - 5am EAT -->
+                                    </span>
+                                </ng-container>
+
+                                <ng-container *ngSwitchCase="'past'">
+                                    <span
+                                        *ngIf="streamDetails.getIn(['replayDetails', 'streamEndedOn']); streamEndedOnNotProvided">
+                                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" ngClass="mr-2">
+                                            <path
+                                                d="M2.509 13.538h9.474c1.525 0 2.332-.813 2.332-2.317v-8.3c0-1.503-.807-2.31-2.332-2.31H2.51C.99.611.178 1.418.178 2.921v8.3c0 1.51.813 2.317 2.33 2.317zm.068-1.565c-.547 0-.834-.274-.834-.841v-6.18c0-.574.287-.84.834-.84h9.338c.54 0 .834.266.834.84v6.18c0 .567-.294.84-.834.84H2.577zm3.37-5.578h.397c.253 0 .335-.076.335-.322V5.67c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zM3.74 8.562h.403c.246 0 .335-.076.335-.322v-.403c0-.246-.09-.321-.335-.321h-.404c-.246 0-.328.075-.328.32v.404c0 .246.082.322.328.322zm2.207 0h.397c.253 0 .335-.076.335-.322v-.403c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zm-6.61 2.173h.403c.246 0 .335-.082.335-.328v-.396c0-.246-.09-.328-.335-.328h-.404c-.246 0-.328.082-.328.328v.396c0 .246.082.328.328.328zm2.207 0h.397c.253 0 .335-.082.335-.328v-.396c0-.246-.082-.328-.335-.328h-.397c-.253 0-.335.082-.335.328v.396c0 .246.082.328.335.328zm2.201 0h.404c.246 0 .328-.082.328-.328v-.396c0-.246-.082-.328-.328-.328h-.404c-.246 0-.335.082-.335.328v.396c0 .246.09.328.335.328z"
+                                                fill="currentColor"></path>
+                                        </svg>
+                                        Replay ended
+                                        {{ streamDetails.getIn(['replayDetails', 'streamEndedOn'])|dateAgo }}.
+                                        <!-- April 7th - 5am EAT -->
+                                    </span>
+
+                                    <ng-template #streamEndedOnNotProvided>
+                                        Replay ended.
+                                    </ng-template>
+                                </ng-container>
+
+                                <ng-container *ngSwitchDefault></ng-container>
+                            </ng-container>
+
+                            <span *ngIf="streamDetails.getIn(['replayDetails','salesEndsOn'])" ngClass="d-block my-4">
+                                Sales ends:
+                                <snap-count-down [startDate]="streamDetails.getIn(['replayDetails','salesEndsOn'])"
+                                    displayFormat="yev">
+                                </snap-count-down>
+                                <!-- April 7th - 5am EAT -->
+                            </span>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'upcomming'">
+                            <span *ngIf="streamDetails.get('startsOn')" ngClass="font-weight-bold">
+                                Event starts in:
+                                <snap-count-down [startDate]="streamDetails.get('startsOn')" displayFormat="yev">
+                                </snap-count-down>
+                                <!-- April 7th - 5am EAT -->
+                            </span>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'ongoing'">
+                            <span>
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" ngClass="mr-2">
+                                    <path
+                                        d="M2.509 13.538h9.474c1.525 0 2.332-.813 2.332-2.317v-8.3c0-1.503-.807-2.31-2.332-2.31H2.51C.99.611.178 1.418.178 2.921v8.3c0 1.51.813 2.317 2.33 2.317zm.068-1.565c-.547 0-.834-.274-.834-.841v-6.18c0-.574.287-.84.834-.84h9.338c.54 0 .834.266.834.84v6.18c0 .567-.294.84-.834.84H2.577zm3.37-5.578h.397c.253 0 .335-.076.335-.322V5.67c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322V5.67c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zM3.74 8.562h.403c.246 0 .335-.076.335-.322v-.403c0-.246-.09-.321-.335-.321h-.404c-.246 0-.328.075-.328.32v.404c0 .246.082.322.328.322zm2.207 0h.397c.253 0 .335-.076.335-.322v-.403c0-.246-.082-.321-.335-.321h-.397c-.253 0-.335.075-.335.32v.404c0 .246.082.322.335.322zm2.201 0h.404c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.404c-.246 0-.335.075-.335.32v.404c0 .246.09.322.335.322zm2.202 0h.403c.246 0 .328-.076.328-.322v-.403c0-.246-.082-.321-.328-.321h-.403c-.246 0-.329.075-.329.32v.404c0 .246.082.322.329.322zm-6.61 2.173h.403c.246 0 .335-.082.335-.328v-.396c0-.246-.09-.328-.335-.328h-.404c-.246 0-.328.082-.328.328v.396c0 .246.082.328.328.328zm2.207 0h.397c.253 0 .335-.082.335-.328v-.396c0-.246-.082-.328-.335-.328h-.397c-.253 0-.335.082-.335.328v.396c0 .246.082.328.335.328zm2.201 0h.404c.246 0 .328-.082.328-.328v-.396c0-.246-.082-.328-.328-.328h-.404c-.246 0-.335.082-.335.328v.396c0 .246.09.328.335.328z"
+                                        fill="currentColor"></path>
+                                </svg>
+                                Live now
+                                <!-- April 7th - 5am EAT -->
+                            </span>
+                        </ng-container>
+
+                        <ng-container *ngSwitchDefault></ng-container>
+                    </ng-container>
+
+                    <a ngClass="btn btn-link btn-sm px-0 mt-4 d-block" routerLink="/library/purchases" [ngStyle]="{
+                textTransform: 'uppercase',
+                position: 'relative',
+                width: 'auto',
+                fontWeight: '400',
+                color: 'var(--white-color)',
+                fontFamily: 'var(--title-fonts)',
+                fontSize: '16px'
+            }"><i ngClass="fas fa-arrow-left mr-2"></i> Exit </a>
+                </div>
+
+                <ng-container *ngIf="streamDetails.getIn(['streamDetails', 'canStream'])">
+                    <snap-play-uploaded [controlDetails]="streamControls"
+                        *ngIf="streamDetails.getIn(['streamDetails','localLiveStream', 'src']); else  probablyYTStream;"
+                        [localLiveStream]="streamDetails.getIn(['streamDetails','localLiveStream'])">
+                    </snap-play-uploaded>
+
+                    <ng-template #probablyYTStream>
+                        <snap-ytiframe-api
+                            *ngIf="streamDetails.getIn(['streamDetails', 'youtubeLiveStream']); else streamMediaNotUploaded;"
+                            [streamDetails]="streamDetails.getIn(['streamDetails', 'youtubeLiveStream'])">
+                        </snap-ytiframe-api>
+
+                        <ng-template #streamMediaNotUploaded>
+                            <div ngClass="text-center py-5">
+
+                                <p ngClass="font-weight-bold">
+                                    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"
+                                        ngClass="sc-iqAclL jibPFy"
+                                        [ngStyle]="{
+                                    fill: 'currentcolor', height: '22px', width: '22px', verticalAlign: 'middle', marginBottom: '1px', marginRight: '7px'}">
+                                        <path
+                                            d="M16 29a13 13 0 1 1 13-13 13 13 0 0 1-13 13zm0-24a11 11 0 1 0 11 11A11 11 0 0 0 16 5z">
+                                        </path>
+                                        <path
+                                            d="M10 22a1 1 0 0 1-.85-1.53A8 8 0 0 1 16 17a8.06 8.06 0 0 1 6.84 3.46 1 1 0 1 1-1.68 1.08A6.15 6.15 0 0 0 16 19a6 6 0 0 0-5.15 2.53A1 1 0 0 1 10 22zM12 14a2 2 0 1 1 2-2 2 2 0 0 1-2 2zm0-2zM20 14a2 2 0 1 1 2-2 2 2 0 0 1-2 2zm0-2z">
+                                        </path>
+                                    </svg>
+
+                                    Hold on, you can’t watch the event yet. We're unable to show video since it has
+                                    not
+                                    been
+                                    uploaded. Please try
+                                    again.
+                                </p>
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault></ng-container>
+
+        <snap-footer2></snap-footer2>
+    </div>
+</section>

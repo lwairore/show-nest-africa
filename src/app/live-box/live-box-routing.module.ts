@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LiveBoxComponent } from './live-box.component';
-import { LiveboxMainComponent } from './livebox-main/livebox-main.component';
+import { WeAreComingSoonComponent } from './we-are-coming-soon/we-are-coming-soon.component';
 
 
 const routes: Routes = [
@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: LiveboxMainComponent,
+        component: WeAreComingSoonComponent,
       },
     ]
   },

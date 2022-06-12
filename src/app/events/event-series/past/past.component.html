@@ -1,0 +1,99 @@
+<ng-container *ngIf="!pastEvents.isEmpty()">
+    <!-- breadcrumb -->
+    <snap-breadcrumb>
+        <ng-container data-breadcrumbTitle>
+            <h1> Past Events </h1>
+        </ng-container>
+
+        <ng-container data-breadcrumbItems>
+            <ng-template snapBreadcrumbItem>
+                <a routerLink="">
+                    <i ngClass="fas fa-home mr-2"></i>Home
+                </a>
+            </ng-template>
+
+            <ng-template snapBreadcrumbItem active="true">
+                Past Events
+            </ng-template>
+        </ng-container>
+    </snap-breadcrumb>
+    <!-- breadcrumb -->
+
+    <!-- Section-1 Start -->
+    <section ngClass="gen-section-padding-3">
+        <div ngClass="container">
+            <div ngClass="row">
+                <div ngClass="col-lg-12">
+                    <div ngClass="gen-style-1">
+                        <div ngClass="row">
+                            <div ngClass="col-xl-4 col-lg-4 col-md-4" *ngFor="let event of pastEvents;">
+                                <div ngClass="gen-carousel-movies-style-2 movie-grid style-2">
+                                    <div ngClass="gen-movie-contain">
+                                        <div ngClass="gen-movie-img" (click)="navigateToMomentDetail(event.get('id'))">
+                                            <snap-img-lazy [src]="event.getIn(['poster', 'src'])"
+                                                [alt]="event.getIn(['poster', 'alt'])" height="230px">
+                                            </snap-img-lazy>
+                                        </div>
+                                        <div ngClass="gen-info-contain">
+                                            <div ngClass="gen-movie-info">
+                                                <h3>
+                                                    <a [routerLink]="['/moments',event.get('id'),'details']">
+                                                        {{ event.get('nameOfMoment') }}
+                                                    </a>
+                                                </h3>
+                                                <span>
+                                                    {{ event.get('username') }}
+                                                </span>
+                                                <br />
+                                            </div>
+                                            <div ngClass="gen-movie-meta-holder">
+                                                <ul>
+                                                    <li>
+                                                        {{ $any(event.get('endsOn', ''))|dateAgo }}
+                                                    </li>
+                                                    <li
+                                                        *ngIf="event.get('canPurchaseReplay', false) || event.get('higlightsIsAvailable', false)">
+                                                        <a *ngIf="event.get('canPurchaseReplay', false); else probablyHasHighlights;"
+                                                            [routerLink]="[
+                                                                            '/moments',
+                                                                            event.get('id'),
+                                                                            'details',
+                                                                            'get-tickets'
+                                                                            ]">
+                                                            <span>Buy Replay</span>
+                                                        </a>
+
+                                                        <ng-template #probablyHasHighlights>
+                                                            <a *ngIf="event.get('higlightsIsAvailable', false)"
+                                                                [routerLink]="['/moments',event.get('id'),'details']">
+                                                                <span>Watch Highlights</span>
+                                                            </a>
+                                                        </ng-template>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="col-lg-12" *ngIf="paginationDetailsForPastEvent.get('next')">
+                    <div ngClass="gen-load-more-button">
+                        <div ngClass="gen-btn-container">
+                            <a ngClass="gen-button gen-button-loadmore" [routerLink]="null"
+                                (click)="loadMorePastEvent()">
+                                <span ngClass="loadmore-icon"
+                                    [style.display]="loadingPastEvents ? 'inline-block': 'none'"><i
+                                        ngClass="fa fa-spinner fa-spin"></i></span>
+                                <span ngClass="button-text">Load More Past Events</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section-1 End -->
+</ng-container>

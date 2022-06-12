@@ -60,11 +60,11 @@ export class LiveboxMainComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  ngOnInit(): void {
+  ngOnInit() {
 
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.constructAndSetResponsiveSettingsForBanner();
 
     this.constructAndSetResponsiveSettingsForVideos();
@@ -134,13 +134,9 @@ export class LiveboxMainComponent implements OnInit, AfterViewInit, OnDestroy {
       TABLET_RESPONSIVE_SETTINGS,
       MOBILE_RESPONSIVE_SETTINGS);
 
-    console.log(" this.customOptionsForVideos.responsive")
-    console.log(this.customOptionsForVideos.responsive)
   }
 
   refresh() {
-    console.log(this.owlElement instanceof CarouselComponent);
-    console.log(this.owlElement)
     if (!(this.owlElement instanceof CarouselComponent)) {
       return;
     }

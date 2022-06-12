@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ChangeDetectorRef, ContentChildren, QueryList, AfterViewInit } from '@angular/core';
 import * as Immutable from 'immutable';
+import { BreadcrumbItemDirective } from './breadcrumb-item.directive';
 
 @Component({
   selector: 'snap-breadcrumb',
@@ -8,12 +9,23 @@ import * as Immutable from 'immutable';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BreadcrumbComponent implements OnInit {
+export class BreadcrumbComponent implements OnInit, AfterViewInit {
   @Input() breadcrumbDetails = Immutable.fromJS({});
 
-  constructor() { }
+  @ContentChildren(BreadcrumbItemDirective)
+  breadcrumbItemsQL: QueryList<BreadcrumbItemDirective> | undefined;
 
-  ngOnInit(): void {
+  constructor(
+    private _changeDetectorRef: ChangeDetectorRef,
+  ) { }
+
+  ngOnInit() {
   }
 
+  ngAfterViewInit() {
+  }
+
+  manuallyTriggerChangeDetection() {
+    this._changeDetectorRef.detectChanges();
+  }
 }

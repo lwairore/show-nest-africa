@@ -1,0 +1,246 @@
+<section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+        <div ngClass="py-5 text-center">
+            <snap-img-lazy [src]="purchasedTickets.getIn(['poster', 'src'])" imgClass="d-block mx-auto mb-4"
+                [alt]="purchasedTickets.getIn(['poster', 'alt'])" width="72" height="72" [momentRoundImgCard]="false">
+            </snap-img-lazy>
+
+            <h2>
+                {{ purchasedTickets.get('nameOfMoment') }}
+            </h2>
+        </div>
+
+        <div ngClass="text-center my-5">
+            <a ngClass="gen-button btn btn-danger btn-lg d-block mt-4" [routerLink]="null"
+                (click)="navigateToEventDetails()" tabindex="0" [style.width.%]="100">
+                <span ngClass="text">
+                    Event details
+                </span>
+            </a>
+
+
+            <a ngClass="btn btn-link btn-sm px-0 mt-4" routerLink=".." [ngStyle]="{
+                textTransform: 'uppercase',
+                position: 'relative',
+                width: 'auto',
+                fontWeight: '400',
+                color: 'var(--white-color)',
+                fontFamily: 'var(--title-fonts)',
+                fontSize: '16px'
+            }"><i ngClass="fas fa-arrow-left mr-2"></i> Go back </a>
+        </div>
+
+        <div ngClass="row">
+            <div ngClass="col-12">
+                <!-- Shipping details -->
+                <ng-container
+                    *ngFor="let purchase of purchasedTickets.get('purchases'); let purchaseLoopIndex=index;let purchaseIsFirst=first">
+                    <h4 ngClass="mb-3" [class.mt-4]="!purchaseIsFirst">Purchases
+                        ({{ purchase.get('updatedOn', '')|dateAgo }})</h4>
+
+                    <div ngClass="gen-comparison-table table-style-1 table-responsive mb-6"
+                        *ngIf="purchase.get('tickets')">
+                        <table ngClass="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div ngClass="cell-inner">
+                                            <span>Name</span>
+                                        </div>
+                                        <div ngClass="cell-tag">
+                                            <span></span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div ngClass="cell-inner">
+                                            <span>stream</span>
+                                        </div>
+                                        <div ngClass="cell-tag">
+                                            <span></span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div ngClass="cell-inner">
+                                            <span>Cost</span>
+                                        </div>
+                                        <div ngClass="cell-tag">
+                                            <span></span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div ngClass="cell-inner">
+                                            <span>Quantity</span>
+                                        </div>
+                                        <div ngClass="cell-tag">
+                                            <span></span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div ngClass="cell-inner">
+                                            <span>WatchParty</span>
+                                        </div>
+                                        <div ngClass="cell-tag">
+                                            <span></span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div ngClass="cell-inner">
+                                            <span>Subtotal</span>
+                                        </div>
+                                        <div ngClass="cell-tag">
+                                            <span></span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ticket of purchase.get('tickets');let ticketLoopIndex=index;">
+                                    <td>
+                                        <div ngClass="cell-inner">
+                                            <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                {{ ticket.get('name') }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ngClass="cell-inner">
+                                            <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                <ng-container *ngIf="ticket.get('canStream'); else ticketCannotStream;">
+                                                    <i ngClass="fas fa-check-circle"></i>
+                                                </ng-container>
+                                                <ng-template #ticketCannotStream>
+                                                    <i ngClass="fas fa-times-circle"></i>
+                                                </ng-template>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ngClass="cell-inner">
+                                            <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                {{ ticket.get('cost')| currency:'KES':'symbol':'.2-2'  }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ngClass="cell-inner">
+                                            <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                {{ ticket.get('quantity')|number: '1.0-0' }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ngClass="cell-inner">
+                                            <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                <ng-container
+                                                    *ngIf="ticket.get('canStream'); else ticketCannotSupportWatchParty;">
+
+                                                    <ng-container
+                                                        *ngIf="ticket.get('quantity', 0) > 1; else quantityIsNotSufficientForWatchParty;">
+
+                                                        <ng-container
+                                                            [ngPlural]="ticket.get('totalWatchPartyMembers', 0)">
+                                                            {{ticket.get('totalWatchPartyMembers', 0)|number: '1.0-0'}}
+                                                            <ng-template ngPluralCase="0">people</ng-template>
+                                                            <ng-template ngPluralCase="1">person</ng-template>
+                                                            <ng-template ngPluralCase="other">people</ng-template>
+                                                        </ng-container>
+                                                        joined.<a [routerLink]="[
+                                                    '.',
+                                                    ticket.get('id'),
+                                                    'watch-party'
+                                                    ]">
+                                                            {{ ticket.get('totalWatchPartyMembers', 0) ? 'Update members': 'Add members' }}
+                                                        </a>
+                                                    </ng-container>
+                                                    <ng-template #quantityIsNotSufficientForWatchParty>
+                                                        Ticket quantity is not sufficient.
+                                                    </ng-template>
+                                                </ng-container>
+                                                <ng-template #ticketCannotSupportWatchParty>
+                                                    Ticket does not support.
+                                                </ng-template>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ngClass="cell-inner">
+                                            <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                {{ ticket.get('subtotal')| currency:'KES':'symbol':'.2-2'}}
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div ngClass="mt-9" *ngIf="purchase.get('additionalFees')">
+                        <!-- Checkbox -->
+                        <div ngClass="custom-control custom-checkbox">
+                            <input ngClass="custom-control-input" id="purchases__+loopIndex+__additionalFee"
+                                type="checkbox">
+                            <label ngClass="custom-control-label font-size-sm collapsed" data-toggle="collapse"
+                                [attr.data-target]="'#purchases__' + purchaseLoopIndex.toString() +'__additionalFeeCollapse'"
+                                for="purchases__+loopIndex+__additionalFee" aria-expanded="false">
+                                Show additional fees?
+                            </label>
+                        </div>
+
+                        <!-- Collapse -->
+                        <div ngClass="collapse"
+                            [id]="'purchases__'+purchaseLoopIndex.toString()+'__additionalFeeCollapse'" style="">
+                            <div ngClass="gen-comparison-table table-style-1 table-responsive mb-6">
+                                <table ngClass="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div ngClass="cell-inner">
+                                                    <span>Name</span>
+                                                </div>
+                                                <div ngClass="cell-tag">
+                                                    <span></span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div ngClass="cell-inner">
+                                                    <span>Fee</span>
+                                                </div>
+                                                <div ngClass="cell-tag">
+                                                    <span></span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            *ngFor="let additionalFee of purchase.get('additionalFees');let additionalFeeLoopIndex=index;">
+                                            <td>
+                                                <div ngClass="cell-inner">
+                                                    <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                        {{ additionalFee.get('feeName') }}
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div ngClass="cell-inner">
+                                                    <span ngClass="font-weight-bold" [style.font-size]="'1rem'">
+                                                        {{ additionalFee.get('fee')| currency:'KES':'symbol':'.2-2' }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+
+        <snap-footer2></snap-footer2>
+    </div>
+</section>

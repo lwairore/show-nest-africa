@@ -16,14 +16,14 @@ import * as Immutable from 'immutable';
   @media (min-width: 1200px) {
       .moment-img-container {
           width: 100%;
-          height: 658.125px;
+          height: 450.125px;
       }
   }
 
   @media (min-width: 992px) and (max-width: 1199px) {
       .moment-img-container {
           width: 100%;
-          height: 528.75px;
+          height: 450.75px;
       }
   }
 
@@ -54,9 +54,15 @@ export class ImgLazyComponent implements OnInit {
 
   @Output() isVisible = new EventEmitter();
 
+  @Output() imageClicked = new EventEmitter<boolean>();
+
+
+
   @Input() appearance: ('' | 'line' | 'circle') = '';
 
   @Input() momentRoundImgCard = true;
+
+  @Input() imgClass = '';
 
   // Modify with setState
   state = Immutable.Map({
@@ -72,8 +78,12 @@ export class ImgLazyComponent implements OnInit {
     private _changeDetectionRef: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._calcVisibility();
+  }
+
+  reportImageClicked() {
+    this.imageClicked.emit(true);
   }
 
   private _setState(key: string, value: boolean) {

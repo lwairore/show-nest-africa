@@ -7,6 +7,8 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalHttpInterceptorService } from '@sharedModule/global-http-interceptor.service';
+import { LibsModule } from '@libsModule/libs.module';
+import { LoadingScreenService } from '@libsModule/loading-screen/loading-screen.service';
 
 @NgModule({
   declarations: [
@@ -19,10 +21,10 @@ import { GlobalHttpInterceptorService } from '@sharedModule/global-http-intercep
     AppRoutingModule,
     CoreModule,
     SharedModule,
+    LibsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true },
-
   ],
   bootstrap: [
     AppComponent,

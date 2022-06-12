@@ -7,17 +7,17 @@
 <!--=========== Loader =============-->
 
 <!-- Log-in  -->
-<section class="position-relative pb-0">
-    <div class="gen-login-page-background" style="background-image: url('assets/images/background/asset-54.jpg');">
+<section ngClass="position-relative pb-0">
+    <div ngClass="gen-login-page-background" style="background-image: url('assets/images/background/asset-54.jpg');">
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center">
-                    <form id="pms_login" [formGroup]="signInFormGroup" *ngIf="signInFormGroup">
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-lg-12">
+                <div ngClass="text-center">
+                    <form id="pms_login" [formGroup]="signInFormGroup" *ngIf="signInFormGroup" autocomplete="off">
                         <h4>Sign In</h4>
 
-                        <ng-container #errornoteContainer></ng-container>
+                        <snap-errornote></snap-errornote>
 
                         <ng-template #formFieldErrorsTemplate let-formControlFormGroup="formGroup"
                             let-formFieldErrors="errors">
@@ -30,7 +30,7 @@
                             </snap-display-form-field-errors>
                         </ng-template>
 
-                        <p class="login-username">
+                        <p ngClass="login-username">
                             <label
                                 [for]="SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER
                             .slug(SIGN_IN_PARAM.NAME_OF_FORM_GROUP, SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)"
@@ -57,7 +57,7 @@
                                     errors: SIGN_IN_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.errors
                                 }"></ng-container>
                         </p>
-                        <p class="login-password">
+                        <p ngClass="login-password">
                             <label [for]="SIGN_IN_PARAM.PASSWORD
                                 .slug(SIGN_IN_PARAM.NAME_OF_FORM_GROUP, SIGN_IN_PARAM.PASSWORD.formControlName)"
                                 [class.text-danger]="signInFormGroup
@@ -79,7 +79,7 @@
                                         errors: SIGN_IN_PARAM.PASSWORD.errors
                                     }"></ng-container>
                         </p>
-                        <p class="login-remember"
+                        <p ngClass="login-remember"
                             title="Click here to {{togglePasswordVisibilityEl.checked ? 'hide the entered ' : 'see the entered ' }} password">
                             <label for="togglePasswordVisibility">
                                 <input (change)="togglePasswordVisibilityEl.checked ?
@@ -88,32 +88,34 @@
                                 Show password
                             </label>
                         </p>
-                        <!-- <p class="login-submit">
-                            <input type="button" name="wp-submit" id="wp-submit" class="button button-primary"
+                        <!-- <p ngClass="login-submit">
+                            <input type="button" name="wp-submit" id="wp-submit" ngClass="button button-primary"
                                 value="Log In">
                             <input type="hidden" name="redirect_to">
                         </p> -->
 
-                        <div class="gen-btn-container">
+                        <div ngClass="gen-btn-container">
                             <snap-ajax-button [execute]="onSubmit" [parameter]="signInFormGroup">
                                 <ng-container data-animator>
-                                    <span class="loadmore-icon d-inline-block"><i
-                                            class="fa fa-spinner fa-spin"></i></span>
-                                    <span class="gen-button-text">
+                                    <span ngClass="loadmore-icon d-inline-block"><i
+                                            ngClass="fa fa-spinner fa-spin"></i></span>
+                                    <span ngClass="gen-button-text">
                                         <span id="pms-submit-button-loading-placeholder-text">Processing
                                             request...</span>
                                     </span>
                                 </ng-container>
                                 <ng-container data-content>
-                                    <span class="gen-button-line-left"></span>
-                                    <span class="gen-button-text">sign in</span>
+                                    <span ngClass="gen-button-line-left"></span>
+                                    <span ngClass="gen-button-text">sign in</span>
                                 </ng-container>
                             </snap-ajax-button>
                         </div>
 
-                        <a routerLink="../register" [queryParamsHandling]="'preserve'">Register</a> | <a
-                            routerLink="../recover-password">Lost your
-                            password?</a>
+                        <span ngClass="d-block mt-4">
+                            <a routerLink="../register" [queryParamsHandling]="'preserve'">Register</a> | <a
+                                routerLink="../recover-password">Lost your
+                                password?</a>
+                        </span>
                     </form>
                 </div>
             </div>

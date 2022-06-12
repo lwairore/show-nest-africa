@@ -1,99 +1,132 @@
 <!-- footer start -->
 <footer id="gen-footer">
-    <div class="gen-footer-style-1">
-        <div class="gen-footer-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-4">
-                        <div class="widget">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <!-- <img src="assets/images/logo-1.png" class="gen-footer-logo" alt="gen-footer-logo"> -->
-                                    <a routerLink="" class="navbar-brand"
-                                        [ngStyle]="{color: 'white',fontWeight: 'bolder', fontSize: '2.1rem'}">Show Nest
-                                        Africa
-                                    </a>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    <ul class="social-link">
-                                        <li><a [routerLink]="null" class="facebook"><i
-                                                    class="fab fa-facebook-f"></i></a></li>
-                                        <li><a [routerLink]="null" class="facebook"><i class="fab fa-instagram"></i></a>
+    <div ngClass="gen-footer-style-1">
+        <div ngClass="gen-footer-top">
+            <div ngClass="container">
+                <div ngClass="row">
+                    <div ngClass="col-xl-3 col-lg-3 col-md-3">
+                        <div ngClass="widget">
+                            <div ngClass="row">
+                                <img src="assets/images/SN_ONLY-1-removebg-preview.png"
+                                    alt="Shownest Africa Footer Logo" [style.height.px]="'100'"
+                                    ngClass="gen-footer-logo">
+                                <div ngClass="col-sm-12">
+
+                                    <p>Global, Ticketed, Social Experiences</p>
+                                    <ul ngClass="social-link">
+                                        <li><a [routerLink]="null" ngClass="facebook"><i
+                                                    ngClass="fab fa-facebook-f"></i></a></li>
+                                        <li><a [routerLink]="null" ngClass="facebook"><i
+                                                    ngClass="fab fa-instagram"></i></a>
                                         </li>
-                                        <li><a [routerLink]="null" class="facebook"><i class="fab fa-skype"></i></a>
+                                        <li><a [routerLink]="null" ngClass="facebook"><i ngClass="fab fa-skype"></i></a>
                                         </li>
-                                        <li><a [routerLink]="null" class="facebook"><i class="fab fa-twitter"></i></a>
+                                        <li><a [routerLink]="null" ngClass="facebook"><i
+                                                    ngClass="fab fa-twitter"></i></a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4">
-                        <div class="widget">
-                            <h4 class="footer-title">Services</h4>
-                            <div class="menu-explore-container">
-                                <ul class="menu">
-                                    <li class="menu-item">
-                                        <a href="index.html" aria-current="page">Contact Us </a>
+                    <div ngClass="col-xl-3 col-lg-3 col-md-3">
+                        <div ngClass="widget">
+                            <h4 ngClass="footer-title">Services</h4>
+                            <div ngClass="menu-explore-container">
+                                <ul ngClass="menu">
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/live-box">LiveBox</a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="movies-pagination.html">Create event</a>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/moments/series/upcoming">Upcomming Events</a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="tv-shows-pagination.html">Live Interviews</a>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/moments/series/past">Past Events</a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="video-pagination.html">Ticket sells</a>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/library/purchases">My Events</a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">FAQ</a>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/moments/submit">Create event</a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">Event Consultancy</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4">
-                        <div class="widget">
-                            <h4 class="footer-title">Information</h4>
-                            <div class="menu-about-container">
-                                <ul class="menu">
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">Why Choose Us</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">Privacy
-                                            Policy</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">Terms Of Use</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">Help Center</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">Contact us</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a [routerLink]="null">Work With US</a>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/contact-us" aria-current="page">Contact Us </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <div ngClass="col-xl-3 col-lg-3 col-md-3">
+                        <div ngClass="widget">
+                            <h4 ngClass="footer-title">Manage your Account</h4>
+                            <div ngClass="menu-about-container">
+                                <ul ngClass="menu">
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/manage-profile">
+                                            My Profile
+                                        </a>
+                                    </li>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/manage-profile">
+                                            Update My Profile
+                                        </a>
+                                    </li>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/manage-profile">
+                                            Change Password
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div ngClass="col-xl-3 col-lg-3 col-md-3">
+                        <div ngClass="widget">
+                            <h4 ngClass="footer-title">Information</h4>
+                            <div ngClass="menu-about-container">
+                                <ul ngClass="menu">
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/faq/fan">
+                                            FAQ for Fan
+                                        </a>
+                                    </li>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/faq/creator">
+                                            FAQ for Creator
+                                        </a>
+                                    </li>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/policies/privacy-notice">
+                                            Privacy Notice
+                                        </a>
+                                    </li>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/policies/terms-of-use">Terms Of Use</a>
+                                    </li>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/contact-us">Help Center</a>
+                                    </li>
+                                    <li ngClass="menu-item">
+                                        <a routerLink="/contact-us">Contact us</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
-        <div class="gen-copyright-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 align-self-center">
-                        <span class="gen-copyright"><a target="_blank" [routerLink]="null"> Copyright 2022 Show Nest
-                                Africa All
-                                Rights
-                                Reserved.</a></span>
+        <div ngClass="gen-copyright-footer">
+            <div ngClass="container">
+                <div ngClass="row">
+                    <div ngClass="col-md-12 align-self-center">
+                        <span ngClass="gen-copyright">
+                            <a target="_blank" [routerLink]="null">
+                                Copyright 2022 Shownest Africa All Rights Reserved.
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>

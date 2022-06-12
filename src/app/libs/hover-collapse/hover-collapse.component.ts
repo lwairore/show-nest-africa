@@ -15,7 +15,7 @@ export class HoverCollapseComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   toggleCollapse() {

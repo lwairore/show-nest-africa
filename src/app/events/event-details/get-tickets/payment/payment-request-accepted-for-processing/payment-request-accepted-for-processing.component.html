@@ -1,0 +1,53 @@
+<section ngClass="gen-section-padding-3">
+  <div ngClass="container">
+    <div ngClass="py-5 text-center">
+      <span ngClass="d-block mx-auto mb-4" style="width: 72px; height: 72px">
+        <i ngClass="fa {{paymentRequestInfo.get('visualClueFaIcon')}}"
+          style="font-size:48px;color: var(--primary-color);"></i>
+      </span>
+      <h2> {{paymentRequestInfo.get('statusHeading')}} </h2>
+    </div>
+    <div ngClass="text-center">
+      <div [innerHTML]="paymentRequestInfo.get('statusDescription')"></div>
+      <div ngClass="gen-btn-container my-5">
+        <ng-container [ngSwitch]="paymentRequestInfo.get('action')">
+          <ng-container *ngSwitchCase="'goTo__eventDetails'">
+            <a [routerLink]="null" ngClass="gen-button" (click)="navigateToGoToEventDetails()">
+              <div ngClass="gen-button-block">
+                <span ngClass="gen-button-text"> Go to event details </span>
+              </div>
+            </a>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'check__paymentStatus'">
+            <a [routerLink]="null" ngClass="gen-button" (click)="queryPaymentStatus()">
+              <div ngClass="gen-button-block">
+                <span ngClass="gen-button-text"> Check payment status </span>
+              </div>
+            </a>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'try__again'">
+            <a [routerLink]="null" ngClass="gen-button" (click)="queryPaymentStatus()">
+              <div ngClass="gen-button-block">
+                <span ngClass="gen-button-text"> Check payment status </span>
+              </div>
+            </a>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'purchase__tickets'">
+            <a [routerLink]="null" ngClass="gen-button" (click)="navigateToGetTickets()">
+              <div ngClass="gen-button-block">
+                <span ngClass="gen-button-text"> Purchase tickets </span>
+              </div>
+            </a>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault></ng-container>
+        </ng-container>
+      </div>
+    </div>
+    
+    <snap-footer2></snap-footer2>
+  </div>
+</section>

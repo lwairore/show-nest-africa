@@ -1,20 +1,20 @@
-<section class="gen-section-padding-3">
-  <div class="container">
-    <div class="col-12">
+<section ngClass="gen-section-padding-3">
+  <div ngClass="container">
+    <div ngClass="col-12">
       <h2>MediaRecorder</h2>
       <p>Start a live event</p>
 
-      <div class="row mb-4">
-        <div class="col-xl-6 col-md-6">
-          <div class="gen-img-main">
-            <video class="video" #video controls autoplay></video>
+      <div ngClass="row mb-4">
+        <div ngClass="col-xl-6 col-md-6">
+          <div ngClass="gen-img-main">
+            <video ngClass="video" #video controls autoplay></video>
             <p><b>Note:</b> If you hear a reverb sound your microphone is picking up the output of your
               speakers/headset, lower the volume and/or move the microphone further away from your speakers/headset.</p>
           </div>
         </div>
-        <div class="col-xl-6 col-md-6 mt-4 mt-md-0">
-          <div class="gen-img-main">
-            <video class="video" style="width:360 !important;" controls #recordedVideo></video>
+        <div ngClass="col-xl-6 col-md-6 mt-4 mt-md-0">
+          <div ngClass="gen-img-main">
+            <video ngClass="video" style="width:360 !important;" controls #recordedVideo></video>
           </div>
         </div>
       </div>
@@ -22,34 +22,38 @@
   </div>
 </section>
 
-<section class="gen-section-padding-3">
-  <div class="container">
-    <div class="row">
-      <div class="col-xl-9 col-md-12">
-        <div class="gen-blog gen-blog-col-1">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="gen-blog-post">
-                <div class="gen-blog-contain">
-                  <div class="gen-post-meta">
+<section ngClass="gen-section-padding-3">
+  <div ngClass="container">
+    <div ngClass="row">
+      <div ngClass="col-xl-9 col-md-12">
+        <div ngClass="gen-blog gen-blog-col-1">
+          <div ngClass="row">
+            <div ngClass="col-lg-12">
+              <div ngClass="gen-blog-post">
+                <div ngClass="gen-blog-contain">
+                  <div ngClass="gen-post-meta">
                     <ul>
-                      <li class="gen-post-meta" *ngIf="!cameraHasStarted">
+                      <li ngClass="gen-post-meta" *ngIf="!cameraHasStarted; else showRecordingOptions;">
                         <a [routerLink]="null" (click)="startCamera()">
                           Start camera
                         </a>
                       </li>
-                      <li class="gen-post-tag" *ngIf="!isRecording;">
-                        <a [routerLink]="null" (click)="startRecording()">
-                          Start Recording</a>
-                      </li>
-                      <li class="gen-post-tag" *ngIf="isRecording">
-                        <a [routerLink]="null" (click)="stopRecording()">
-                          Stop Recording</a>
-                      </li>
-                      <li class="gen-post-tag">
+                      <ng-template #showRecordingOptions>
+                        <li ngClass="gen-post-tag" *ngIf="!isRecording;">
+                          <a [routerLink]="null" (click)="startRecording()">
+                            Start Recording</a>
+                        </li>
+                        <li ngClass="gen-post-tag" *ngIf="isRecording">
+                          <a [routerLink]="null" (click)="stopRecording()">
+                            Stop Recording</a>
+                        </li>
+                      </ng-template>
+
+
+                      <li ngClass="gen-post-tag">
                         <ng-container *ngIf="isCurrentUploading; else showUploadCtrls;">
                           <a [routerLink]="null">
-                            <span class="loadmore-icon d-inline-block"><i class="fa fa-spinner fa-spin"></i></span>
+                            <span ngClass="loadmore-icon d-inline-block"><i ngClass="fa fa-spinner fa-spin"></i></span>
                             Uploading</a>
                         </ng-container>
                         <ng-template #showUploadCtrls>
@@ -58,21 +62,24 @@
                         </ng-template>
 
                       </li>
-                      <li class="gen-post-tag">
+                      <li ngClass="gen-post-tag">
                         <a [routerLink]="null" (click)="displayAllStoredChunks()">
                           Display all stored</a>
                       </li>
                     </ul>
                   </div>
-                  <h5 class="gen-blog-title">
-                    <a [routerLink]="null">
-                      Recording format</a>
-                  </h5>
-                  <select #codecPreferences disabled></select>
-                  <h5>Media Stream Constraints options</h5>
-                  <p>Echo cancellation:
-                    <input type="checkbox" #echoCancellationEl>
-                  </p>
+
+                  <ng-container>
+                    <h5 ngClass="gen-blog-title">
+                      <a [routerLink]="null">
+                        Recording format</a>
+                    </h5>
+                    <select #codecPreferences disabled></select>
+                    <h5>Media Stream Constraints options</h5>
+                    <p>Echo cancellation:
+                      <input type="checkbox" #echoCancellationEl>
+                    </p>
+                  </ng-container>
                 </div>
               </div>
             </div>

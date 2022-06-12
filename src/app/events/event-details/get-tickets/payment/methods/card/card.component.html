@@ -1,0 +1,56 @@
+<form ngNoForm autocomplete="off">
+  <div ngClass="row">
+    <div ngClass="col-md-6 mb-3">
+      <label for="cc-name">Cardholder Name</label>
+      <div ngClass="br-tree-container" id="cc-name"></div>
+      <small ngClass="text-muted d-block">Full name as displayed on card</small>
+      <div ngClass="invalid-feedback">
+        Name on card is required
+      </div>
+    </div>
+    <div ngClass="col-md-6 mb-3">
+      <label for="cc-number">Credit card number</label>
+      <div ngClass="br-tree-container" id="cc-number"></div>
+      <div ngClass="invalid-feedback">
+        Credit card number is required
+      </div>
+    </div>
+  </div>
+
+  <div ngClass="row mb-4">
+    <div ngClass="col-12">
+      <label for="cc-expiration">Expiration</label>
+      <div ngClass="br-tree-container" id="cc-expiration"></div>
+      <div ngClass="invalid-feedback">
+        Expiration date required
+      </div>
+    </div>
+  </div>
+
+  <div ngClass="row  mb-4">
+    <div ngClass="col-12">
+      <label for="cc-expiration">CVV</label>
+      <div ngClass="br-tree-container" id="cc-cvv"></div>
+      <div ngClass="invalid-feedback">
+        Security code required
+      </div>
+    </div>
+  </div>
+
+  <hr ngClass="mb-4">
+  <p ngClass="mb-3">
+    By purchasing your ticket, you agree to our <a target="_blank" routerLink="/policies/terms-of-use">Terms of
+      Use</a> and our <a target="_blank" routerLink="/policies/privacy-notice">Privacy Policy</a>.
+  </p>
+
+  <div ngClass="gen-load-more-button" #genLoadMoreButtonEl [style.display]="'none'">
+    <div ngClass="gen-btn-container">
+      <a ngClass="gen-button gen-button-loadmore" [routerLink]="null">
+        <span ngClass="loadmore-icon" [style.display]="'inline-block'"><i ngClass="fa fa-spinner fa-spin"></i></span>
+        <span ngClass="button-text">Processing payment</span>
+      </a>
+    </div>
+  </div>
+
+  <input type="button" (click)="tokenize()" value="Buy Tickets" #submitElRef>
+</form>

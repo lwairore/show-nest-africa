@@ -32,7 +32,7 @@ export class AjaxButtonComponent implements OnInit {
 
   constructor(private _changeDetectorRef: ChangeDetectorRef,) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 

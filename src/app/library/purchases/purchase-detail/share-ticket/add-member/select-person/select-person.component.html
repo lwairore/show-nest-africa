@@ -1,0 +1,140 @@
+<section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+        <ng-container *ngIf="memberAddedSuccessfully.get('isSuccess'); else showAddForm;">
+            <div ngClass="py-5 text-center">
+                <h2>
+                    Done.
+                </h2>
+
+                <p>
+                    {{$any(memberAddedSuccessfully.get('fullName'))|titlecase  }} has been successfully added.
+                </p>
+
+                <a ngClass="gen-button btn btn-danger btn-lg d-block mt-4" [routerLink]="null" tabindex="0"
+                    [style.width.%]="100" (click)="addAnotherBuddy()">
+                    <span ngClass="text">
+                        Add another person
+                    </span>
+                </a>
+
+                <a ngClass="btn btn-link btn-sm px-0 mt-4" [routerLink]="null" (click)="navigateToPurchaseEventDetail()"
+                    [ngStyle]="{
+                textTransform: 'uppercase',
+                position: 'relative',
+                width: 'auto',
+                fontWeight: '400',
+                color: 'var(--white-color)',
+                fontFamily: 'var(--title-fonts)',
+                fontSize: '16px'
+            }"><i ngClass="fas fa-arrow-left mr-2"></i> Close </a>
+            </div>
+        </ng-container>
+        <ng-template #showAddForm>
+            <div ngClass="py-5 text-center">
+                <h2>
+                    Add person
+                </h2>
+
+                <p>
+                    Stream event remotely with friends and family.
+                </p>
+
+                <a ngClass="btn btn-link btn-sm px-0 mt-4" (click)="chooseAnotherTicket()" [routerLink]="null" [ngStyle]="{
+                textTransform: 'uppercase',
+                position: 'relative',
+                width: 'auto',
+                fontWeight: '400',
+                color: 'var(--white-color)',
+                fontFamily: 'var(--title-fonts)',
+                fontSize: '16px'
+            }"><i ngClass="fas fa-arrow-left mr-2"></i> Select another ticket </a>
+            </div>
+
+
+            <div ngClass="row">
+                <div ngClass="col-12">
+                    <form [formGroup]="selectPersonFormGroup" autocomplete="off">
+                        <div ngClass="row gt-form">
+                            <div ngClass="col-md-12 mb-4">
+                                <snap-errornote></snap-errornote>
+                            </div>
+
+                            <ng-template #formFieldErrorsTemplate let-formControlFormGroup="formGroup"
+                                let-formFieldErrors="errors">
+                                <snap-display-form-field-errors [formGroupElement]="formControlFormGroup"
+                                    [submitted]="submitted"
+                                    [requiredOrNullOrNoValueProvidedErrorMessage]="formFieldErrors.requiredOrNullOrNoValueProvidedErrorMessage || null"
+                                    [minCharacterNotGenuinelyAchievedErrorMessage]="formFieldErrors.minCharacterNotGenuinelyAchievedErrorMessage || null"
+                                    [minLengthPrefixErrorMessage]="formFieldErrors.minLengthPrefixErrorMessage || null"
+                                    [incorrectCredentialsErrorMessage]="formFieldErrors.incorrectCredentials || null">
+                                </snap-display-form-field-errors>
+                            </ng-template>
+
+                            <div ngClass="col-md-12 mb-4">
+                                <input type="text"
+                                    [id]="SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER
+                                .slug(SELECT_PERSON_PARAM.NAME_OF_FORM_GROUP, SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)"
+                                    [formControlName]="SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName"
+                                    [name]="SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER
+                            .slug(SELECT_PERSON_PARAM.NAME_OF_FORM_GROUP, SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName)"
+                                    [placeholder]="SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.placeholder">
+                                <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate" [ngTemplateOutletContext]="{
+                                    formGroup: selectPersonFormGroup
+                                    ?.get(SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.formControlName),
+                                    errors: SELECT_PERSON_PARAM.USERNAME_OR_EMAIL_PHONE_NUMBER.errors
+                                }"></ng-container>
+                                <small ngClass="text-muted">
+                                    In order to add a person, the username or phone number or email address added above
+                                    should
+                                    already have a Shownest Account. If they do not have an account, please ask them to
+                                    create
+                                    an account first.
+                                </small>
+                            </div>
+
+                            <div ngClass="col-md-12 mt-4 mb-4">
+                                <a ngClass="gen-button btn btn-danger btn-lg d-block mt-4" [routerLink]="null"
+                                    (click)="onSubmit()" tabindex="0" [style.width.%]="100">
+                                    <ng-container *ngIf="addingPerson; else addPersonCTA">
+                                        <span ngClass="loadmore-icon" [style.display]="'inline-block'"><i
+                                                ngClass="fa fa-spinner fa-spin"></i></span>
+                                        <span ngClass="text">Adding person</span>
+                                    </ng-container>
+
+                                    <ng-template #addPersonCTA>
+                                        <span ngClass="text">
+                                            Add person
+                                        </span>
+                                    </ng-template>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </ng-template>
+
+        <snap-footer2></snap-footer2>
+    </div>
+</section>
+
+<snap-modal-fullscreen #addStreamBuddyResponseModalEl [modalID]="ADD_STREAM_BUDDY_RESPONSE_MODAL_ID">
+    <span data-modalTitle #dataModalTitleNgContent>
+    </span>
+
+    <ng-container data-modalHeaderDismissModal>
+        <button type="button" ngClass="close" data-dismiss="modal" aria-label="Close" style="color: var(--white-color);">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </ng-container>
+
+    <div data-modalBody #dataModalBodyNgContent>
+    </div>
+
+    <ng-container data-modalFooter>
+        <a ngClass="gen-button" data-dismiss="modal" [routerLink]="null">
+            <div ngClass="gen-button-block"><span ngClass="gen-button-text"> Close </span></div>
+        </a>
+    </ng-container>
+</snap-modal-fullscreen>

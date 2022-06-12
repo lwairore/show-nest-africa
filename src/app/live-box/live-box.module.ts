@@ -6,12 +6,14 @@ import { LiveBoxComponent } from './live-box.component';
 import { LiveboxMainComponent } from './livebox-main/livebox-main.component';
 import { SharedModule } from '../shared/shared.module';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { WeAreComingSoonComponent } from './we-are-coming-soon/we-are-coming-soon.component';
 
 
 @NgModule({
   declarations: [
     LiveBoxComponent,
-    LiveboxMainComponent
+    LiveboxMainComponent,
+    WeAreComingSoonComponent
   ],
   imports: [
     CommonModule,

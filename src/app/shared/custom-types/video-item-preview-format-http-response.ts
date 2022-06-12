@@ -2,8 +2,5 @@ import { ImageItemPreviewFormatHttpResponse } from "./image-item-preview-format-
 
 export type VideoItemPreviewFormatHttpResponse = Readonly<{
     src: string;
-    description: string;
-    recordingDate?: string;
-    videoLocation?: string;
     thumbnail?: ImageItemPreviewFormatHttpResponse;
 }>

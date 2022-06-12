@@ -1,0 +1,362 @@
+<!-- breadcrumb -->
+<snap-breadcrumb>
+    <ng-container data-breadcrumbTitle>
+        <h1> Manage Profile</h1>
+    </ng-container>
+
+    <ng-container data-breadcrumbItems>
+        <ng-template snapBreadcrumbItem>
+            <a routerLink="">
+                <i ngClass="fas fa-home mr-2"></i>Home
+            </a>
+        </ng-template>
+
+        <ng-template snapBreadcrumbItem active="true">
+            Manage profile
+        </ng-template>
+    </ng-container>
+</snap-breadcrumb>
+<!-- breadcrumb -->
+
+<!-- Blog-left-Sidebar -->
+<section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+        <h4 ngClass="main-title mb-4 my-4">Account Setting</h4>
+        <div ngClass="row">
+            <div ngClass="col-xl-3 col-md-12 order-1 order-xl-1 mt-4 mt-xl-0 mb-4">
+                <div ngClass="widget widget_recent_entries">
+                    <!-- <h2 ngClass="widget-title">Recent Posts</h2> -->
+                    <div ngClass="float-right">
+                        <a [routerLink]="null" ngClass="font-weight-bold" (click)="editAvatarTrigger()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" focusable="false" [ngStyle]="{
+                                    color: 'var(--white)',
+                                    fill: 'currentcolor'
+                                }">
+                                <path
+                                    d="M20 5h-3.17L15 3H9L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 14H4V7h16v12z">
+                                </path>
+                                <path d="M12 9c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div ngClass="sign-user_card text-center">
+                        <ng-container
+                            *ngIf="profileFormGroup?.get(
+                            PROFILE_PARAM.AVATAR.formControlName)?.value?.src || objectURLS.last(); else useDefaultAvatar;">
+                            <img height="36vh"
+                                [src]="profileFormGroup?.get(
+                                PROFILE_PARAM.AVATAR.formControlName)?.value?.src || objectURLS.last()|safe: SafePipeDomSanitizerTypes.URL"
+                                ngClass="img-fluid d-block mx-auto mb-3" [alt]="profileFormGroup?.get(
+                                    PROFILE_PARAM.AVATAR.formControlName)?.value?.alt">
+                        </ng-container>
+
+                        <ng-template #useDefaultAvatar>
+                            <img src="assets/images/user/user.jpg" ngClass="img-fluid d-block mx-auto mb-3"
+                                alt="Your default image">
+                        </ng-template>
+
+                        <h4 ngClass="mb-3">
+                            {{ $any(profileDetails.get('firstName')) | titlecase}}
+                            {{ $any(profileDetails.get('lastName')) |titlecase}}
+                        </h4>
+
+                        <snap-item-description *ngIf="profileDetails.get('bio')"
+                            [itemDescription]="profileDetails.get('bio')">
+                        </snap-item-description>
+                    </div>
+                </div>
+            </div>
+            <div ngClass="col-xl-9 col-md-12 order-2 order-xl-2">
+                <div ngClass="gen-blog gen-blog-col-1">
+                    <div ngClass="row">
+                        <div ngClass="col-lg-12">
+                            <h5 ngClass="mb-3 pb-3 a-border">Personal Details</h5>
+                            <p ngClass="mb-3 pb-3 a-border">Manage your personal info</p>
+                            <form [formGroup]="profileFormGroup" autocomplete="off">
+                                <snap-errornote></snap-errornote>
+
+                                <ng-template #formFieldErrorsTemplate let-formControlFormGroup="formGroup"
+                                    let-formFieldErrors="errors">
+                                    <snap-display-form-field-errors [formGroupElement]="formControlFormGroup"
+                                        [submitted]="submitted"
+                                        [requiredOrNullOrNoValueProvidedErrorMessage]="formFieldErrors.requiredOrNullOrNoValueProvidedErrorMessage || null"
+                                        [minCharacterNotGenuinelyAchievedErrorMessage]="formFieldErrors.minCharacterNotGenuinelyAchievedErrorMessage || null"
+                                        [maxLengthPrefixErrorMessage]="formFieldErrors.maxLengthPrefixErrorMessage || null"
+                                        [minLengthPrefixErrorMessage]="formFieldErrors.minLengthPrefixErrorMessage || null"
+                                        [emailErrorMessage]="formFieldErrors.emailErrorMessage || null"
+                                        [emailHasBeenTakenErrorMessage]="formFieldErrors.emailHasBeenTakenErrorMessage || null"
+                                        [phoneNumberHasBeenTakenErrorMessage]="formFieldErrors.phoneNumberHasBeenTakenErrorMessage || null"
+                                        [usernameHasBeenTakenErrorMessage]="formFieldErrors.usernameHasBeenTakenErrorMessage || null">
+                                    </snap-display-form-field-errors>
+                                </ng-template>
+
+                                <div ngClass="row gt-form">
+                                    <div ngClass="col-md-6 mb-4">
+                                        <label
+                                            [for]="PROFILE_PARAM.FIRST_NAME
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.FIRST_NAME.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.FIRST_NAME.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.FIRST_NAME.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.FIRST_NAME.label }}
+                                        </label>
+                                        <input
+                                            [id]="PROFILE_PARAM.FIRST_NAME
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.FIRST_NAME.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.FIRST_NAME.formControlName" type="text"
+                                            [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.FIRST_NAME.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.FIRST_NAME.formControlName)?.touched || submitted)"
+                                            [placeholder]="PROFILE_PARAM.FIRST_NAME.placeholder" [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.FIRST_NAME.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.FIRST_NAME.isRequired">
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.FIRST_NAME.formControlName),
+                                                errors: PROFILE_PARAM.FIRST_NAME.errors
+                                            }"></ng-container>
+                                    </div>
+
+                                    <div ngClass="col-md-6 mb-4">
+                                        <label
+                                            [for]="PROFILE_PARAM.LAST_NAME
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.LAST_NAME.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.LAST_NAME.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.LAST_NAME.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.LAST_NAME.label }}
+                                        </label>
+                                        <input
+                                            [id]="PROFILE_PARAM.LAST_NAME
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.LAST_NAME.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.LAST_NAME.formControlName" type="text"
+                                            [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.LAST_NAME.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.LAST_NAME.formControlName)?.touched || submitted)"
+                                            [placeholder]="PROFILE_PARAM.LAST_NAME.placeholder" [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.LAST_NAME.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.LAST_NAME.isRequired">
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.LAST_NAME.formControlName),
+                                                errors: PROFILE_PARAM.LAST_NAME.errors
+                                            }"></ng-container>
+                                    </div>
+
+                                    <div ngClass="col-md-12 mb-4">
+                                        <label [for]="PROFILE_PARAM.EMAIL
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.EMAIL.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.EMAIL.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.EMAIL.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.EMAIL.label }}
+                                        </label>
+                                        <input type="email" [id]="PROFILE_PARAM.EMAIL
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.EMAIL.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.EMAIL.formControlName" type="text"
+                                            [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.EMAIL.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.EMAIL.formControlName)?.touched || submitted)"
+                                            [placeholder]="PROFILE_PARAM.EMAIL.placeholder" [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.EMAIL.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.EMAIL.isRequired"
+                                            snapHasBeenTaken="emailHasBeenTaken"
+                                            [validateFunction]="checkIfEmailHasBeenTaken" snapBusyIndicator>
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.EMAIL.formControlName),
+                                                errors: PROFILE_PARAM.EMAIL.errors
+                                            }"></ng-container>
+                                    </div>
+
+                                    <div ngClass="col-md-12 mb-4">
+                                        <label
+                                            [for]="PROFILE_PARAM.DATE_OF_BIRTH
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.DATE_OF_BIRTH.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.DATE_OF_BIRTH.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.DATE_OF_BIRTH.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.DATE_OF_BIRTH.label }}
+                                        </label>
+                                        <input
+                                            [id]="PROFILE_PARAM.DATE_OF_BIRTH
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.DATE_OF_BIRTH.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.DATE_OF_BIRTH.formControlName" type="date"
+                                            [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.DATE_OF_BIRTH.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.DATE_OF_BIRTH.formControlName)?.touched || submitted)"
+                                            [placeholder]="PROFILE_PARAM.DATE_OF_BIRTH.placeholder" [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.DATE_OF_BIRTH.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.DATE_OF_BIRTH.isRequired">
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.DATE_OF_BIRTH.formControlName),
+                                                errors: PROFILE_PARAM.DATE_OF_BIRTH.errors
+                                            }"></ng-container>
+                                    </div>
+
+                                    <div ngClass="col-md-12 mb-4">
+                                        <label
+                                            [for]="PROFILE_PARAM.PHONE_NUMBER
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.PHONE_NUMBER.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.PHONE_NUMBER.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.PHONE_NUMBER.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.PHONE_NUMBER.label }}
+                                        </label>
+                                        <input type="tel"
+                                            [id]="PROFILE_PARAM.PHONE_NUMBER
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.PHONE_NUMBER.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.PHONE_NUMBER.formControlName"
+                                            [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.PHONE_NUMBER.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.PHONE_NUMBER.formControlName)?.touched || submitted)"
+                                            [placeholder]="PROFILE_PARAM.PHONE_NUMBER.placeholder" [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.PHONE_NUMBER.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.PHONE_NUMBER.isRequired"
+                                            [attr.aria-required]="PROFILE_PARAM.PHONE_NUMBER.isRequired"
+                                            snapHasBeenTaken="phoneNumberHasBeenTaken"
+                                            [validateFunction]="checkIfPhoneNumberHasBeenTaken" snapBusyIndicator>
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.PHONE_NUMBER.formControlName),
+                                                errors: PROFILE_PARAM.PHONE_NUMBER.errors
+                                            }"></ng-container>
+                                    </div>
+
+                                    <div ngClass="col-md-12 mb-4">
+                                        <label
+                                            [for]="PROFILE_PARAM.USERNAME
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.USERNAME.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.USERNAME.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.USERNAME.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.USERNAME.label }}
+                                        </label>
+                                        <input
+                                            [id]="PROFILE_PARAM.USERNAME
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.USERNAME.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.USERNAME.formControlName" type="text"
+                                            [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.USERNAME.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.USERNAME.formControlName)?.touched || submitted)"
+                                            [placeholder]="PROFILE_PARAM.USERNAME.placeholder" [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.USERNAME.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.USERNAME.isRequired"
+                                            [attr.aria-required]="PROFILE_PARAM.USERNAME.isRequired"
+                                            snapHasBeenTaken="usernameHasBeenTaken"
+                                            [validateFunction]="checkIfUsernameHasBeenTaken" snapBusyIndicator>
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.USERNAME.formControlName),
+                                                errors: PROFILE_PARAM.USERNAME.errors
+                                            }"></ng-container>
+                                    </div>
+
+                                    <div ngClass="col-md-12 mb-4">
+                                        <label [for]="PROFILE_PARAM.GENDER
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.GENDER.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.GENDER.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.GENDER.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.GENDER.label }}
+                                        </label>
+
+                                        <select [id]="PROFILE_PARAM.GENDER
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.GENDER.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.GENDER.formControlName" [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.GENDER.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.GENDER.formControlName)?.touched || submitted)"
+                                            [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.GENDER.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.GENDER.isRequired">
+                                            <option [value]="PROFILE_PARAM.GENDER.defaultValue">Choose gender</option>
+                                            <ng-container *ngFor="let gender of genderChoices;">
+                                                <option *ngIf="gender.get('value')" [value]="gender.get('value')">
+                                                    {{ gender.get('textContent') }}
+                                                </option>
+                                            </ng-container>
+                                        </select>
+
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.GENDER.formControlName),
+                                                errors: PROFILE_PARAM.GENDER.errors
+                                            }"></ng-container>
+                                    </div>
+
+
+                                    <div ngClass="col-md-12 mb-4">
+                                        <label [for]="PROFILE_PARAM.BIO
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.BIO.formControlName)"
+                                            [class.text-danger]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.BIO.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.BIO.formControlName)?.touched || submitted)">
+                                            {{ PROFILE_PARAM.BIO.label }}
+                                        </label>
+                                        <textarea [id]="PROFILE_PARAM.BIO
+                                        .slug(PROFILE_PARAM.NAME_OF_FORM_GROUP, PROFILE_PARAM.BIO.formControlName)"
+                                            [formControlName]="PROFILE_PARAM.BIO.formControlName" type="text"
+                                            [class.is-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.BIO.formControlName)?.invalid && (profileFormGroup
+                                            ?.get(PROFILE_PARAM.BIO.formControlName)?.touched || submitted)"
+                                            [placeholder]="PROFILE_PARAM.BIO.placeholder" [attr.aria-invalid]="profileFormGroup
+                                            ?.get(PROFILE_PARAM.BIO.formControlName)?.invalid"
+                                            [attr.aria-required]="PROFILE_PARAM.BIO.isRequired"
+                                            snapDynamicallySetHeightUsingScrollHeight></textarea>
+                                        <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                            [ngTemplateOutletContext]="{
+                                                formGroup: profileFormGroup
+                                                ?.get(PROFILE_PARAM.BIO.formControlName),
+                                                errors: PROFILE_PARAM.BIO.errors
+                                            }"></ng-container>
+                                    </div>
+
+                                    <div ngClass="col-md-12 mb-4">
+                                        <div ngClass="gen-btn-container">
+                                            <snap-ajax-button [execute]="onSubmit" [parameter]="profileFormGroup">
+                                                <ng-container data-animator>
+                                                    <span ngClass="loadmore-icon d-inline-block"><i
+                                                            ngClass="fa fa-spinner fa-spin"></i></span>
+                                                    <span ngClass="gen-button-text">
+                                                        <span id="pms-submit-button-loading-placeholder-text">
+                                                            Saving details...</span>
+                                                    </span>
+                                                </ng-container>
+                                                <ng-container data-content>
+                                                    <span ngClass="gen-button-line-left"></span>
+                                                    <span ngClass="gen-button-text">Udate details</span>
+                                                </ng-container>
+                                            </snap-ajax-button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <h5 ngClass="mb-3 pb-3 a-border">Password</h5>
+                            <p ngClass="mb-3 pb-3 a-border">
+                                A secure password helps protect your Shownest Account
+                            </p>
+                            <a ngClass="gen-button btn btn-danger btn-lg" routerLink="./change-password" tabindex="0"
+                                [style.width.%]="100">
+                                <span ngClass="text">
+                                    Change password
+                                </span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog-left-Sidebar -->

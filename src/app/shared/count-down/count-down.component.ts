@@ -9,6 +9,9 @@ import { interval, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountDownComponent implements OnInit, OnDestroy {
+  @Input() displayFormat: 'yev' | 'normal' = 'normal';
+
+  @Input() displayProperty = 'd-block';
 
   private _subscription: Subscription | undefined;
 
@@ -23,12 +26,12 @@ export class CountDownComponent implements OnInit, OnDestroy {
 
   @Input() intervalToUse = 1000;
 
-  milliSecondsInASecond = 1000;
-  hoursInADay = 24;
-  minutesInAnHour = 60;
-  secondsInAMinute = 60;
+  private _milliSecondsInASecond = 1000;
+  private _hoursInADay = 24;
+  private _minutesInAnHour = 60;
+  private _secondsInAMinute = 60;
 
-  public timeDifference: number | undefined;
+  private _timeDifference: number | undefined;
   public secondsToDday: number | undefined;
   public minutesToDday: number | undefined;
   public hoursToDday: number | undefined;
@@ -46,16 +49,18 @@ export class CountDownComponent implements OnInit, OnDestroy {
 
   private getTimeDifference() {
     if (this._dDay instanceof Date) {
-      this.timeDifference = this._dDay.getTime() - new Date().getTime();
-      this.allocateTimeUnits(this.timeDifference);
+      this._timeDifference = this._dDay.getTime() - new Date().getTime();
+      if (this._timeDifference > 0) {
+        this.allocateTimeUnits(this._timeDifference);
+      }
     }
   }
 
-  private allocateTimeUnits(timeDifference: number) {
-    this.secondsToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond) % this.secondsInAMinute);
-    this.minutesToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour) % this.secondsInAMinute);
-    this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.secondsInAMinute) % this.hoursInADay);
-    this.daysToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.secondsInAMinute * this.hoursInADay));
+  private allocateTimeUnits(_timeDifference: number) {
+    this.secondsToDday = Math.floor((_timeDifference) / (this._milliSecondsInASecond) % this._secondsInAMinute);
+    this.minutesToDday = Math.floor((_timeDifference) / (this._milliSecondsInASecond * this._minutesInAnHour) % this._secondsInAMinute);
+    this.hoursToDday = Math.floor((_timeDifference) / (this._milliSecondsInASecond * this._minutesInAnHour * this._secondsInAMinute) % this._hoursInADay);
+    this.daysToDday = Math.floor((_timeDifference) / (this._milliSecondsInASecond * this._minutesInAnHour * this._secondsInAMinute * this._hoursInADay));
   }
 
   ngOnInit() {

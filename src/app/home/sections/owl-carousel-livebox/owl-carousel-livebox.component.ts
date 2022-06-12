@@ -169,7 +169,7 @@ export class OwlCarouselLiveboxComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }

@@ -7,7 +7,6 @@ addEventListener('message', async ({ data }) => {
   await uploadLivestreamResponseDb
     .retrieveFirstUploadLivestreamRepsonse()
     .then(details => {
-      console.log({ details })
       if (!isObjectEmpty(details)) {
         postMessage(details?.fileName);
       }

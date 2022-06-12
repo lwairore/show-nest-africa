@@ -7,40 +7,37 @@
 <!--=========== Loader =============-->
 
 <!-- Recover-Password -->
-<section class="position-relative pb-0">
-    <div class="recover-password-page-background"
+<section ngClass="position-relative pb-0">
+    <div ngClass="recover-password-page-background"
         style="background-image:url('assets/images/background/asset-75.jpg');">
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center">
-                    <form id="pms_recover_password_form" class="pms-form" [formGroup]="submitEventFormGroup"
-                        *ngIf="submitEventFormGroup">
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-lg-12">
+                <div ngClass="text-center">
+                    <form id="pms_recover_password_form" ngClass="pms-form" [formGroup]="submitEventFormGroup"
+                        *ngIf="submitEventFormGroup" autocomplete="off">
 
                         <ng-container *ngIf="momentSubmittedSuccessfully; else displayForSubmittingMoment;">
                             <h4>Event successfully submitted</h4>
-                            <p class="font-weight-bold">
+                            <p ngClass="font-weight-bold">
                                 We will contact you as soon as possible.
                                 Thanks for your interest using Shownest Africa.</p>
-                            <div class="row gt-form">
-                                <div class="col-md-6 mb-4">
-                                    <a [routerLink]="null" (click)="addAnotherMoment()" class="gen-button">
-                                        <div class="gen-button-block">
+                            <div ngClass="row gt-form">
+                                <div ngClass="col-md-6 mb-4">
+                                    <a [routerLink]="null" (click)="addAnotherMoment()" ngClass="gen-button">
+                                        <div ngClass="gen-button-block">
                                             Submit another
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-md-6 mb-4">
-                                    <a [routerLink]="null" class="gen-button">
-                                        <div class="gen-button-block">
-                                            Cancel
+                                <div ngClass="col-md-6 mb-4">
+                                    <a routerLink="" ngClass="gen-button">
+                                        <div ngClass="gen-button-block">
+                                            Done
                                         </div>
                                     </a>
                                 </div>
-
-
-
                             </div>
                         </ng-container>
                         <ng-template #displayForSubmittingMoment>
@@ -64,12 +61,12 @@
                                 </snap-display-form-field-errors>
                             </ng-template>
 
-                            <p class="font-weight-bold">Please enter the following details.<br>We will establish a
+                            <p ngClass="font-weight-bold">Please enter the following details.<br>We will establish a
                                 shortlist
                                 as quickly as possible. If you are shortlisted, we will email or
                                 call you to continue with the process.</p>
-                            <ul class="pms-form-fields-wrapper pl-0 mb-4">
-                                <li class="pms-field mb-5">
+                            <ul ngClass="pms-form-fields-wrapper pl-0 mb-4">
+                                <li ngClass="pms-field mb-5">
                                     <label
                                         [for]="SUBMIT_EVENT_PARAM.PUBLIC_NAME
                                     .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName)"
@@ -96,7 +93,7 @@
                                             errors: SUBMIT_EVENT_PARAM.PUBLIC_NAME.errors
                                         }"></ng-container>
                                 </li>
-                                <li class="pms-field mb-5">
+                                <li ngClass="pms-field mb-5">
                                     <label
                                         [for]="SUBMIT_EVENT_PARAM.EMAIL
                                     .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.EMAIL.formControlName)"
@@ -122,7 +119,7 @@
                                             errors: SUBMIT_EVENT_PARAM.EMAIL.errors
                                         }"></ng-container>
                                 </li>
-                                <li class="pms-field mb-5">
+                                <li ngClass="pms-field mb-5">
                                     <label
                                         [for]="SUBMIT_EVENT_PARAM.PHONE_NUMBER
                                     .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.PHONE_NUMBER.formControlName)"
@@ -149,7 +146,7 @@
                                             errors: SUBMIT_EVENT_PARAM.PHONE_NUMBER.errors
                                         }"></ng-container>
                                 </li>
-                                <li class="pms-field mb-5">
+                                <li ngClass="pms-field mb-5">
                                     <label
                                         [for]="SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME
                                     .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName)"
@@ -177,7 +174,7 @@
                                             errors: SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.errors
                                         }"></ng-container>
                                 </li>
-                                <li class="pms-field mb-5">
+                                <li ngClass="pms-field mb-5">
                                     <label
                                         [for]="SUBMIT_EVENT_PARAM.NAME_OF_EVENT
                                     .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.NAME_OF_EVENT.formControlName)"
@@ -205,7 +202,36 @@
                                         }"></ng-container>
                                 </li>
 
-                                <li class="pms-field mb-5">
+                                <li ngClass="pms-field mb-5">
+                                    <label
+                                        [for]="SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT
+                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)"
+                                        [class.text-danger]="submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)?.invalid && (submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)?.touched || submitted)">
+                                        {{ SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.label }}
+                                    </label>
+                                    <input
+                                        [id]="SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT
+                                    .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)"
+                                        [formControlName]="SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName"
+                                        type="text"
+                                        [class.is-invalid]="submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)?.invalid && (submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)?.touched || submitted)"
+                                        [placeholder]="SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.placeholder"
+                                        [attr.aria-invalid]="submitEventFormGroup
+                                        ?.get(SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)?.invalid"
+                                        [attr.aria-required]="SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.isRequired">
+                                    <ng-container [ngTemplateOutlet]="formFieldErrorsTemplate"
+                                        [ngTemplateOutletContext]="{
+                                            formGroup: submitEventFormGroup
+                                            ?.get(SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName),
+                                            errors: SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.errors
+                                        }"></ng-container>
+                                </li>
+
+                                <li ngClass="pms-field mb-5">
                                     <label
                                         [for]="SUBMIT_EVENT_PARAM.POSTER
                                     .slug(SUBMIT_EVENT_PARAM.NAME_OF_FORM_GROUP, SUBMIT_EVENT_PARAM.POSTER.formControlName)"
@@ -214,9 +240,9 @@
                                         ?.get(SUBMIT_EVENT_PARAM.POSTER.formControlName)?.touched || submitted)">Poster
                                         of
                                         event</label>
-                                    <div class="text-center" *ngIf="!objectURLS.isEmpty()">
+                                    <div ngClass="text-center" *ngIf="!objectURLS.isEmpty()">
                                         <img [src]="objectURLS.last()|safe: SafePipeDomSanitizerTypes.URL"
-                                            class="img-fluid d-block mx-auto mb-3" alt="Poster of event">
+                                            ngClass="img-fluid d-block mx-auto mb-3" alt="Poster of event">
                                     </div>
                                     <input type="file" (change)="fileBrowseHandler($event)" accept="image/*"
                                         [id]="SUBMIT_EVENT_PARAM.POSTER
@@ -236,26 +262,26 @@
                                 </li>
 
                             </ul>
-                            <div class="row gt-form">
-                                <div class="col-md-6 mb-4">
+                            <div ngClass="row gt-form">
+                                <div ngClass="col-md-6 mb-4">
                                     <snap-ajax-button [execute]="onSubmit" [parameter]="submitEventFormGroup">
                                         <ng-container data-animator>
-                                            <span class="loadmore-icon d-inline-block"><i
-                                                    class="fa fa-spinner fa-spin"></i></span>
-                                            <span class="gen-button-text">
+                                            <span ngClass="loadmore-icon d-inline-block"><i
+                                                    ngClass="fa fa-spinner fa-spin"></i></span>
+                                            <span ngClass="gen-button-text">
                                                 <span id="pms-submit-button-loading-placeholder-text">Processing
                                                     request...</span>
                                             </span>
                                         </ng-container>
                                         <ng-container data-content>
-                                            <span class="gen-button-line-left"></span>
-                                            <span class="gen-button-text">Submit event</span>
+                                            <span ngClass="gen-button-line-left"></span>
+                                            <span ngClass="gen-button-text">Submit event</span>
                                         </ng-container>
                                     </snap-ajax-button>
                                 </div>
-                                <div class="col-md-6 mb-4">
-                                    <a routerLink="" class="gen-button">
-                                        <div class="gen-button-block">
+                                <div ngClass="col-md-6 mb-4">
+                                    <a routerLink="" ngClass="gen-button">
+                                        <div ngClass="gen-button-block">
                                             Cancel
                                         </div>
                                     </a>
@@ -265,7 +291,7 @@
 
                             </div>
 
-                            <!-- <div class="gen-btn-container">
+                            <!-- <div ngClass="gen-btn-container">
                                 
                             </div> -->
                         </ng-template>

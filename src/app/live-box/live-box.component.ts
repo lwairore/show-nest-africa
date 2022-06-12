@@ -10,7 +10,7 @@ export class LiveBoxComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }

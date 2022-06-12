@@ -86,8 +86,8 @@ Design and Developed by: Gentechtree
                     vertical: true,
                     focusOnSelect: true,
                     centerMode: true,
-                    prevArrow: '<div class="prev"><span class="' + prev + '"></span></div>',
-                    nextArrow: '<div class="next"><span class="' + next + '"></span></div>',
+                    prevArrow: '<div ngClass="prev"><span ngClass="' + prev + '"></span></div>',
+                    nextArrow: '<div ngClass="next"><span ngClass="' + next + '"></span></div>',
                     responsive: [{
                         breakpoint: 1024,
                         settings: {
@@ -123,8 +123,8 @@ Design and Developed by: Gentechtree
                     dots: true,
                     focusOnSelect: true,
                     centerMode: true,
-                    prevArrow: '<div class="prev"><span class="' + prev + '"></span></div>',
-                    nextArrow: '<div class="next"><span class="' + next + '"></span></div>',
+                    prevArrow: '<div ngClass="prev"><span ngClass="' + prev + '"></span></div>',
+                    nextArrow: '<div ngClass="next"><span ngClass="' + next + '"></span></div>',
                     responsive: [{
                         breakpoint: 1024,
                         settings: {

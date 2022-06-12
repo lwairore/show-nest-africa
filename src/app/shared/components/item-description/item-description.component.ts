@@ -30,12 +30,14 @@ export class ItemDescriptionComponent implements OnInit {
 
   isCollapsed = true;
 
+  @Input() doNotShowToggler = false;
+
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
     private _slicePipe: SlicePipe,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   private _manuallyTriggerChangeDetection() {
@@ -67,8 +69,6 @@ export class ItemDescriptionComponent implements OnInit {
       if (!this.hideToggle) {
         this.hideToggle = true;
       }
-
-      console.log("_determineView_determineView")
 
       return;
     }

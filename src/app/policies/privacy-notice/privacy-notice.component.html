@@ -1,0 +1,118 @@
+<snap-breadcrumb>
+    <ng-container data-breadcrumbTitle>
+        <h1> Policies</h1>
+    </ng-container>
+
+    <ng-container data-breadcrumbItems>
+        <ng-template snapBreadcrumbItem>
+            <a routerLink="">
+                <i ngClass="fas fa-home mr-2"></i>Home
+            </a>
+        </ng-template>
+
+        <ng-template snapBreadcrumbItem active="true">
+            Privacy Notice
+        </ng-template>
+    </ng-container>
+</snap-breadcrumb>
+
+<section ngClass="gen-section-padding-3">
+    <div ngClass="container">
+        <div ngClass="row">
+            <div ngClass="col-lg-9 col-md-12">
+                <div ngClass="gen-blog-post" *ngIf="!privacyNoticeDetails.isEmpty()">
+                    <!-- <div ngClass="gen-post-media">
+                        <img src="images/background/asset-19.jpeg" alt="blog-image" loading="lazy">
+                    </div> -->
+                    <div ngClass="gen-blog-contain">
+                        <div ngClass="gen-post-meta">
+                            <ul>
+                                <li ngClass="gen-post-meta">
+                                    <a [routerLink]="null">
+                                        <i ngClass="fa fa-calendar"></i>
+                                        {{ $any(privacyNoticeDetails.get('modifiedDate')) | date: 'longDate' }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>
+                            This privacy notice for Shownest ("<strong>Company</strong>," "<strong>we</strong>,"
+                            "<strong>us</strong>," or "<strong>our</strong>"), describes how and why we
+                            might collect, store, use, and/or share ("<strong>process</strong>") your information when
+                            you use our
+                            services ("<strong>Services</strong>"), such as when you:
+
+                        </p>
+                        <ul>
+                            <li>Visit our website at <a ngClass="font-weight-bold" href="HOST_FULL_URL" target="_blank">
+                                    {{HOST_FULL_URL}} </a>, or
+                                any
+                                website of ours that links to this privacy notice</li>
+                            <li>Engage with us in other related ways, including any sales, marketing, or events</li>
+                        </ul>
+
+                        <p>
+                            <strong>Questions or concerns? </strong>Reading this privacy notice will help you understand
+                            your privacy rights and choices. If you do not agree with our policies and practices, please
+                            do not use our Services. If you still have any questions or concerns, please visit our
+                            contact us page by visiting this
+                            <a routerLink="/contact-us"> link</a>.
+                        </p>
+
+                        <h2 ngClass="my-4">What personal information do we process?</h2>
+                        <div [innerHTML]="privacyNoticeDetails.get('personalInformationProcessed')"></div>
+
+                        <h2 ngClass="my-4">Do we process any sensitive personal information?</h2>
+                        <div [innerHTML]="privacyNoticeDetails.get('sensitiveInformationProcessed')"></div>
+
+                        <h2 ngClass="my-4">Do you receive any information from third parties?</h2>
+                        <div [innerHTML]="privacyNoticeDetails.get('informationFromThirdParties')"></div>
+
+                        <h2 ngClass="my-4">How do you process my information?</h2>
+                        <div [innerHTML]="privacyNoticeDetails.get('processingInformationMethod')"></div>
+
+                        <h2 ngClass="my-4">In what situations and with which parties do we share personal information?
+                        </h2>
+                        <div
+                            [innerHTML]="privacyNoticeDetails.get('situationAndWithWhichPartiesWeSharePersonalInformation')">
+                        </div>
+
+                        <h2 ngClass="my-4">How do we keep your information safe?</h2>
+                        <div [innerHTML]="privacyNoticeDetails.get('howWeKeepInformationSafe')"></div>
+
+                        <h2 ngClass="my-4">What are your rights?</h2>
+                        <div [innerHTML]="privacyNoticeDetails.get('userRights')"></div>
+
+                        <h2 ngClass="my-4">How do I exercise my rights?</h2>
+                        <div [innerHTML]="privacyNoticeDetails.get('exerciseMyRights')"></div>
+
+                        <h2 ngClass="my-4">How can you contact us about this Notice?</h2>
+                        <p>
+                            If you have questions or comments about this notice, please visit our
+                            contact us page by visiting this
+                            <a routerLink="/contact-us"> link</a>.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div ngClass="col-lg-3 col-md-12 mt-4 mt-lg-0">
+                <div ngClass="widget widget_recent_entries">
+                    <h2 ngClass="widget-title">Policies</h2>
+                    <ul>
+                        <li>
+                            <a ngClass="active" routerLink=".">
+                                Privacy Notice
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLinkActive="active" routerLink="../terms-of-use">
+                                Terms of use
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

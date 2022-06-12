@@ -1,0 +1,15 @@
+<section ngClass="gen-section-padding-3">
+  <div ngClass="container">
+    <div ngClass="row">
+      <div ngClass="embed-responsive embed-responsive-16by9">
+        <div ngClass="embed-responsive-item">
+          <video #videoEl controls controlsList="nodownload noplaybackrate" (timeupdate)="timeupdateHandler()"
+            (ended)="resetVideoState()" (seeking)="preventUserFromSeeking()" (play)="handlePlay()"
+            disablePictureInPicture snapDisableRightClick>
+            <source [src]="localLiveStream.get('src')">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

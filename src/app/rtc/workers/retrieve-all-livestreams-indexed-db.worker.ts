@@ -6,9 +6,6 @@ addEventListener('message', async ({ data }) => {
 
   await listLivestreams()
     .then(details => {
-      console.log("Gottern details")
-      console.log({ details });
-
       postMessage(details);
     });
 });

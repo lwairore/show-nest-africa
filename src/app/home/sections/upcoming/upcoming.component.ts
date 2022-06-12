@@ -4,6 +4,7 @@ import * as Immutable from 'immutable';
 import { CarouselComponent, OwlOptions } from 'ngx-owl-carousel-o';
 import { Subscription } from 'rxjs';
 import { HoverCollapseComponent } from 'src/app/libs/hover-collapse/hover-collapse.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'snap-upcoming',
@@ -16,6 +17,8 @@ export class UpcomingComponent implements OnInit, AfterViewInit, OnDestroy {
   customOptionsForVideos: OwlOptions = {
     loop: false,
     margin: 30,
+    touchDrag: false,
+    mouseDrag: false,
     autoplay: false,
     nav: true,
     dots: false,
@@ -29,134 +32,132 @@ export class UpcomingComponent implements OnInit, AfterViewInit, OnDestroy {
     responsive: {
       // Desktop
       1920: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1366: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1536: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1440: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1280: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1600: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1370: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1605: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1200: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1112: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1030: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
       1024: {
-        items: 3,
-        slideBy: 3,
+        items: 5,
+        slideBy: 5,
       },
-
-
 
       // Laptop
       834: {
-        items: 2,
-        slideBy: 2,
+        items: 4,
+        slideBy: 4,
       },
       906: {
-        items: 2,
-        slideBy: 2,
+        items: 4,
+        slideBy: 4,
       },
       800: {
-        items: 2,
-        slideBy: 2,
+        items: 4,
+        slideBy: 4,
       },
       962: {
-        items: 2,
-        slideBy: 2,
+        items: 4,
+        slideBy: 4,
       },
       810: {
-        items: 2,
-        slideBy: 2,
+        items: 4,
+        slideBy: 4,
       },
       910: {
-        items: 2,
-        slideBy: 2,
+        items: 4,
+        slideBy: 4,
       },
       768: {
-        items: 2,
-        slideBy: 2,
+        items: 4,
+        slideBy: 4,
       },
 
       // Mobile
       360: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       414: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       375: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       390: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       428: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       412: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       320: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       480: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       568: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       667: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       736: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       384: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       218: {
         items: 1,
@@ -167,12 +168,12 @@ export class UpcomingComponent implements OnInit, AfterViewInit, OnDestroy {
         slideBy: 1
       },
       601: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
       600: {
-        items: 1,
-        slideBy: 1
+        items: 2,
+        slideBy: 2
       },
 
     }
@@ -202,28 +203,35 @@ export class UpcomingComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private _eventService: EventService,
     private _renderer: Renderer2,
+    private _router: Router,
     private _changeDetectorRef: ChangeDetectorRef,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this._listUpcommingEvent();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._unsubscribeListUpcommingEventSubscription();
   }
 
-  public hideArtistNameCollapse(loopIndex: number): void {
+  navigateToMomentDetail(momentID: number) {
+    this._router.navigate([
+      '/moments',
+      momentID,
+      'details'
+    ]);
+  }
+
+  public hideArtistNameCollapse(loopIndex: number) {
     this._toggleArtistNameCollapse(loopIndex);
   }
 
   private _toggleArtistNameCollapse(loopIndex: number) {
     const hoverCollapseCmp = this._artistNameCollapseQl?.toArray()[loopIndex];
-
-    console.log({ hoverCollapseCmp });
 
     if (hoverCollapseCmp instanceof HoverCollapseComponent) {
       hoverCollapseCmp.toggleCollapse();
@@ -231,11 +239,10 @@ export class UpcomingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public showArtistNameCollapse(loopIndex: number) {
-    console.log({ loopIndex })
     this._toggleArtistNameCollapse(loopIndex);
   }
 
-  public hideStartsOnCollapse(loopIndex: number): void {
+  public hideStartsOnCollapse(loopIndex: number) {
     this._toggleStartsOnCollapse(loopIndex);
   }
 

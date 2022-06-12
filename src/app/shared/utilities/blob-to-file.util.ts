@@ -1,8 +1,6 @@
 import { getFileName } from "./get-file-name.util";
 
 export const blobToFile = (theBlob: Blob, fileNamePrefix = 'file'): File => {
-    console.log("theBlob.type")
-    console.log(theBlob.type)
     const SPLIT_FILE_TYPE = theBlob.type
         .split(';')[0].split('/');
 

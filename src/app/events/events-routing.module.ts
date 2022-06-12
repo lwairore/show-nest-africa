@@ -10,14 +10,14 @@ const routes: Routes = [
     component: EventsComponent,
     children: [
       {
-        path: 'past',
-        loadChildren: () => import('./past-moment-series/past-moment-series.module')
-          .then(p => p.PastMomentSeriesModule),
+        path: ':momentID/details',
+        loadChildren: () => import('./event-details/event-details.module')
+          .then(e => e.EventDetailsModule),
       },
       {
-        path: 'upcoming',
-        loadChildren: () => import('./upcoming-moment-series/upcoming-moment.module')
-          .then(u => u.UpcomingMomentModule)
+        path: 'series',
+        loadChildren: () => import('./event-series/event-series.module')
+          .then(e => e.EventSeriesModule),
       },
       {
         path: 'submit',

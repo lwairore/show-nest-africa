@@ -12,3 +12,5 @@ export { fieldValueHasBeenUpdated } from './field-value-has-been-updated.util';
 export { getFormGroupOrFormArrayTotalNumberOfInvalidFields } from './get-form-group-or-form-array-total-number-of-invalid-fields';
 export { blobToFile } from './blob-to-file.util';
 export { blobToArrayBuffer } from './blob-to-array-buffer.util';
+export { formatShowcaseItemWithVideo } from './format-showcase-item-with-video.util';
+export { formatShowcaseItemWithPhoto } from './format-showcase-item-with-photo.util';

@@ -6,11 +6,6 @@ addEventListener('message', async ({ data }) => {
   await queryFromIndexedDb(data)
     .then(details => {
       const responseDetails = details;
-      console.log("in worker");
-      console.log({ details });
-
-      console.log({ responseDetails })
-
       postMessage(responseDetails);
     });
 });

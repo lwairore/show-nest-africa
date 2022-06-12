@@ -80,6 +80,10 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _retrieveFirstUploadLivestreamRepsonseSubscription: Subscription | undefined;
 
+  private _livestreamsCurrentlyBeingUploaded: Array<LiveStream> = [];
+
+  private _reportMarkingOfChunkAsSentStatusSubscription: Subscription | undefined;
+
   constructor(
     private _uploadVideoService: UploadVideoService,
     private _renderer2: Renderer2,
@@ -110,6 +114,8 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setupGetFirstItemIdFromIndexedDb();
 
     this._setupRetrieveFirstUploadLivestreamRepsonseSubscription();
+
+    this._setupReportMarkingOfChunkAsSentStatus();
   }
 
   ngAfterViewInit() {
@@ -148,6 +154,8 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
     this._unsubscribeGetFirstItemIdFromIndexedDbSubscription();
 
     this._unsubscribeRetrieveFirstUploadLivestreamRepsonseSubscription();
+
+    this._unsubscribeReportMarkingOfChunkAsSentStatusSubscription();
   }
 
   private _unsubscribeRetrieveFirstUploadLivestreamRepsonseSubscription() {
@@ -180,6 +188,39 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
           (this.recordVideoElement as HTMLVideoElement).src = this.downloadUrl;
         }
       });
+  }
+
+  private _unsubscribeReportMarkingOfChunkAsSentStatusSubscription() {
+    if (this._reportMarkingOfChunkAsSentStatusSubscription instanceof Subscription) {
+      this._reportMarkingOfChunkAsSentStatusSubscription.unsubscribe();
+    }
+  }
+
+  private _setupReportMarkingOfChunkAsSentStatus() {
+    this._reportMarkingOfChunkAsSentStatusSubscription = this._uploadVideoService
+      .reportMarkingOfChunkAsSentStatus()
+      .subscribe(details => {
+        if (!this.isCurrentUploading) {
+          console.warn(`Aborting any operations after command "markedChunkAsSent" since it has been prematurely issued.`);
+
+          return;
+        }
+
+        const startFrom = this.queryDetails.get('startFrom') as number;
+        const bumpedStartFrom = startFrom + this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
+
+        this.queryDetails = this.queryDetails.set('startFrom',
+          bumpedStartFrom);
+
+        this.isCurrentUploading = false;
+
+        this._livestreamsCurrentlyBeingUploaded = [];
+      })
+  }
+
+  private _markChunksAsSent() {
+    this._uploadVideoService.markChunksAsSent(
+      this._livestreamsCurrentlyBeingUploaded);
   }
 
   private _unsubscribeGetFirstItemIdFromIndexedDbSubscription() {
@@ -396,13 +437,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
                   console.log(this._fileDetails)
                 }
 
-                const startFrom = this.queryDetails.get('startFrom') as number;
-                const bumpedStartFrom = startFrom + this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT;
-
-                this.queryDetails = this.queryDetails.set('startFrom',
-                  bumpedStartFrom);
-
-                this.isCurrentUploading = false;
+                this._markChunksAsSent();
               }),
               catchError(err => {
                 this.isCurrentUploading = false;
@@ -433,6 +468,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
+
   mergeBlobsToAFile(livestreams: Array<LiveStream>) {
     if (!this.isCurrentUploading) {
       console.warn(`Prevented any attempt to merge "livestreams" since "uploadChunks" command has not been issued.`);
@@ -440,8 +476,12 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
+    livestreams = livestreams.filter(item => !item.sent);
+
     if (Array.isArray(livestreams) && livestreams.length) {
       if (livestreams.length === this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT) {
+        this._livestreamsCurrentlyBeingUploaded = [...livestreams];
+
         const MIME_TYPE = this._getSelectedMimeType();
 
         this._uploadVideoService.mergeBlobsToAFile(livestreams, MIME_TYPE);
@@ -449,6 +489,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (
         (livestreams.length < this.NUMBER_OF_ITEMS_DESIRED_TO_BE_SENT) && (
           !this.isRecording)) {
+        this._livestreamsCurrentlyBeingUploaded = [...livestreams];
         const MIME_TYPE = this._getSelectedMimeType();
 
         this._uploadVideoService.mergeBlobsToAFile(livestreams, MIME_TYPE);
@@ -462,6 +503,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
       console.warn(`Not livestreams have been provided.`);
       console.warn(`This may occur if 'ID' of the first livestream is ahead of the query ID.`);
       console.warn(`Or, if there aren't any stored livestreams`);
+      console.warn(`Or they have already been sent.`);
 
 
       if (this.isCurrentUploading) {
@@ -547,7 +589,7 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
- private _queryFromIndexedDb() {
+  private _queryFromIndexedDb() {
     const startFrom = this.queryDetails.get('startFrom') as number;
 
     this._uploadVideoService
@@ -568,6 +610,9 @@ export class StRtcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   startRecording() {
     this.recordedBlobs = [];
+
+    console.log("this._codecPreferencesElRef instanceof ElementRef")
+    console.log(this._codecPreferencesElRef instanceof ElementRef)
 
     if (this._codecPreferencesElRef instanceof ElementRef) {
       const codecNativeElement = this._codecPreferencesElRef.nativeElement;

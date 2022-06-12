@@ -19,8 +19,6 @@ export class HasBeenTakenDirective {
   validate(control: FormControl): { [key: string]: any } {
     const value = convertItemToString(control.value);
 
-    console.log({value})
-
     if (control.touched || !control.pristine) {
       return this.validateFunction(value).then((result: boolean) => {
         if (result) {

@@ -32,7 +32,7 @@ export class DisplayFormFieldErrorsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }

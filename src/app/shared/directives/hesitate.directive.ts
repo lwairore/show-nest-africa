@@ -40,7 +40,7 @@ export class HesitateDirective implements OnInit, OnDestroy {
     this.renderer = renderer;
     this.zone = zone;
 
-    this.duration = 2000;
+    this.duration = 5000;
     this.hesitateEvents = new EventEmitter();
     this.timer = 0;
     this.unlisteners = null;
@@ -55,7 +55,7 @@ export class HesitateDirective implements OnInit, OnDestroy {
   // --
   // NOTE: This is method is PUBLIC so that it may be consumed as part of the EXPORTED
   // API in the View of the calling context.
-  public cancel(): void {
+  public cancel() {
 
     clearTimeout(this.timer);
 
@@ -63,7 +63,7 @@ export class HesitateDirective implements OnInit, OnDestroy {
 
 
   // I get called once when the host element is being unmounted.
-  public ngOnDestroy(): void {
+  public ngOnDestroy() {
 
     this.cancel();
 
@@ -83,7 +83,7 @@ export class HesitateDirective implements OnInit, OnDestroy {
 
   // I get called once after the host element has been mounted and the inputs have been
   // bound for the first time.
-  public ngOnInit(): void {
+  public ngOnInit() {
 
     // Instead of using host bindings, which would trigger change-detection digests
     // when the events are triggered, we want to drop-down out of the core NgZone so
@@ -109,7 +109,7 @@ export class HesitateDirective implements OnInit, OnDestroy {
   // I handle the mousedown event inside the host element.
   // --
   // CAUTION: Currently OUTSIDE the core NgZone.
-  private handleMousedown = (event: MouseEvent): void => {
+  private handleMousedown = (event: MouseEvent) => {
 
     // If the user shows any mouse-activity (other than enter/leave) inside the host
     // element, we want to cancel the hesitation timer. Such mouse activity indicates
@@ -122,7 +122,7 @@ export class HesitateDirective implements OnInit, OnDestroy {
   // I handle the mouseevent event inside the host element.
   // --
   // CAUTION: Currently OUTSIDE the core NgZone.
-  private handleMouseenter = (event: MouseEvent): void => {
+  private handleMouseenter = (event: MouseEvent) => {
 
     // When the user enters the host, start the hesitation timer. This timer will be
     // fulfilled if the user remains inside of the host without performing any other
@@ -135,21 +135,15 @@ export class HesitateDirective implements OnInit, OnDestroy {
   // I handle the mouseleave event inside the host element.
   // --
   // CAUTION: Currently OUTSIDE the core NgZone.
-  private handleMouseleave = (event: MouseEvent): void => {
-    console.log("handleMouseleave mouse left")
-
-    console.log("this.timer")
-    console.log(this.timer)
-
+  private handleMouseleave = (event: MouseEvent) => {
     this.cancel();
-
   };
 
 
   // I handle the timer threshold event.
   // --
   // CAUTION: Currently OUTSIDE the core NgZone.
-  private handleTimerThreshold = (): void => {
+  private handleTimerThreshold = () => {
 
     // Once the hesitation timer threshold has been surpassed, we want to trigger an
     // output event. This time, however, we want to trigger Angular change-detection.

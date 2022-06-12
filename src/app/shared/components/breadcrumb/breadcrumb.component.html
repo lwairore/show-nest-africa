@@ -1,13 +1,19 @@
 <!-- breadcrumb -->
-<div class="gen-breadcrumb" [style.background-image]="'url('+ breadcrumbDetails.getIn(['poster', 'src']) +')'">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-12">
+<div ngClass="gen-breadcrumb" [style.background-image]="'url('+ breadcrumbDetails.getIn(['poster', 'src']) +')'">
+    <div ngClass="container">
+        <div ngClass="row align-items-center">
+            <div ngClass="col-lg-12">
                 <nav aria-label="breadcrumb">
-                    <div class="gen-breadcrumb-title">
+                    <div ngClass="gen-breadcrumb-title">
                         <ng-content select="[data-breadcrumbTitle]"></ng-content>
                     </div>
-                    <div class="gen-breadcrumb-container">
+                    <div ngClass="gen-breadcrumb-container">
+                        <ol ngClass="breadcrumb">
+                            <li ngClass="breadcrumb-item" *ngFor="let breadcrumbItem of breadcrumbItemsQL"
+                                [class.active]="breadcrumbItem.active">
+                                <ng-container *ngTemplateOutlet="breadcrumbItem?.templateRef"></ng-container>
+                            </li>
+                        </ol>
                         <ng-content select="[data-breadcrumbItems]"></ng-content>
                     </div>
                 </nav>

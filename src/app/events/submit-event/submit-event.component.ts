@@ -55,18 +55,17 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
     private _location: Location,
     private _changeDetectorRef: ChangeDetectorRef,
     private _formBuilder: FormBuilder,
-    private _componentFactoryResolver: ComponentFactoryResolver,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._initializeSubmitEventFormGroup();
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this._loadRequiredDetails();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._revokeObjectURLS();
 
     this._unsubscribeLoadRequiredDetailsSubscription();
@@ -76,6 +75,10 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
     this._unsubscribeUsernameFieldValueChangesSubscription();
 
     this._unsubscribePhoneNumberFieldValueChangesSubscription();
+  }
+
+  private _backToTop() {
+    this._scrollService.animatedScrollToTop();
   }
 
   private _revokeObjectURLS() {
@@ -152,6 +155,8 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
       .retrieveUserDetailsDetails$()
       .pipe(
         tap(details => {
+          this._backToTop();
+
           this.profileDetails = Immutable.fromJS(details);
 
           this._prepopulateProfileFields();
@@ -170,7 +175,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _prepopulateProfileFields() {
     const PUBLIC_NAME = convertItemToString(
-      this.profileDetails.get('username'));
+      this.profileDetails.get('artistTile'));
 
     if (fieldValueHasBeenUpdated(
       this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.defaultValue,
@@ -208,6 +213,10 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
         this.SUBMIT_EVENT_PARAM.NAME_OF_EVENT.defaultValue,
         this.SUBMIT_EVENT_PARAM.NAME_OF_EVENT.validators],
 
+      [this.SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName]: [
+        this.SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.defaultValue,
+        this.SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.validators],
+
       [this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.formControlName]: [
         this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.defaultValue,
         this.SUBMIT_EVENT_PARAM.INSTAGRAM_USERNAME.validators],
@@ -236,10 +245,10 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   trackByForTypeOfTicket(index: number, moment: any) {
-    return moment.get('id');
+    return moment?.get('id');
   }
 
-  automaticallyCleanUpEmailField(): void {
+  automaticallyCleanUpEmailField() {
     this.emailFieldValueChangesSubscription = this.submitEventFormGroup
       ?.get(
         this.SUBMIT_EVENT_PARAM.EMAIL.formControlName
@@ -247,12 +256,9 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
       ?.valueChanges
       ?.pipe(distinctUntilChanged())
       ?.subscribe(value => {
-        console.log({ value })
         const exp = new RegExp('\\s+', 'g');
 
         const CLEANED_VALUE = REGEX_REPLACE_WITH(exp, value, '');
-
-        console.log({ CLEANED_VALUE })
 
         if (fieldValueHasBeenUpdated(value, CLEANED_VALUE, false)) {
           this.submitEventFormGroup?.get(
@@ -265,7 +271,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  automaticallyCleanUpUsernameField(): void {
+  automaticallyCleanUpUsernameField() {
     this.emailFieldValueChangesSubscription = this.submitEventFormGroup
       ?.get(
         this.SUBMIT_EVENT_PARAM.PUBLIC_NAME.formControlName
@@ -273,7 +279,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
       ?.valueChanges
       ?.pipe(distinctUntilChanged())
       ?.subscribe(value => {
-        const exp = /[^\w.@+-]/;
+        const exp = /[^\w.@+-\d\s]/;
 
         const CLEANED_VALUE = REGEX_REPLACE_WITH(exp, value, '')
 
@@ -288,7 +294,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  automaticallyCleanUpPhoneNumberField(): void {
+  automaticallyCleanUpPhoneNumberField() {
     this.phoneNumberFieldValueChangesSubscription = this.submitEventFormGroup
       ?.get(
         this.SUBMIT_EVENT_PARAM.PHONE_NUMBER.formControlName
@@ -318,10 +324,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
     this._errornoteCmp.manuallyTriggerChangeDetection();
   }
 
-
   fileBrowseHandler(event: any) {
-    console.log("event")
-    console.log(event.target.files)
     this._prepareFilesList(event.target.files);
   }
 
@@ -343,8 +346,10 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
     const mimeType = file.type;
     if (mimeType.match(/image\/*/) === null) {
       // Only images are supported
-      this._scrollService.scrollToPosition(0, 0);
+      this._backToTop();
+
       this._showErrorNote(undefined, 'Only images are supported');
+      
       return;
     }
 
@@ -354,11 +359,6 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.objectURLS = Immutable.mergeDeep(
       this.objectURLS, NEW_VAL);
-
-    console.log({ NEW_VAL })
-
-    console.log("this.objectURLS")
-    console.log(this.objectURLS)
 
     this.submitEventFormGroup?.get(
       this.SUBMIT_EVENT_PARAM.POSTER.formControlName)
@@ -390,16 +390,20 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
       const totalInvalidFormControls = getFormGroupOrFormArrayTotalNumberOfInvalidFields(
         formGroupForEvent);
 
-      console.log({ totalInvalidFormControls })
-
       this._showErrorNote(totalInvalidFormControls);
 
-      this._scrollService.scrollToPosition(0, 0);
+      this._backToTop();
 
       return Promise.resolve('Form is invalid. Aborting');
     }
 
     const newMomentDetailsFormData = new FormData();
+
+    const typeOfMoment = convertItemToString(
+      formGroupForEvent?.get(
+        this.SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName)?.value)?.trim();
+    newMomentDetailsFormData.append(
+      this.SUBMIT_EVENT_PARAM.TYPE_OF_MOMENT.formControlName, typeOfMoment);
 
     const nameOfMoment = convertItemToString(
       formGroupForEvent?.get(
@@ -458,7 +462,7 @@ export class SubmitEventComponent implements OnInit, AfterViewInit, OnDestroy {
           formGroupForEvent);
         this._showErrorNote(totalInvalidFormControls);
 
-        this._scrollService.scrollToPosition(0, 0);
+        this._backToTop();
 
         this._manuallyTriggerChangeDetection();
       }
@@ -481,7 +485,7 @@ class SubmitEventParam {
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What name do fans know you by?',
+    label: 'Name fans know you by',
     defaultValue: '',
     placeholder: '',
     slug: constructInputFieldIdentification,
@@ -501,7 +505,7 @@ class SubmitEventParam {
       Validators.required,
       Validators.email,
     ]),
-    label: 'What is your email address?',
+    label: 'Email address',
     defaultValue: '',
     isRequired: true,
     placeholder: '',
@@ -522,7 +526,7 @@ class SubmitEventParam {
       Validators.maxLength(20),
       Validators.pattern(/^[+\d()./N,*;#]{1,20}$/)
     ]),
-    label: 'What is your phone number?',
+    label: 'Phone number',
     defaultValue: '',
     placeholder: '',
     slug: constructInputFieldIdentification,
@@ -543,7 +547,7 @@ class SubmitEventParam {
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What is the name of the event?',
+    label: 'Name of the event',
     defaultValue: '',
     isRequired: true,
     placeholder: '',
@@ -553,6 +557,29 @@ class SubmitEventParam {
       minCharacterNotGenuinelyAchievedErrorMessage: 'Are you sure you entered your name of event correctly?',
       maxLengthPrefixErrorMessage: 'That name of event is too long. You need to shortern that name of event.',
       minLengthPrefixErrorMessage: 'That name of event is too short. You need to lengthen that name of event.'
+    },
+  };
+
+  public static readonly TYPE_OF_MOMENT = {
+    formControlName: 'typeOfMoment',
+    temporaryStoreKey: 'typeOfMoment',
+    permanentStoreKey: 'typeOfMoment',
+    validators: Validators.compose([
+      Validators.required,
+      Validators.maxLength(250),
+      MinCharacterNotGenuinelyAchievedValidator
+        .minCharacterNotGenuinelyAchieved(1)
+    ]),
+    label: 'Type of the event',
+    defaultValue: '',
+    isRequired: true,
+    placeholder: '',
+    slug: constructInputFieldIdentification,
+    errors: {
+      requiredOrNullOrNoValueProvidedErrorMessage: 'Provide type of event.',
+      minCharacterNotGenuinelyAchievedErrorMessage: 'Are you sure you entered your type of event correctly?',
+      maxLengthPrefixErrorMessage: 'That type of event is too long. You need to shortern that type of event.',
+      minLengthPrefixErrorMessage: 'That type of event is too short. You need to lengthen that type of event.'
     },
   };
 
@@ -566,7 +593,7 @@ class SubmitEventParam {
       MinCharacterNotGenuinelyAchievedValidator
         .minCharacterNotGenuinelyAchieved(1)
     ]),
-    label: 'What is your instagram username?',
+    label: 'Instagram username',
     defaultValue: '',
     isRequired: true,
     placeholder: '',
@@ -593,6 +620,11 @@ class SubmitEventParam {
 
   public static constructFields() {
     const fields = [
+      {
+        formControlName: this.TYPE_OF_MOMENT.formControlName,
+        temporaryStoreKey: this.TYPE_OF_MOMENT.temporaryStoreKey,
+        permanentStoreKey: this.TYPE_OF_MOMENT.permanentStoreKey,
+      },
       {
         formControlName: this.PUBLIC_NAME.formControlName,
         temporaryStoreKey: this.PUBLIC_NAME.temporaryStoreKey,

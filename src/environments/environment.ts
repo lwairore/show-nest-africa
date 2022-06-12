@@ -8,6 +8,135 @@ export const environment = {
   baseURL: `http://localhost:8000/`,
   imageBaseURL: `http://localhost:8000`,
   brandName: 'Shownest Africa',
+  faq: {
+    rootURL: 'faq/',
+    listFaq: function () {
+      return this.rootURL + 'list/';
+    },
+    listFaqForCreator: function () {
+      return this.listFaq() + 'creator/';
+    },
+    listFaqForFan: function () {
+      return this.listFaq() + 'fan/';
+    },
+  },
+  contactUs: {
+    rootURL: 'contact-us/',
+    retrieveOurLocation: function () {
+      return this.rootURL + 'retrieve/location/';
+    },
+    listPhoneContactInfo: function () {
+      return this.rootURL + 'list/phone/';
+    },
+    listMailContactInfo: function () {
+      return this.rootURL + 'list/mail/';
+    },
+  },
+  policies: {
+    rootURL: 'policies/',
+    retrievePrivacyNotice: function () {
+      return this.rootURL + 'privacy-notice/';
+    },
+    retrieveTermsOfUse: function () {
+      return this.rootURL + 'terms-of-use/';
+    },
+  },
+  streamEvent: {
+    rootURL: 'stream-event/',
+    retrieveStreamDetail: function () {
+      return this.rootURL + ':momentID/';
+    },
+    backendCheckup: function () {
+      return this.retrieveStreamDetail() + 'checkup/';
+    },
+    listPurchasedTicket: function () {
+      return this.retrieveStreamDetail() + 'available-tickets/';
+    },
+    selectTicket: function () {
+      return this.retrieveStreamDetail() + 'select-ticket-for-streaming/';
+    },
+  },
+  library: {
+    rootURL: 'library/',
+    purchases: {
+      rootURL: 'purchases/',
+      retrieveInvitedMomentDetail: function () {
+        return this.listInvitedEvent() + ':momentID/';
+      },
+      listInvitedEvent: function () {
+        return this.rootURL + 'list-invited-event/';
+      },
+      listPurchase: function () {
+        return this.rootURL + '';
+      },
+      retrievePurchasedMomentDetail: function () {
+        return this.listPurchase() + ':momentID/';
+      },
+      addStreamBuddy: function () {
+        return this.retrieveShareTicketDetail() + 'add-person/';
+      },
+      removeWatchPartyMember: function () {
+        return this.listWatchPartyMember() + 'remove/:orderItemID/:ticketID/:memberID/';
+      },
+      listWatchPartyMember: function () {
+        return this.retrieveShareTicketDetail() + 'watch-party-members/';
+      },
+      listPurchasedTicketForSelectTicket: function () {
+        return this.retrieveShareTicketDetail() + 'purchased-tickets/';
+      },
+      retrieveShareTicketDetail: function () {
+        return this.retrievePurchasedMomentDetail() + 'share-tickets/';
+      },
+      listPurchasedTickets: function () {
+        return this.retrievePurchasedMomentDetail() + 'purchased-tickets/';
+      },
+      retrieveTicketDetail: function () {
+        return this.listPurchase() + ':momentID/ticket-details/';
+      },
+      retrieveWatchParty: function () {
+        return this.retrieveTicketDetail() + ':ticketID/watch-party/';
+      },
+    }
+  },
+  mpesa: {
+    rootURL: 'api/v1/',
+    lipaNaMPesaOnlineStkPush: function () {
+      return this.rootURL + 'mpesa/online/lipa/';
+    },
+    queryLipaNaMPesaOnlineStkPush: {
+      rootURL: 'mpesa/stkpushquery/:momentID/:orderItemID/:requestRecordID/',
+      query: function () {
+        return this.rootURL + '';
+      },
+      paymentRequestInfo: function () {
+        return this.rootURL + 'basic-info/';
+      },
+    },
+  },
+  orders: {
+    rootURL: 'orders/',
+    listPaymentMethods: function () {
+      return this.rootURL + 'payment-methods/';
+    },
+    listAdditionalFee: function () {
+      return this.rootURL + 'additional-fees/';
+    },
+    getTicketsMomentDetails: function () {
+      return this.rootURL + 'moments/:momentID/retrieve/details/get-tickets/';
+    }
+  },
+  braintreePaymentGateway: {
+    rootURL: `braintree/`,
+    generateClientToken: function () {
+      return this.rootURL + `generate/client-token/`;
+    },
+    checkoutWithPayment: function () {
+      return this.rootURL + `checkout-with-payment/`;
+    },
+    queryPaymentStatus: function () {
+      return this.rootURL + 'query-status-of-payment/:momentID/:orderItemID/:transactionID/'
+    }
+  },
   moments: {
     rootURL: `moments/`,
     livestreamChunk: {
@@ -31,17 +160,11 @@ export const environment = {
         return this.rootURL + ``;
       },
     },
-    retrieveUpcommingEventDetails: function () {
-      return this.rootURL + 'retrieve/details/upcomming/:momentID/';
+    retrieveMomentStream: function () {
+      return this.retrieveEventDetails() + 'retrieve-moment-stream/';
     },
-    retrievePastEventDetails: function () {
-      return this.rootURL + 'retrieve/details/past/:momentID/';
-    },
-    listEventVideos: function () {
-      return this.rootURL + 'retrieve/details/:momentID/section/video-gallery/';
-    },
-    listEventPhotos: function () {
-      return this.rootURL + 'retrieve/details/:momentID/section/photo-gallery/';
+    retrieveEventDetails: function () {
+      return this.rootURL + 'retrieve/details/:momentID/';
     },
     retrieveMomentDetailsForBreadcrumb: function () {
       return this.rootURL + 'retrieve/details/:momentID/section/moment-details/breadcrumb/';
@@ -55,10 +178,16 @@ export const environment = {
   },
   authentication: {
     rootURL: `auth/`,
+    manageProfile: function () {
+      return this.rootURL + 'manage-profile/';
+    },
+    changePassword: function () {
+      return this.manageProfile() + 'change-password/';
+    },
     checkIf__HasBeenTaken: {
       rootURL: 'has-been-taken/',
       email: function () {
-        return this.rootURL + 'email/:email/'
+        return this.rootURL + 'email/:email/';
       },
       username: function () {
         return this.rootURL + 'username/:username/'

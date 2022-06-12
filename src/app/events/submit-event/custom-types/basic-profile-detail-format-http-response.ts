@@ -1,5 +1,5 @@
 export type BasicProfileDetailFormatHttpResponse = Readonly<{
     phoneNumber: string;
-    username: string;
+    artistTile: string;
     email: string;
 }>

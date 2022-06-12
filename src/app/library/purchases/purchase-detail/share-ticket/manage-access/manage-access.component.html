@@ -1,0 +1,172 @@
+<section ngClass="gen-section-padding-3" *ngIf="!purchasedTickets.isEmpty()">
+    <div ngClass="container">
+        <div ngClass="py-5 text-center">
+            <snap-img-lazy [src]="purchasedTickets.getIn(['poster', 'src'])" imgClass="d-block mx-auto mb-4"
+                [alt]="purchasedTickets.getIn(['poster', 'alt'])" width="72" height="72" [momentRoundImgCard]="false">
+            </snap-img-lazy>
+
+            <h2>
+                Who's watching?
+            </h2>
+
+            <p>
+                Stream
+                <ng-container *ngIf="purchasedTickets.get('nameOfMoment')">
+                    ,<strong> {{ $any(purchasedTickets.get('nameOfMoment')) | titlecase}} </strong>,
+                </ng-container>
+                event remotely with friends and family.
+            </p>
+
+            <a ngClass="gen-button btn btn-danger btn-lg d-block mt-4"
+                *ngIf="purchasedTickets.get('canAddMember', true)" routerLink="add-member/select/purchased-ticket"
+                tabindex="0" [style.width.%]="100">
+                <span ngClass="text">
+                    Add person
+                </span>
+            </a>
+
+            <a ngClass="btn btn-link btn-sm px-0 mt-4" [routerLink]="null" [ngStyle]="{
+                textTransform: 'uppercase',
+                position: 'relative',
+                width: 'auto',
+                fontWeight: '400',
+                color: 'var(--white-color)',
+                fontFamily: 'var(--title-fonts)',
+                fontSize: '16px'
+            }" (click)="navigateToPurchasedMomentDetails()">
+                <i ngClass="fas fa-arrow-left mr-2"></i> Go back </a>
+        </div>
+
+        <!-- <div ngClass="text-center my-5">
+
+        </div> -->
+
+        <div ngClass="row my-5">
+            <div ngClass="col-lg-12">
+                <div ngClass="row">
+                    <div ngClass="col-xl-3 col-lg-4 col-md-6"
+                        *ngFor="let member of watchPartyMembers; let loopIndex=index;trackBy:trackWatchPartyMember">
+                        <div ngClass="gen-carousel-movies-style-2 movie-grid style-2">
+                            <div ngClass="gen-movie-contain">
+                                <div ngClass="gen-info-contain">
+                                    <div ngClass="gen-movie-info">
+                                        <h3>
+                                            <a [routerLink]="null">
+                                                {{member.get('fullName')}}
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div ngClass="gen-movie-meta-holder">
+                                        <ul>
+                                            <li>{{ member.getIn(['ticket', 'name']) }}</li>
+                                            <li>
+                                                <a *ngIf="member.getIn(['removed', 'removed']); else showRemoveCTA"
+                                                    [routerLink]="null">
+                                                    Removed
+                                                </a>
+
+                                                <ng-template #showRemoveCTA>
+                                                    <a [routerLink]="null" data-toggle="modal"
+                                                        [attr.data-target]="'#'+STREAM_BUDDY_REMOVAL_CONFIRMATION_BASE_MODAL_ID + loopIndex.toString()"><span>Remove</span></a>
+                                                </ng-template>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <snap-modal-fullscreen
+                            [modalID]="STREAM_BUDDY_REMOVAL_CONFIRMATION_BASE_MODAL_ID + loopIndex.toString()">
+                            <ng-container data-modalTitle>
+                                <ng-container *ngIf="member.getIn(['removed', 'removed']); else confirmModalTitle">
+                                    {{ member.getIn(['removed', 'title']) }}
+                                </ng-container>
+                                <ng-template #confirmModalTitle>
+                                    Confirm you want to remove {{member.get('fullName') | titlecase}}
+                                </ng-template>
+                            </ng-container>
+
+                            <ng-container data-modalHeaderDismissModal>
+                                <button type="button" ngClass="close" data-dismiss="modal" aria-label="Close"
+                                    style="color: var(--white-color);">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </ng-container>
+
+                            <ng-container data-modalBody>
+                                <ng-container *ngIf="member.getIn([
+                                'removed', 'removed']); else memberHasNotYetBeenRemoved;">
+                                    <p> {{ member.getIn(['removed', 'description']) }} </p>
+                                </ng-container>
+
+                                <ng-template #memberHasNotYetBeenRemoved>
+                                    <ng-container
+                                        *ngIf="member.getIn(['error', 'occured']); else showRemoveMemberDecueder">
+                                        <p> {{ member.getIn(['error', 'title']) }}
+                                            {{ member.getIn(['error', 'description']) }} </p>
+                                    </ng-container>
+                                    <ng-template #showRemoveMemberDecueder>
+                                        <p>
+                                            Once removed,<strong> {{member.get('fullName') | titlecase}}</strong> will
+                                            no longer
+                                            have
+                                            access
+                                            to the<strong> {{ $any(purchasedTickets.get('nameOfMoment')) | titlecase}}
+                                            </strong>
+                                            event.
+                                        </p>
+                                    </ng-template>
+
+                                    <a ngClass="gen-button btn btn-danger btn-lg d-block mt-4" snapClickStopPropagation
+                                        [routerLink]="null" (click)="removeWatchPartyMember(loopIndex)" tabindex="0"
+                                        [style.width.%]="100">
+                                        <ng-container
+                                            *ngIf="member.get('removing', false); else currentNotRemovingMember">
+                                            <span ngClass="loadmore-icon" [style.display]="'inline-block'"><i
+                                                    ngClass="fa fa-spinner fa-spin"></i></span>
+
+                                            <span ngClass="text">
+                                                Removing {{(member.get('fullName')|parseName).name}}
+                                            </span>
+                                        </ng-container>
+                                        <ng-template #currentNotRemovingMember>
+                                            <span ngClass="text">
+                                                Remove {{(member.get('fullName')|parseName).name}} from this event
+                                            </span>
+                                        </ng-template>
+                                    </a>
+                                </ng-template>
+                            </ng-container>
+
+                            <ng-container data-modalFooter>
+                                <a ngClass="gen-button" data-dismiss="modal" [routerLink]="null">
+                                    <div ngClass="gen-button-block"><span ngClass="gen-button-text"> Close </span></div>
+                                </a>
+                            </ng-container>
+                        </snap-modal-fullscreen>
+
+                    </div>
+                </div>
+
+                <div ngClass="row">
+                    <div ngClass="col-lg-12" *ngIf="paginationDetailsForMembers.get('next')">
+                        <div ngClass="gen-load-more-button">
+                            <div ngClass="gen-btn-container">
+                                <a ngClass="gen-button gen-button-loadmore" [routerLink]="null"
+                                    (click)="loadMoreWatchPartyMember()">
+                                    <span ngClass="loadmore-icon"
+                                        [style.display]="loadingWatchPartyMembers ? 'inline-block': 'none'"><i
+                                            ngClass="fa fa-spinner fa-spin"></i></span>
+                                    <span ngClass="button-text">Load More Members</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <snap-footer2></snap-footer2>
+    </div>
+</section>

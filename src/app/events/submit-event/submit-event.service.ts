@@ -12,7 +12,7 @@ import { BasicProfileDetailFormatHttpResponse, BasicProfileDetailHttpResponse, T
 export class SubmitEventService {
 
   constructor(
-    private _httpClient: HttpClient,) { }
+    private _httpClient: HttpClient, ) { }
 
   submitMoment$(momentDetails: FormData) {
     const API = environment.baseURL
@@ -65,8 +65,8 @@ export class SubmitEventService {
         map(details => {
           const FORMATTED_DETAILS: BasicProfileDetailFormatHttpResponse = {
             phoneNumber: convertItemToString(details.phone_number),
-            username: convertItemToString(details.user?.username),
-            email: convertItemToString(details.user?.email),
+            artistTile: convertItemToString(details.artist_title),
+            email: convertItemToString(details?.email),
           };
 
           return FORMATTED_DETAILS;

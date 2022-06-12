@@ -1,115 +1,119 @@
 <!--========== Header ==============-->
-<header id="gen-header" class="gen-header-style-1 gen-has-sticky">
-  <div class="gen-bottom-header">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" [routerLink]="null">
-              <!-- <img class="img-fluid logo" src="assets/images/logo-1.png" alt="streamlab-image"> -->
-              <a class="navbar-brand" routerLink=""
-                [ngStyle]="{ color: 'white', fontWeight: 'bolder' , fontSize: '0.9999rem'}">Show Nest
-                Africa
-              </a>
+<header id="gen-header" ngClass="gen-header-style-1 gen-has-sticky">
+  <div ngClass="gen-bottom-header">
+    <div ngClass="container">
+      <div ngClass="row">
+        <div ngClass="col-lg-12">
+          <nav ngClass="navbar navbar-expand-lg navbar-light">
+            <a ngClass="navbar-brand" [routerLink]="null">
+              <img ngClass="img-fluid logo" src="assets/images/SN_ONLY-1-removebg-preview.png" alt="Shownest Africa Logo"
+              [style.height.px]="'100'">
             </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <div id="gen-menu-contain" class="gen-menu-contain">
-                <ul id="gen-main-menu" class="navbar-nav ml-auto">
-                  <li class="menu-item" [class.active]="isRoot">
+            <div ngClass="collapse navbar-collapse" id="navbarSupportedContent">
+              <div id="gen-menu-contain" ngClass="gen-menu-contain">
+                <ul id="gen-main-menu" ngClass="navbar-nav ml-auto">
+                  <li ngClass="menu-item" [class.active]="isRoot">
                     <a routerLink="" aria-current="page">Home</a>
                   </li>
-                  <li class="menu-item" routerLinkActive="active">
+                  <li ngClass="menu-item" routerLinkActive="active">
                     <a routerLink="/live-box">LiveBox</a>
                   </li>
-                  <li class="menu-item" routerLinkActive="active">
-                    <a routerLink="/moments/upcoming">Upcoming</a>
+                  <li ngClass="menu-item" routerLinkActive="active">
+                    <a routerLink="/moments/series/upcoming">Upcomming</a>
                   </li>
-                  <li class="menu-item" routerLinkActive="active">
-                    <a routerLink="/moments/past">Past</a>
+                  <li ngClass="menu-item" routerLinkActive="active">
+                    <a routerLink="/moments/series/past">Past</a>
                   </li>
-                  <!-- <li class="menu-item" routerLinkActive="active">
-                    <a routerLink="/live-box">Live Box</a>
-                  </li> -->
+                  <li ngClass="menu-item" routerLinkActive="active">
+                    <a routerLink="/library/purchases">My Events</a>
+                  </li>
+                  <li ngClass="menu-item" routerLinkActive="active">
+                    <a routerLink="/contact-us">Contact us</a>
+                  </li>
                 </ul>
               </div>
             </div>
-            <div class="gen-header-info-box">
-              <div class="gen-menu-search-block">
-                <a [routerLink]="null" id="gen-seacrh-btn"><i class="fa fa-search"></i></a>
-                <div class="gen-search-form">
-                  <form role="search" class="search-form" onsubmit="return false;">
+            <div ngClass="gen-header-info-box">
+              <div ngClass="gen-menu-search-block">
+                <!-- <a [routerLink]="null" id="gen-seacrh-btn"><i ngClass="fa fa-search"></i></a>
+                <div ngClass="gen-search-form">
+                  <form role="search" ngClass="search-form" (submit)="null" autocomplete="off">
                     <label>
-                      <span class="screen-reader-text"></span>
-                      <input type="search" class="search-field" placeholder="Search …" value="" name="s">
+                      <span ngClass="screen-reader-text"></span>
+                      <input type="search" ngClass="search-field" placeholder="Search …" value="" name="s">
                     </label>
-                    <button type="submit" class="search-submit"><span class="screen-reader-text"></span></button>
+                    <button type="submit" ngClass="search-submit"><span ngClass="screen-reader-text"></span></button>
                   </form>
-                </div>
+                </div> -->
               </div>
-              <div class="gen-account-holder">
+              <div ngClass="gen-account-holder">
                 <ng-container *ngIf="currentUserDetails.get('isLoggedIn'); else showFaUserIcon;">
-                  <a [routerLink]="null" id="gen-user-btn" [style.background]="currentUserDetails.get('background')">
+                  <a [routerLink]="null" id="gen-user-btn" [style.background]="currentUserDetails.get('background')"
+                    (click)="toggleGenAccountMenu()">
                     <span>
                       {{ currentUserDetails.get('emailFirstChar') }}
                     </span>
                   </a>
                 </ng-container>
                 <ng-template #showFaUserIcon>
-                  <a [routerLink]="null" id="gen-user-btn">
-                    <i class="fa fa-user"></i></a>
+                  <a [routerLink]="null" id="gen-user-btn" (click)="toggleGenAccountMenu()">
+                    <i ngClass="fa fa-user"></i></a>
                 </ng-template>
-                <div class="gen-account-menu">
-                  <ul class="gen-account-menu">
+                <div ngClass="gen-account-menu" [class.d-block]="showGenAccountMenu">
+                  <ul ngClass="gen-account-menu" [class.d-block]="showGenAccountMenu">
                     <!-- Pms Menu -->
+                    <li>
+                      <a routerLink="/library/purchases">
+                        <i ngClass="fa fa-indent"></i>
+                        My Events </a>
+                    </li>
+                    <li>
+                      <a routerLink="/moments/submit"> <i ngClass="fa fa-upload"></i>
+                        Create event </a>
+                    </li>
+                    <li>
+                      <a routerLink="/manage-profile">
+                        <i ngClass="fa fa-user"></i>
+                        Manage your Account
+                      </a>
+                    </li>
+                    <li>
+                      <a routerLink="/faq">
+                        <i ngClass="fa fa-list"></i> FAQ
+                      </a>
+                    </li>
                     <ng-container *ngIf="currentUserDetails.get('isLoggedIn'); else showTheLogoutItemInstead;">
                       <li>
-                        <a [routerLink]="null" data-toggle="modal" data-target="#modalLogoutConfirmation">
-                          <i class="fas fa-sign-out-alt"></i>
+                        <a [routerLink]="null" data-toggle="modal" [attr.data-target]="'#'+CONFIRM_LOGOUT_MODAL_ID">
+                          <i ngClass="fas fa-sign-out-alt"></i>
                           logout </a>
                       </li>
                     </ng-container>
                     <ng-template #showTheLogoutItemInstead>
                       <li>
-                        <a routerLink="auth/log-in"><i class="fas fa-sign-in-alt"></i>
-                          login </a>
+                        <a routerLink="auth/log-in"><i ngClass="fas fa-sign-in-alt"></i>
+                          Login </a>
                       </li>
                       <li>
-                        <a routerLink="/auth/register"><i class="fa fa-user"></i>
+                        <a routerLink="/auth/register"><i ngClass="fa fa-user"></i>
                           Register </a>
                       </li>
                     </ng-template>
-
-                    <li>
-                      <a routerLink="/live-box"><i class="fas fa-play"></i>
-                        LiveBox </a>
-                    </li>
-                    <li>
-                      <a routerLink="/moments/upcoming"><i class="fa fa-list"></i>
-                        Upcoming </a>
-                    </li>
-                    <li>
-                      <a routerLink="/moments/past"><i class="fa fa-list"></i>
-                        Past </a>
-                    </li>
-                    <li>
-                      <a routerLink="/moments/submit"> <i class="fa fa-upload"></i>
-                        Create event </a>
-                    </li>
                   </ul>
                 </div>
               </div>
-              <div class="gen-btn-container">
-                <a routerLink="/moments/submit" class="gen-button">
-                  <div class="gen-button-block">
-                    <span class="gen-button-line-left"></span>
-                    <span class="gen-button-text">Create event</span>
+              <div ngClass="gen-btn-container">
+                <a routerLink="/moments/submit" ngClass="gen-button">
+                  <div ngClass="gen-button-block">
+                    <span ngClass="gen-button-line-left"></span>
+                    <span ngClass="gen-button-text">Create event</span>
                   </div>
                 </a>
               </div>
             </div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            <button ngClass="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <i class="fas fa-bars"></i>
+              <i ngClass="fas fa-bars"></i>
             </button>
           </nav>
         </div>
@@ -119,27 +123,26 @@
 </header>
 <!--========== Header ==============-->
 
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalLogoutConfirmation">
-  Launch demo modal
-</button> -->
+<snap-modal-fullscreen [modalID]="CONFIRM_LOGOUT_MODAL_ID">
+  <ng-container data-modalTitle>
+    Do you wish to log out
+  </ng-container>
 
-<!--  -->
+  <ng-container data-modalHeaderDismissModal>
+    <button type="button" ngClass="close" data-dismiss="modal" aria-label="Close" style="color: var(--white-color);">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </ng-container>
 
-<div id="modalLogoutConfirmation" class="modal fade" tabindex="-1" role="dialog"
-  aria-labelledby="modalLogoutConfirmationTitle" style="display: none;" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" style="background: var(--dark-color);">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalLogoutConfirmationTitle">Do you wish to log out</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>You are attempting to log out of Shownest Africa</p>
-        <p>Do you really want to<a routerLink="auth/log-out"> log out</a>?
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+  <ng-container data-modalBody>
+    <p>You are attempting to log out of Shownest Africa</p>
+    <p>Do you really want to<a routerLink="/auth/log-out" data-dismiss="modal"> log out</a>?
+    </p>
+  </ng-container>
+
+  <ng-container data-modalFooter>
+    <a ngClass="gen-button" data-dismiss="modal" [routerLink]="null">
+      <div ngClass="gen-button-block"><span ngClass="gen-button-text"> Close </span></div>
+    </a>
+  </ng-container>
+</snap-modal-fullscreen>
